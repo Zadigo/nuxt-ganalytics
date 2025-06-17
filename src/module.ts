@@ -36,7 +36,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    // devtools: true
+    devtools: true
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
