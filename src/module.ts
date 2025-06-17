@@ -1,5 +1,6 @@
-import { defineNuxtModule, addPlugin, createResolver, addImports } from '@nuxt/kit'
 import { defu } from 'defu'
+import { setupDevToolsUI } from './devtools'
+import { addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 
 import type { VueGtmUseOptions } from '@gtm-support/vue-gtm'
 
@@ -35,7 +36,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    devtools: true
+    // devtools: true
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
@@ -50,8 +51,8 @@ export default defineNuxtModule<ModuleOptions>({
     // NOTE: To write
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
 
-    // if (options.devtools) {
-    //   setupDevToolsUI(nuxt, resolver)
-    // }
+    if (options.devtools) {
+      setupDevToolsUI(nuxt, resolver)
+    }
   }
 })

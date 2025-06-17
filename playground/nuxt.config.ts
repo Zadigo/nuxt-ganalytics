@@ -2,6 +2,15 @@ export default defineNuxtConfig({
   modules: ['../src/module', '@nuxt/eslint', '@nuxt/fonts'],
   myModule: {},
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      gtm: {
+        id: process.env.NUXT_GTM_ID,
+        enabled: true,
+        debug: true
+      }
+    }
+  },
   fonts: {
     provider: 'google',
     families: [
