@@ -1,7 +1,18 @@
 export default defineNuxtConfig({
-  modules: ['../src/module', '@nuxt/eslint', '@nuxt/fonts'],
+  modules: [
+    '../src/module',
+    '@nuxt/eslint',
+    '@nuxt/fonts',
+    '@nuxt/ui'
+  ],
   myModule: {},
   devtools: { enabled: true },
+  css: [
+    '~/assets/css/tailwind.css'
+  ],
+  ui: {
+    prefix: 'Nuxt'
+  },
   runtimeConfig: {
     public: {
       gtm: {
