@@ -26,6 +26,9 @@ importers:
       tailwindcss:
         specifier: ^4.1.10
         version: 4.1.10
+      ufo:
+        specifier: ^1.6.1
+        version: 1.6.1
     devDependencies:
       '@nuxt/devtools':
         specifier: ^2.5.0

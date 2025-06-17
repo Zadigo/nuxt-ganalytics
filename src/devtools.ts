@@ -1,34 +1,43 @@
+import { addCustomTab } from '@nuxt/devtools-kit'
+import { existsSync } from 'fs'
+import { joinURL } from 'ufo'
+import { DEVTOOLS_UI_PATH, DEVTOOLS_UI_PORT } from './constants'
+
 import type { Resolver } from '@nuxt/kit'
 import type { Nuxt } from 'nuxt/schema'
 
-const DEVTOOLS_UI_ROUTE = '/__nuxt-gtm'
-const DEVTOOLS_UI_LOCAL_PORT = 3300
-
 export function setupDevToolsUI(nuxtApp: Nuxt, resolver: Resolver) {
-  nuxtApp.hook('vite:extendConfig', (config) => {
-    config.server = config.server || {}
-    config.server.proxy = config.server.proxy || {}
-    config.server.proxy[DEVTOOLS_UI_ROUTE] = {
-      target: 'http://localhost:' + DEVTOOLS_UI_LOCAL_PORT + DEVTOOLS_UI_ROUTE,
-      changeOrigin: true,
-      followRedirects: true,
-      rewrite: path => path.replace(DEVTOOLS_UI_ROUTE, '')
-    }
-  })
+  const clientPath = resolver.resolve('./client')
+  const isProductionBuild = existsSync(clientPath)
 
-  nuxtApp.hook('devtools:customTabs', (tabs) => {
-    tabs.push({
-      // Unique identifier
-      name: 'nuxt-ganalytics',
-      // Title of the tab
-      title: 'Nuxt G-Analytics',
-      // any icon from Iconify, or a URL to an image
-      icon: 'carbon:text-link-analysis',
-      // iframe view
-      view: {
-        type: 'iframe',
-        src: DEVTOOLS_UI_ROUTE
+  if (isProductionBuild) {
+    nuxtApp.hook('vite:serverCreated', async (server) => {
+      const sirv = await import('sirv').then(r => r.default || r)
+      server.middlewares.use(
+        DEVTOOLS_UI_PATH,
+        sirv(clientPath, { dev: true, single: true })
+      )
+    })
+  } else {
+    nuxtApp.hook('vite:extendConfig', (config) => {
+      config.server = config.server || {}
+      config.server.proxy = config.server.proxy || {}
+      config.server.proxy[DEVTOOLS_UI_PATH] = {
+        target: `http://localhost:${DEVTOOLS_UI_PORT}${DEVTOOLS_UI_PATH}`,
+        changeOrigin: true,
+        followRedirects: true,
+        rewrite: path => path.replace(DEVTOOLS_UI_PATH, ''),
       }
     })
+  }
+
+  addCustomTab({
+    name: 'g-analytics',
+    title: 'G-Analytics',
+    icon: 'carbon:analytics',
+    view: {
+      type: 'iframe',
+      src: joinURL(nuxtApp.options.app?.baseURL || '/', DEVTOOLS_UI_PATH)
+    }
   })
 }

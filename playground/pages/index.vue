@@ -8,14 +8,16 @@
 
             <ClientOnly>
               <div class="py-5">
-                <NuxtBadge v-if="isEnabled" color="success" icon="i-lucide-stop">
+                <NuxtBadge v-if="isEnabled" color="success" icon="i-lucide-circle">
                   Enabled
                 </NuxtBadge>
                 
                 <div class="my-5">
                   <p class="font-bold">Datalayer</p>
+
+                  <NuxtInput v-model="search" placeholder="Search by event name..." />
                   <div class="p-5 h-[300px] overflow-y-scroll space-y-1">
-                    <div v-for="(item, i) in datalayer" :key="i" class="p-5 bg-secondary-50 rounded-md">
+                    <div v-for="(item, i) in filteredEvents" :key="i" class="p-5 bg-secondary-50 rounded-md">
                       {{ item }}
                     </div>
                   </div>
@@ -44,11 +46,13 @@ interface CustomDataLayerObject extends DataLayerObject {
 
 const gtm = useGtm()
 
+const search = ref<string>('')
+
 const isEnabled = computed(() => {
   return gtm?.enabled()
 })
 
-const datalayer = computed((): CustomDataLayerObject => {
+const datalayer = computed((): CustomDataLayerObject[] => {
   if (gtm) {
     const result = gtm.dataLayer()
 
@@ -57,6 +61,14 @@ const datalayer = computed((): CustomDataLayerObject => {
     }
   }
   return []
+})
+
+const filteredEvents = computed(() => {
+  if (search.value) {
+    return datalayer.value.filter(x => x.event?.toLowerCase().includes(search.value.toLowerCase()))
+  } else {
+    return datalayer.value
+  }
 })
 
 /**
