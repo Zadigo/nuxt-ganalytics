@@ -55,8 +55,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin({ src: resolver.resolve('./runtime/plugin.client'), mode: 'client'})
 
-    console.log('enableRouterSync', options.enableRouterSync)
-
     // NOTE: To write
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
     addImports({ name: 'useAnalyticsEvent', as: 'useAnalyticsEvent', from: './composables/useAnalyticsEvent'})
