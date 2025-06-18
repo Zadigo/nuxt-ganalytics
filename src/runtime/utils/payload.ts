@@ -1,4 +1,4 @@
-import type { AllConfigurationParameters, CustomParameters, EventNames, EventParameters, PaymentEventParameters, TagCommand } from '~/src/types'
+import type { AllConfigurationParameters, CustomParameters, EventNames, EventParameters, PaymentEventParameters, TagCommand } from '../types'
 
 /**
  * Entry function used to define a command for gtag
@@ -27,7 +27,7 @@ export function defineConfig(id: string | undefined, params?: AllConfigurationPa
  * @param name Name of the event to send
  * @param params Parameters for the given event
  */
-export function defineEvent(name: EventNames | (string & {}), params: EventParameters) {
+export function defineEvent(name: EventNames, params: EventParameters) {
   return defineCommand('event', name, params)
 }
 

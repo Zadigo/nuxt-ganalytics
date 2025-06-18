@@ -3,7 +3,7 @@ import { setupDevToolsUI } from './devtools'
 import { addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 
 import type { VueGtmUseOptions } from '@gtm-support/vue-gtm'
-import type { LoadingStrategy } from './types'
+import type { LoadingStrategy } from './runtime/types'
 
 export interface GtmOptions extends Omit<VueGtmUseOptions, 'vueRouter'> {
   /**
@@ -82,7 +82,7 @@ declare module '@nuxt/schema' {
   }
 }
 
-export * from './types'
+export * from './runtime/types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {

@@ -1,5 +1,5 @@
 import type { RuntimeConfig } from 'nuxt/schema'
-import type { AllConfigurationParameters, EventNames } from '~/src/types'
+import type { AllConfigurationParameters, EventNames } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'

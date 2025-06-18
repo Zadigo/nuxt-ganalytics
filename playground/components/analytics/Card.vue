@@ -33,6 +33,6 @@ const { dataLayer, isEnabled, sendEvent } = useAnalyticsEvent()
  * Sends an event on button click
  */
 function handleEventOnClick() {
-  sendEvent(defineEvent('something', { a: 1 }))
+  sendEvent(defineEvent('login', { method: 'Google'}))
 }
 </script>
