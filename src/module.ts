@@ -28,7 +28,7 @@ export interface GoogleAnalyticsOptions {
    * Initializes the Google Tag script immediately after the page has loaded
    * @default true
    */
-  immadiate?: boolean
+  immediate?: boolean
   /**
    * Url pointing to the Google Analytics
    * @default "https://www.googletagmanager.com/gtag/js"
@@ -95,7 +95,7 @@ export default defineNuxtModule<ModuleOptions>({
     devtools: true,
     enabled: true,
     ga4: {
-      immadiate: true,
+      immediate: true,
       enabled: true,
       loadingStrategy: 'defer',
       url: 'https://www.googletagmanager.com/gtag/js'

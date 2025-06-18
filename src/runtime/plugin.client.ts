@@ -1,6 +1,5 @@
 import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
 import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
-import { tagInitializer } from './utils'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const router = useRouter()
@@ -31,8 +30,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
       ]
     })
-
-    tagInitializer(config)
   }
 
   // console.log(defu(userOptions.gtm, ))

@@ -1,2 +1,2 @@
-export * from './scripConfig'
-export * from './tagConfig'
+export * from './script_config'
+export * from './tag_config'

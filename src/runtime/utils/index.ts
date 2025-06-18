@@ -1,24 +1,8 @@
 import type { RuntimeConfig } from 'nuxt/schema'
-import type { AllConfigurationParameters, EventNames, TagCommand } from '~/src/types'
+import type { AllConfigurationParameters, EventNames } from '~/src/types'
+import { defineCommand, defineConfig } from './payload'
 
-/**
- * Entry function used to define a command for gtag
- * @param command The command to be used
- * @param args A set of arguments to be sent
- */
-export function defineCommand<K extends TagCommand>(command: K, ...args: unknown[]): Record<number, unknown> {
-  return Object.fromEntries([[0, command], ...args.map((arg, i) => [i + 1, arg])])
-}
-
-/**
- * 
- * @param id The tag ID to be used
- * @param params The config parameters for the tag
- * @returns The tokens to be sent
- */
-export function defineConfig(id: string | undefined, params?: AllConfigurationParameters) {
-  return defineCommand('config', id, params)
-}
+export * from './payload'
 
 /**
  * Pushes arguments to the existing 
@@ -47,26 +31,28 @@ export function hasTag(name: EventNames) {
 }
 
 /**
- * Function used to create a dictionnary tags used in order
- * to initialize GA4
+ * Function used to create a dictionnary of tags used 
+ * in order to initialize GA4
  * @param config Nuxt runtime configuration
  */
-export function tagInitializer(config: RuntimeConfig) {
+export function tagInitializer(config: RuntimeConfig): boolean {
   window.dataLayer = window.dataLayer || []
   
-  dataLayerObject(defineCommand('js', new Date()))
-
-  // Initialize default config objects
-  // for the tags that were provided
-  if (config.public.ganalytics.ga4) {
-    const defaultParams: AllConfigurationParameters = {}
-
-    if (config.public.ganalytics.ga4.enableDebug) {
-      defaultParams.debug = 'true'
+  if (config.public.ganalytics.ga4?.enabled) {
+    dataLayerObject(defineCommand('js', new Date()))
+  
+    if (config.public.ganalytics.ga4) {
+      const defaultParams: AllConfigurationParameters = {}
+  
+      if (config.public.ganalytics.ga4.enableDebug) {
+        defaultParams.debug = 'true'
+      }
+  
+      dataLayerObject(defineConfig(config.public.ganalytics.ga4.id, defaultParams))
+    } else {
+      return false
     }
-
-    dataLayerObject(defineConfig(config.public.ganalytics.ga4.id, defaultParams))
   }
-
   console.log(window.dataLayer)
+  return true
 }

@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/ui'
   ],
-  myModule: {},
   devtools: { enabled: true },
   css: [
     '~/assets/css/tailwind.css'
@@ -15,10 +14,20 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      gtm: {
-        id: process.env.NUXT_GTM_ID,
-        enabled: true,
-        debug: true
+      ganalytics: {
+        ga4: {
+          id: 'G-CVKFG2XPVG',
+          enabled: false,
+          immediate: true,
+          enableDebug: true
+        },
+        gtm: {
+          id: 'GTM-TJZFHM5',
+          // FIXME: When we do not explicitly set enabled
+          // or other params in here they do not appear
+          // in the useOptions in the plugin
+          enabled: false
+        }
       }
     }
   },
