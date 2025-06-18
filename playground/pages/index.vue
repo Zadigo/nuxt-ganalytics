@@ -58,10 +58,6 @@
 <script setup lang="ts">
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 
-interface CustomDataLayerObject extends DataLayerObject {
-  target?: string | null
-}
-
 const eventNames = [
   'gtm.js',
   'gtm.load',
@@ -70,6 +66,12 @@ const eventNames = [
 ] as const
 
 type EventNames = (typeof eventNames)[number]
+
+interface CustomDataLayerObject extends DataLayerObject {
+  event: EventNames
+  target?: string | null
+}  
+
 
 const gtm = useGtm()
 
@@ -80,7 +82,7 @@ const isEnabled = computed(() => {
   return gtm?.enabled()
 })
 
-const datalayer = computed((): CustomDataLayerObject[] => {
+const datalayer = computed(() => {
   if (gtm) {
     const result = gtm.dataLayer()
 
