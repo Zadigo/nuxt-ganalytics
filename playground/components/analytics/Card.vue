@@ -11,7 +11,7 @@
         {{ dataLayer }}
         
         <NuxtInput />
-        <NuxtButton>
+        <NuxtButton @click="handleEventOnClick">
           Press me
         </NuxtButton>
       </ClientOnly>
@@ -23,7 +23,16 @@
 </template>
 
 <script setup lang="ts">
+import { defineEvent } from '#ganalytics/utils';
+
 // import { useAnalyticsEvent, useAnalyticsTag } from '#imports'
 
-const { dataLayer, isEnabled } = useAnalyticsEvent()
+const { dataLayer, isEnabled, sendEvent } = useAnalyticsEvent()
+
+/**
+ * Sends an event on button click
+ */
+function handleEventOnClick() {
+  sendEvent(defineEvent('something', { a: 1 }))
+}
 </script>

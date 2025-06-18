@@ -1,5 +1,6 @@
 import { useRuntimeConfig } from '#app'
-import { computed, ref } from 'vue'
+import type { DataLayerObject } from '@gtm-support/vue-gtm'
+import { computed, onMounted, ref } from 'vue'
 import { dataLayerObject, tagInitializer } from '../utils'
 
 // import { useAnalyticsTag } from '#imports'
@@ -22,8 +23,9 @@ export function useAnalyticsEvent() {
   const config = useRuntimeConfig()
   const state = tagInitializer(config)
 
+  const dataLayer = ref<DataLayerObject[]>([])
+
   const isEnabled = computed(() => state)
-  const dataLayer = computed(() => window.dataLayer || [])
 
   /**
    * Function used to send an event to the datalayer
@@ -31,7 +33,17 @@ export function useAnalyticsEvent() {
    */
   function sendEvent(payload: Record<string, unknown>) {
     dataLayerObject(payload)
+
+    if (window.dataLayer) {
+      dataLayer.value = window.dataLayer
+    }
   }
+
+  onMounted(() => {
+    if (window.dataLayer) {
+      dataLayer.value = window.dataLayer
+    }
+  })
   
   return {
     sendEvent,

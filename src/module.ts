@@ -123,10 +123,21 @@ export default defineNuxtModule<ModuleOptions>({
     // We simply just make the useGtm composable available to Nuxt
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
     
-    // The composable for Google Analytics specifically are dealt with here
-    console.log("resolver.resolve('./runtime/composables')", resolver.resolve('./runtime/composables'))
-    addImports({ name: 'useAnalyticsEvent', from: resolver.resolve('./runtime/composables')})
-    addImports({ name: 'useAnalyticsTag', from: resolver.resolve('./runtime/composables') })
+    const composablesPath = resolver.resolve('./runtime/composables')
+    addImports([
+      { name: 'useAnalyticsEvent', from: composablesPath },
+      { name: 'useAnalyticsTag', from: composablesPath }
+    ])
+
+    const utilsPath = resolver.resolve('./runtime/utils')
+    addImports([
+      { name: 'defineCommand', from: utilsPath },
+      { name: 'defineConfig', from: utilsPath },
+      { name: 'defineEvent', from: utilsPath },
+      { name: 'dataLayerObject', from: utilsPath },
+      { name: 'hasTag', from: utilsPath },
+      { name: 'tagInitializer', from: utilsPath }
+    ])
 
     if (options.devtools) {
       setupDevToolsUI(nuxt, resolver)
