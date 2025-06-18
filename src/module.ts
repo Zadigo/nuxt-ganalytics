@@ -28,6 +28,8 @@ declare module '@nuxt/schema' {
   }
 }
 
+export * from './types'
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-ganalytics',
@@ -36,7 +38,12 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    devtools: true
+    devtools: true,
+
+    // gtmEnabled: false,
+    // analyticsEnabled: false,
+    // analyticsUrl: 'https://www.googletagmanager.com/gtag/js',
+    // loadingStrategy: 'defer'
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
@@ -46,12 +53,14 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.gtm = moduleOptions
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    addPlugin({ src: resolver.resolve('./runtime/plugin.client'), mode: 'client'})
 
     console.log('enableRouterSync', options.enableRouterSync)
 
     // NOTE: To write
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
+    addImports({ name: 'useAnalyticsEvent', as: 'useAnalyticsEvent', from: './composables/useAnalyticsEvent'})
+    addImports({ name: 'useAnalyticsTag', as: 'useAnalyticsTag', from: './composables/useAnalyticsTag'})
 
     if (options.devtools) {
       setupDevToolsUI(nuxt, resolver)
