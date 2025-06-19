@@ -1,7 +1,7 @@
 import { useCookie, useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onMounted, ref } from 'vue'
-import type { ConfigurationParameters, CustomGAnalyticsCookie, ConsentParameters } from '../types'
+import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
 /**
@@ -29,6 +29,7 @@ export function useAnalyticsEvent() {
 
   /**
    * Function used to send an event to the datalayer
+   * @example gtag("...", "add_payment_info", {})
    * @param payload The parameters of the command
    */
   function sendEvent(payload: ReturnType<typeof defineEvent>) {

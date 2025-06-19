@@ -107,9 +107,9 @@ function handleLogin() {
     }
   }))
 }
-...
+```
 
-Events are built using the `defineEvent` function, which allows you to define the event name and parameters.
+Events are built using the `defineEvent` function, which allows you to define the event [name and its parameters](https://event).
 The `sendEvent` function can then be used to send the event to GA4 or GTM.
 
 Another way to send events to Google Analytics 4 is by using the `NuxtAnalytics` component. You can wrap elements in your template that

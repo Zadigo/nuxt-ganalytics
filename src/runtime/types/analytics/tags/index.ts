@@ -21,9 +21,6 @@ export type TagCommand = 'config' | 'get' | 'set' | 'event' | 'consent' | 'js'
 //   consent: [command: TagCommand, 'default', params: CommandParameters]
 // }
 
-/**
- * @example gtag("...", "add_payment_info", {})
- */
 export type EventNames =
   | 'add_payment_info'
   | 'add_shipping_info'
