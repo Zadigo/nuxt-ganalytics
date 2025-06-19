@@ -88,7 +88,7 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
 [npm-downloads-href]: https://npm.chart.dev/my-module
 
 [license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-module
+[license-href]: https://github.com/Zadigo/nuxt-ganalytics/blob/main/LICENCE
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
