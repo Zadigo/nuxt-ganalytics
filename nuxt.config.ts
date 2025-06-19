@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/scripts',
     '@nuxt/test-utils',
-    '@nuxt/eslint'
+    '@nuxt/eslint',
+    '@vueuse/nuxt'
   ]
 })

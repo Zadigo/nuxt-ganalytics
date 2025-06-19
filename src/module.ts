@@ -1,4 +1,4 @@
-import { addComponent, addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addImports, addPlugin, createResolver, defineNuxtModule, installModule } from '@nuxt/kit'
 import { defu } from 'defu'
 import { setupDevToolsUI } from './devtools'
 import type { GAModuleOptions, GtmModuleOptions } from './runtime/types/module'
@@ -62,7 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
       enabled: true
     }
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
     // Deep-merge nuxt module options + user custom gtm optionss filling missing fields
     const moduleOptions: ModuleOptions = defu(nuxt.options.runtimeConfig.public.ganalytics, options)
@@ -98,6 +98,8 @@ export default defineNuxtModule<ModuleOptions>({
     ])
 
     addComponent({ name: 'NuxtAnalytics', filePath: resolver.resolve('./runtime/components/NuxtAnalytics.vue')})
+
+    await installModule('@vueuse/nuxt')
 
     if (options.devtools) {
       setupDevToolsUI(nuxt, resolver)
