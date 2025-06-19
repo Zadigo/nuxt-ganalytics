@@ -1,6 +1,6 @@
-import { addCustomTab } from '@nuxt/devtools-kit'
+// import { addCustomTab } from '@nuxt/devtools-kit'
 import { existsSync } from 'fs'
-import { joinURL } from 'ufo'
+// import { joinURL } from 'ufo'
 import { DEVTOOLS_UI_PATH, DEVTOOLS_UI_PORT } from './constants'
 
 import type { Resolver } from '@nuxt/kit'
@@ -31,13 +31,13 @@ export function setupDevToolsUI(nuxtApp: Nuxt, resolver: Resolver) {
     })
   }
 
-  addCustomTab({
-    name: 'g-analytics',
-    title: 'G-Analytics',
-    icon: 'carbon:analytics',
-    view: {
-      type: 'iframe',
-      src: joinURL(nuxtApp.options.app?.baseURL || '/', DEVTOOLS_UI_PATH)
-    }
-  })
+  // addCustomTab({
+  //   name: 'g-analytics',
+  //   title: 'G-Analytics',
+  //   icon: 'carbon:analytics',
+  //   view: {
+  //     type: 'iframe',
+  //     src: joinURL(nuxtApp.options.app?.baseURL || '/', DEVTOOLS_UI_PATH)
+  //   }
+  // })
 }

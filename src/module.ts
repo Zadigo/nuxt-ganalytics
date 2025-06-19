@@ -2,6 +2,7 @@ import { addComponent, addImports, addPlugin, createResolver, defineNuxtModule, 
 import { defu } from 'defu'
 import { setupDevToolsUI } from './devtools'
 import type { GAModuleOptions, GtmModuleOptions } from './runtime/types/module'
+import { addCustomTab } from '@nuxt/devtools-kit'
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
@@ -99,10 +100,28 @@ export default defineNuxtModule<ModuleOptions>({
 
     addComponent({ name: 'NuxtAnalytics', filePath: resolver.resolve('./runtime/components/NuxtAnalytics.vue')})
 
+    // nuxt.hook('pages:extend', (pages) => {
+    //   pages.push({
+    //     name: 'nuxt-ganalytics',
+    //     path: '/pages/ganalytics/devtools.vue',
+    //     file: resolver.resolve('./runtime/pages/ganalytics/devtools.vue')
+    //   })
+    // })
+
+    // addCustomTab({
+    //   name: 'nuxt-ganalytics',
+    //   title: 'Nuxt GAnalytics',
+    //   icon: 'i-heroicons-chart-bar-20-solid',
+    //   view: {
+    //     type: 'iframe',
+    //     src: '/pages/ganalytics/devtools.vue'
+    //   }
+    // })
+
     await installModule('@vueuse/nuxt')
 
-    if (options.devtools) {
-      setupDevToolsUI(nuxt, resolver)
-    }
+    // if (options.devtools) {
+    //   setupDevToolsUI(nuxt, resolver)
+    // }
   }
 })
