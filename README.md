@@ -93,7 +93,7 @@ The example below shows how to use the composable in your app:
 const { updateConsent, denyAll } = useConsent()
 
 onMounted(() => {
-  denyeAl()
+  denyAll()
 })
 </script>
 ```
