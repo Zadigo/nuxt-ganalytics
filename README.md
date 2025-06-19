@@ -79,8 +79,6 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
   ```
 </details>
 
-
-<!-- Badges -->
 [npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
 [npm-version-href]: https://npmjs.com/package/my-module
 
