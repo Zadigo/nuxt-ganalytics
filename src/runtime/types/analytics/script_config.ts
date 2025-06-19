@@ -8,5 +8,3 @@ export const scriptEventNames = [
 ] as const
 
 export type ScriptEventNames = (typeof scriptEventNames)[number]
-
-export type TagCommand = 'config' | 'get' | 'set' | 'event' | 'consent' | 'js'

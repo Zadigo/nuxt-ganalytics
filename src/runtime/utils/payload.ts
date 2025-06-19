@@ -1,4 +1,4 @@
-import type { AllConfigurationParameters, CustomParameters, EventNames, EventParameters, PaymentEventParameters, TagCommand } from '../types'
+import type { CommandParameters, ConsentParameters, CustomParameters, EventNames, EventParameters, PaymentEventParameters, TagCommand } from '../types'
 
 /**
  * Entry function used to define a command for gtag
@@ -8,7 +8,7 @@ import type { AllConfigurationParameters, CustomParameters, EventNames, EventPar
  * @param command The command to be used
  * @param args A set of arguments to be sent
  */
-export function defineCommand<K extends TagCommand>(command: K, ...args: (string | Date | AllConfigurationParameters)[]): IArguments {
+export function defineCommand<K extends TagCommand>(command: K, ...args: (string | Date | CommandParameters)[]): IArguments {
   return arguments
 }
 
@@ -18,7 +18,7 @@ export function defineCommand<K extends TagCommand>(command: K, ...args: (string
  * @param params The config parameters for the tag
  * @returns The tokens to be sent
  */
-export function defineConfig(id: string | undefined, params?: AllConfigurationParameters) {
+export function defineConfig(id: string | undefined, params?: CommandParameters) {
   if (id && params) {
     return defineCommand('config', id, params)
   }
@@ -31,6 +31,14 @@ export function defineConfig(id: string | undefined, params?: AllConfigurationPa
  */
 export function defineEvent(name: EventNames, params: EventParameters) {
   return defineCommand('event', name, params)
+}
+
+/**
+ * Function used to configure consent on GA4
+ * @example gtag("consent", "default", {})
+ */
+export function defineConsent(params: ConsentParameters) {
+  return defineCommand('consent', 'default', params)
 }
 
 // TODO: Verify these remaining functions

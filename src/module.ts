@@ -5,20 +5,19 @@ import { addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/k
 import type { VueGtmUseOptions } from '@gtm-support/vue-gtm'
 import type { LoadingStrategy } from './runtime/types'
 
-export interface GtmOptions extends Omit<VueGtmUseOptions, 'vueRouter'> {
+export interface GtmModuleOptions extends Omit<VueGtmUseOptions, 'vueRouter'> {
   /**
    * @default false
    */
   enableRouterSync?: boolean
 }
 
-export interface GoogleAnalyticsOptions {
+export interface GAModuleOptions {
   /**
-   * Single tag ID. To configure multiple IDs
-   * use the `tags` option
+   * A string, array of strings or array of string configurations representing a Google Tag ID
    * @default undefined
    */
-  id?: string
+  id?: string | string[]
   /**
    * Enable GA4
    * @default true
@@ -40,7 +39,7 @@ export interface GoogleAnalyticsOptions {
    */
   loadingStrategy?: LoadingStrategy
   /**
-   * Whether to enable the debug mode in GA4
+   * Whether to enable the debug mode for the debug view in GA4
    * @default false
    */
   enableDebug?: boolean
@@ -61,11 +60,11 @@ export interface ModuleOptions {
   /**
    * GA4 options
    */
-  ga4?: GoogleAnalyticsOptions
+  ga4?: GAModuleOptions
   /**
-   * Google Tag Manager options
+   * GTM options
    */
-  gtm?: GtmOptions
+  gtm?: GtmModuleOptions
 }
 
 declare module '@nuxt/schema' {

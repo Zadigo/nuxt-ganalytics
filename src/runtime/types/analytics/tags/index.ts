@@ -1,12 +1,29 @@
-export * from './configs'
+import type { CommandParameters } from './parameters'
+
+export * from './parameters'
 export * from './items'
 
-/**
- * Currency of the value of the event, in 3-letter ISO 4217 format
- * @see {@link https://en.wikipedia.org/wiki/ISO_4217#Active_codes Three letter currency codes}
- */
 export type Currency = 'EUR' | 'JPY' | 'USN' | 'CNY' | 'INR' | 'KRW' | 'BRL' | 'CHF' | 'CHE' | 'CAD' | 'AUD' | (string & {})
 
+/**
+ * TODO: Rename
+ * @example gtag("consent", "...", {})
+ */
+export type TagCommand = 'config' | 'get' | 'set' | 'event' | 'consent' | 'js'
+
+/**
+ * List of structured expected parameters for given commands
+ * 
+ * @example
+ * gtag("consent", "default", {}) -> ['consent', 'default', {}]
+ */
+// export interface TagConfigurations {
+//   consent: [command: TagCommand, 'default', params: CommandParameters]
+// }
+
+/**
+ * @example gtag("...", "add_payment_info", {})
+ */
 export type EventNames =
   | 'add_payment_info'
   | 'add_shipping_info'

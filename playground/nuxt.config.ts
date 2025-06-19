@@ -16,7 +16,24 @@ export default defineNuxtConfig({
     public: {
       ganalytics: {
         ga4: {
-          id: 'G-CVKFG2XPVG',
+          // id: 'G-CVKFG2XPVG', 
+          id: ['G-CVKFG2XPVG'],
+          // id: [
+          //   {
+          //     id: 'G-CVKFG2XPVG',
+          //     configuration: [
+          //       'consent',
+          //       'default',
+          //       {
+          //         ad_user_data: 'denied',
+          //         ad_personalization: 'denied',
+          //         ad_storage: 'denied',
+          //         analytics_storage: 'denied',
+          //         wait_for_update: 500,
+          //       }
+          //     ]
+          //   }
+          // ],
           enabled: false,
           immediate: true,
           enableDebug: true

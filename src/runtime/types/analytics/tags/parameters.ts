@@ -3,6 +3,7 @@ import type { Currency, Item, Promotion } from '.'
 export type CustomParameters = Record<string, unknown>
 
 /**
+ * Reference:
  * @see {@link https://developers.google.com/tag-platform/gtagjs/reference?hl=fr#config Analytics configuration parameters}
  */
 export interface ConfigurationParameters {
@@ -44,7 +45,7 @@ export interface ControlParameters {
 }
 
 /**
- * Available parameters for an event
+ * List of parameters for an event command
  */
 export interface EventParameters {
   checkout_option?: string
@@ -63,6 +64,7 @@ export interface EventParameters {
   coupon?: string
   /**
    * Currency of the value of the event, in 3-letter ISO 4217 format
+   * @see {@link https://en.wikipedia.org/wiki/ISO_4217#Active_codes Three letter currency codes}
    * @example
    * "EUR"
    */
@@ -158,7 +160,11 @@ export interface ConsentParameters {
 
 export type PaymentEventParameters = Pick<EventParameters, 'currency' | 'value' | 'coupon' | 'payment_type' | 'items'>
 
-export type AllConfigurationParameters = ConfigurationParameters
+/**
+ * List of parameters for a given command
+ * @example gtag("...", "...", { method: "Google" })
+ */
+export type CommandParameters = ConfigurationParameters
   | ControlParameters
   | CustomParameters
   | EventParameters

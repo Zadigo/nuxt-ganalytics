@@ -1,5 +1,5 @@
 import type { RuntimeConfig } from 'nuxt/schema'
-import type { AllConfigurationParameters, EventNames, ScriptEventNames } from '~/src/runtime/types'
+import type { CommandParameters, EventNames, ScriptEventNames } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'
@@ -42,7 +42,7 @@ export function tagInitializer(config: RuntimeConfig): boolean {
     dataLayerObject(defineCommand('js', new Date()))
   
     if (config.public.ganalytics.ga4) {
-      const defaultParams: AllConfigurationParameters = {}
+      const defaultParams: CommandParameters = {}
   
       if (config.public.ganalytics.ga4.enableDebug) {
         defaultParams.debug = 'true'
