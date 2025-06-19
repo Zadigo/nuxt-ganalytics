@@ -15,6 +15,9 @@ Implement Google Analytics and Google Tag Manager functionnalities in your proje
 
 - ⛰ Nuxt 3 ready
 - 🚠 SSR friendly
+- Track events with [composables](#conmposables) and built in [components](#components)
+- Use one or multiple [tag IDs](#tag-ids)
+- Send event parameter or values to [third-party API url](#api-url)
 - 🌲 &nbsp;Baz
 
 ## Setup
@@ -49,7 +52,76 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
 
 ## Usage 👌
 
+Once the module is installed, you can use it in your Nuxt app. This will automatically inject the necessary script and configuration for GA4.
+
+### Enable GA4 on all pages
+
+You can enable Google Analytics 4 on a specific page by using the `useAnalyticsEvent` property on your page.
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['nuxt-ganalytics'],
+
+  gtag: {
+    id: 'G-XXXXXXXXXX'
+  }
+})
+```
+
+### Using multiple tag IDs
+You can use multiple tag IDs by providing an array of IDs in the `gtag.id` property.
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['nuxt-ganalytics'],
+
+  gtag: {
+    id: ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
+  }
+})
+```
+
+### Using Google Consent Mode
+
+By default the default no consent mode is used. You can enable consent mode using the builtin composable "useConsent"
+which provides functions to update or deny the consent values.
+
+The example below shows how to use the composable in your app:
+
+```vue
+<script setup lang="ts">
+const { updateConsent, denyAll } = useConsent()
+
+onMounted(() => {
+  denyeAl()
+})
+</script>
+```
+
+Deny all consent values until the the user has accepted the cookies. You can then use the `updateConsent` function to update the consent values for specific categories:
+
+```vue
+<script setup lang="ts">
+const { updateConsent } = useConsent()
+
+function handleConsentChange() {
+  updateConsent({
+    ad_storage: 'granted'
+  })
+}
+```
+
+Under the hood, the module will automatically update the consent values in the Google Consent Mode API and save them in the local cookies. 
+This way, you can ensure that the user has control over their consent preferences. 
+
 ## Contributing 🙏
+
+## Thanks 🌸
+
+his project wa inspired by the following awesome projects:
+
+* [Nuxt GTM](https://github.com/zadigetvoltaire/nuxt-gtm)
+* [Nuxt GTAG](https://github.com/johannschopplich/nuxt-gtag)
 
 <details>
   <summary>Local development</summary>
