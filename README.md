@@ -54,6 +54,29 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
 
 Once the module is installed, you can use it in your Nuxt app. This will automatically inject the necessary script and configuration for GA4.
 
+### Sending events
+
+Events can be sent using the `useAnalyticsEvent` composable. This composable allows you to send events to Google Analytics 4 (GA4) or Google Tag Manager (GTM).
+
+```vue
+<script setup lang="ts">
+import { useAnalyticsEvent } from 'nuxt-ganalytics'
+
+const { sendEvent } = useAnalyticsEvent()
+
+function handleLogin() {
+  sendEvent(defineEvent({
+    name: 'login',
+    params: {
+      method: 'Google'
+    }
+  }))
+}
+...
+
+Events are built using the `defineEvent` function, which allows you to define the event name and parameters.
+The `sendEvent` function can then be used to send the event to GA4 or GTM.
+
 ### Enable GA4 on all pages
 
 You can enable Google Analytics 4 on a specific page by using the `useAnalyticsEvent` property on your page.
@@ -67,6 +90,25 @@ export default defineNuxtConfig({
   }
 })
 ```
+
+Another way to send events to Google Analytics 4 is by using the `NuxtAnalytics` component. You can wrap elements in your template that
+that will be used to send and event and then use triggers like `@click` to send the event when the element is clicked or interracted with.
+
+```vue
+<template>
+  <div>
+    <NuxtAnalytics event="login" :params="{ method: 'Google' }" @click="handleLogin">
+      <template #default="{ sendTemplateEvent }">
+        <button @click="sendTemplateEvent">
+          Login with Google
+        </button>
+      </template>
+    </NuxtAnalytics>
+  </div>
+</template>
+```
+
+The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
 
 ### Using multiple tag IDs
 You can use multiple tag IDs by providing an array of IDs in the `gtag.id` property.
@@ -125,13 +167,6 @@ This way, you can ensure that the user has control over their consent preference
 
 ## Contributing 🙏
 
-## Thanks 🌸
-
-his project wa inspired by the following awesome projects:
-
-* [Nuxt GTM](https://github.com/zadigetvoltaire/nuxt-gtm)
-* [Nuxt GTAG](https://github.com/johannschopplich/nuxt-gtag)
-
 <details>
   <summary>Local development</summary>
   
@@ -159,6 +194,13 @@ his project wa inspired by the following awesome projects:
   npm run release
   ```
 </details>
+
+## Thanks 🌸
+
+his project wa inspired by the following awesome projects:
+
+* [Nuxt GTM](https://github.com/zadigetvoltaire/nuxt-gtm)
+* [Nuxt GTAG](https://github.com/johannschopplich/nuxt-gtag)
 
 [npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
 [npm-version-href]: https://npmjs.com/package/my-module
