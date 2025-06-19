@@ -101,6 +101,14 @@ onMounted(() => {
 Deny all consent values until the the user has accepted the cookies. You can then use the `updateConsent` function to update the consent values for specific categories:
 
 ```vue
+<template>
+  <div>
+    <button @click="handleConsentChange">
+      Accept Cookies
+    </button>
+  </div>
+</template>
+
 <script setup lang="ts">
 const { updateConsent } = useConsent()
 
@@ -109,6 +117,7 @@ function handleConsentChange() {
     ad_storage: 'granted'
   })
 }
+</script>
 ```
 
 Under the hood, the module will automatically update the consent values in the Google Consent Mode API and save them in the local cookies. 
