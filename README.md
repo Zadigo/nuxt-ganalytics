@@ -20,7 +20,7 @@ Implement Google Analytics and Google Tag Manager functionnalities in your proje
 - Send event parameter or values to [third-party API url](#api-url)
 - 🌲 &nbsp;Baz
 
-## Setup
+## Setup 🚀
 
 Run the following command to add the module to your project:
 
@@ -50,6 +50,41 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
   ```
 </details>
 
+## Configuration ⚙️
+
+### Enable GA4 on all pages
+
+You can enable Google Analytics 4 on a specific page by using the `useAnalyticsEvent` property on your page.
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['nuxt-ganalytics'],
+
+  gtag: {
+    id: 'G-XXXXXXXXXX'
+  }
+})
+```
+
+### Partial disable of GA4
+
+You can disable Google Analytics 4 on specific pages by setting the `gtag` property to `false` in the page's configuration by calling
+the `disable` function within the  `useAnalyticsEvent` composable.
+
+### Using multiple tag IDs
+
+You can use multiple tag IDs by providing an array of IDs in the `gtag.id` property.
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['nuxt-ganalytics'],
+
+  gtag: {
+    id: ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
+  }
+})
+```
+
 ## Usage 👌
 
 Once the module is installed, you can use it in your Nuxt app. This will automatically inject the necessary script and configuration for GA4.
@@ -77,27 +112,13 @@ function handleLogin() {
 Events are built using the `defineEvent` function, which allows you to define the event name and parameters.
 The `sendEvent` function can then be used to send the event to GA4 or GTM.
 
-### Enable GA4 on all pages
-
-You can enable Google Analytics 4 on a specific page by using the `useAnalyticsEvent` property on your page.
-
-```typescript
-export default defineNuxtConfig({
-  modules: ['nuxt-ganalytics'],
-
-  gtag: {
-    id: 'G-XXXXXXXXXX'
-  }
-})
-```
-
 Another way to send events to Google Analytics 4 is by using the `NuxtAnalytics` component. You can wrap elements in your template that
 that will be used to send and event and then use triggers like `@click` to send the event when the element is clicked or interracted with.
 
 ```vue
 <template>
   <div>
-    <NuxtAnalytics event="login" :params="{ method: 'Google' }" @click="handleLogin">
+    <NuxtAnalytics event="login" :params="{ method: 'Google' }">
       <template #default="{ sendTemplateEvent }">
         <button @click="sendTemplateEvent">
           Login with Google
@@ -109,19 +130,6 @@ that will be used to send and event and then use triggers like `@click` to send 
 ```
 
 The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
-
-### Using multiple tag IDs
-You can use multiple tag IDs by providing an array of IDs in the `gtag.id` property.
-
-```typescript
-export default defineNuxtConfig({
-  modules: ['nuxt-ganalytics'],
-
-  gtag: {
-    id: ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
-  }
-})
-```
 
 ### Using Google Consent Mode
 
