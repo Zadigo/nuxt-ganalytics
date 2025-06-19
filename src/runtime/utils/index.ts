@@ -1,5 +1,5 @@
 import type { RuntimeConfig } from 'nuxt/schema'
-import type { AllConfigurationParameters, EventNames } from '~/src/runtime/types'
+import type { AllConfigurationParameters, EventNames, ScriptEventNames } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'
@@ -21,7 +21,7 @@ export function dataLayerObject<T extends Record<number, unknown>>(payload: T) {
  * a given tag
  * @param name The name of the tag to check
  */
-export function hasTag(name: EventNames) {
+export function hasTag(name: EventNames | ScriptEventNames) {
   if (window.dataLayer) {
     const results = window.dataLayer.filter(x => x.event?.toLowerCase().includes(name))
     return results.length > 0

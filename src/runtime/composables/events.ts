@@ -1,9 +1,8 @@
 import { useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onMounted, ref } from 'vue'
-import { dataLayerObject, tagInitializer } from '../utils'
-
-// import { useAnalyticsTag } from '#imports'
+import { dataLayerObject, defineCommand, hasTag, tagInitializer } from '../utils'
+import type { ConfigurationParameters } from '../types'
 
 /**
  * Composable used to create and send
@@ -39,6 +38,33 @@ export function useAnalyticsEvent() {
     }
   }
 
+  /**
+   *
+   */
+  function disable() {
+    if (hasTag('gtm.js')) {
+      // Do something
+    }
+  }
+
+  /**
+   *
+   */
+  function set(name: Pick<ConfigurationParameters, 'language' | 'user_id'>, value: string | number) {
+    if (config.public.ganalytics.ga4) {
+      defineCommand('set', config.public.ganalytics.ga4?.id, name, value)
+    }
+  }
+
+  /**
+   * Resets the datalayer container. Calls `tagInitializer`
+   * to reload the default analytics tags
+   */
+  function reset() {
+    window.dataLayer = []
+    tagInitializer(config)
+  }
+
   onMounted(() => {
     if (window.dataLayer) {
       dataLayer.value = window.dataLayer
@@ -47,6 +73,9 @@ export function useAnalyticsEvent() {
   
   return {
     sendEvent,
+    set,
+    reset,
+    disable,
     isEnabled,
     dataLayer
   }
