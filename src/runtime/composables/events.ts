@@ -30,7 +30,7 @@ export function useAnalyticsEvent() {
    * Function used to send an event to the datalayer
    * @param payload The parameters of the command
    */
-  function sendEvent(payload: Record<string, unknown>) {
+  function sendEvent(payload: IArguments) {
     dataLayerObject(payload)
 
     if (window.dataLayer) {

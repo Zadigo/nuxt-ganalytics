@@ -17,7 +17,7 @@ export default defineNuxtConfig({
       ganalytics: {
         ga4: {
           id: 'G-CVKFG2XPVG',
-          enabled: true,
+          enabled: false,
           immediate: true,
           enableDebug: true
         },

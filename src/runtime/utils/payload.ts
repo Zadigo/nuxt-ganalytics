@@ -8,8 +8,8 @@ import type { AllConfigurationParameters, CustomParameters, EventNames, EventPar
  * @param command The command to be used
  * @param args A set of arguments to be sent
  */
-export function defineCommand<K extends TagCommand>(command: K, ...args: unknown[]): Record<number, unknown> {
-  return Object.fromEntries([[0, command], ...args.map((arg, i) => [i + 1, arg])])
+export function defineCommand<K extends TagCommand>(command: K, ...args: (string | Date | AllConfigurationParameters)[]): IArguments {
+  return arguments
 }
 
 /**
@@ -19,7 +19,9 @@ export function defineCommand<K extends TagCommand>(command: K, ...args: unknown
  * @returns The tokens to be sent
  */
 export function defineConfig(id: string | undefined, params?: AllConfigurationParameters) {
-  return defineCommand('config', id, params)
+  if (id && params) {
+    return defineCommand('config', id, params)
+  }
 }
 
 /**

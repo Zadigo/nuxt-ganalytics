@@ -9,8 +9,8 @@ export * from './payload'
  * datalayer container
  * @param payload The pyaload to be used in the layer
  */
-export function dataLayerObject<T extends Record<number, unknown>>(payload: T) {
-  if (window.dataLayer) {
+export function dataLayerObject<T extends IArguments>(payload: T | undefined) {
+  if (window.dataLayer && payload) {
     console.log('arguments', payload)
     window.dataLayer?.push(payload)
   }
