@@ -1,44 +1,55 @@
-<!--
-Get your module up and running quickly.
-
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
-
-# My Module
+# Nuxt G-Analytics
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-My new Nuxt module for doing amazing things.
+Implement Google Analytics and Google Tag Manager functionnalities in your project
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
 <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
-## Features
+## Features ✨
 
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
+- ⛰ Nuxt 3 ready
+- 🚠 SSR friendly
 - 🌲 &nbsp;Baz
 
-## Quick Setup
+## Setup
 
-Install the module to your Nuxt application with one command:
+Run the following command to add the module to your project:
 
 ```bash
-npx nuxi module add my-module
+npx nuxi module add ganalytics
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+That's it! You can now use G-Analytics in your Nuxt app ✨
 
+<details>
+  <summary>Manual Setup</summary>
 
-## Contribution
+  You can install the module manually with:
+
+  ```bash
+  npm i nuxt-ganalytics
+  ```
+
+  Update your `nuxt.config.ts`
+
+  ```typescript
+  export default defineNuxtConfig({
+    modules: [
+      'nuxt-ganalytics'
+    ]
+  })
+  ```
+</details>
+
+## Usage 👌
+
+## Contributing 🙏
 
 <details>
   <summary>Local development</summary>
@@ -66,7 +77,6 @@ That's it! You can now use My Module in your Nuxt app ✨
   # Release new version
   npm run release
   ```
-
 </details>
 
 
