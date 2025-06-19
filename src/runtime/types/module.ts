@@ -1,12 +1,6 @@
 import type { VueGtmUseOptions } from '@gtm-support/vue-gtm'
 import type { LoadingStrategy } from '.'
 
-export type HookNames = 'pre:init' | 'post:init' | 'init'
-
-export type GAHooks = {
-  [K in HookNames]?: (tag: string) => IArguments | IArguments[]
-}
-
 export interface GtmModuleOptions extends Omit<VueGtmUseOptions, 'vueRouter'> {
   /**
    * @default false
@@ -45,9 +39,4 @@ export interface GAModuleOptions {
    * @default false
    */
   enableDebug?: boolean
-  /**
-   * Hooks that can be used to add custom
-   * configurations to the analytics tags
-   */
-  hooks?: GAHooks
 }

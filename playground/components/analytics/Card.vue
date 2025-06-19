@@ -12,7 +12,11 @@
         
         <NuxtInput />
         <NuxtButton @click="handleEventOnClick">
-          Press me
+          Send event
+        </NuxtButton>
+
+        <NuxtButton @click="handleConsent">
+          User consent
         </NuxtButton>
       </ClientOnly>
     </template>
@@ -23,11 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineEvent } from '#ganalytics/utils';
+import { useConsent } from '#ganalytics/composables'
+import { defineEvent } from '#ganalytics/utils'
 
-// import { useAnalyticsEvent, useAnalyticsTag } from '#imports'
-
-const { dataLayer, isEnabled, sendEvent } = useAnalyticsEvent()
+const { updateConsent, denyAll } = useConsent()
+const { dataLayer, isEnabled, sendEvent, set } = useAnalyticsEvent()
 
 /**
  * Sends an event on button click
@@ -35,4 +39,17 @@ const { dataLayer, isEnabled, sendEvent } = useAnalyticsEvent()
 function handleEventOnClick() {
   sendEvent(defineEvent('login', { method: 'Google'}))
 }
+
+/**
+ * Handle user consent
+ */
+function handleConsent() {
+  updateConsent({
+    ad_personalization: 'granted',
+    ad_storage: 'granted',
+    personalization_storage: 'granted'
+  })
+}
+
+onMounted(() => denyAll())
 </script>

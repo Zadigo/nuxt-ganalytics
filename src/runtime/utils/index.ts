@@ -12,7 +12,7 @@ export * from './payload'
  * @param payload The pyaload to be used in the layer
  */
 export function dataLayerObject<T extends IArguments>(payload: T | undefined) {
-  if (window.dataLayer && payload) {
+  if (import.meta.client && window.dataLayer && payload) {
     console.log('arguments', payload)
     window.dataLayer?.push(payload)
   }
@@ -24,7 +24,7 @@ export function dataLayerObject<T extends IArguments>(payload: T | undefined) {
  * @param name The name of the tag to check
  */
 export function hasTag(name: EventNames | ScriptEventNames) {
-  if (window.dataLayer) {
+  if (import.meta.client && window.dataLayer) {
     const results = window.dataLayer.filter(x => x.event?.toLowerCase().includes(name))
     return results.length > 0
   } else {
@@ -42,28 +42,30 @@ export function hasTag(name: EventNames | ScriptEventNames) {
 export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
   const stateCompleted = ref<boolean>(false)
 
-  window.dataLayer = window.dataLayer || []
-  
-  dataLayerObject(defineCommand('js', new Date()))
-
-  if (config.public.ganalytics.ga4) {
-    const defaultParams: CommandParameters = {'debug': 'true'}
-
-    if (!config.public.ganalytics.ga4.enableDebug) {
-      delete defaultParams['debug']
-    }
+  if (import.meta.client) {
+    window.dataLayer = window.dataLayer || []
     
-    const id = config.public.ganalytics.ga4.id
-    if (typeof id === 'string') {
-      dataLayerObject(defineConfig(id, defaultParams))
-    } else if (Array.isArray(id)) {
-      id.forEach((item) => {
-        if (typeof item === 'string') {
-          dataLayerObject(defineConfig(item, defaultParams))
-        }
-      })
+    dataLayerObject(defineCommand('js', new Date()))
+  
+    if (config.public.ganalytics.ga4) {
+      const defaultParams: CommandParameters = {'debug': 'true'}
+  
+      if (!config.public.ganalytics.ga4.enableDebug) {
+        delete defaultParams['debug']
+      }
+      
+      const id = config.public.ganalytics.ga4.id
+      if (typeof id === 'string') {
+        dataLayerObject(defineConfig(id, defaultParams))
+      } else if (Array.isArray(id)) {
+        id.forEach((item) => {
+          if (typeof item === 'string') {
+            dataLayerObject(defineConfig(item, defaultParams))
+          }
+        })
+      }
+      stateCompleted.value = true
     }
-    stateCompleted.value = true
   }
 
   return stateCompleted

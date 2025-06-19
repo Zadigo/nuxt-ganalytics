@@ -1,14 +1,12 @@
-import { useRuntimeConfig } from '#app'
+import { useCookie, useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onMounted, ref } from 'vue'
-import type { ConfigurationParameters } from '../types'
-import { dataLayerObject, defineCommand, defineEvent, hasTag, initializeAnalytics } from '../utils'
+import type { ConfigurationParameters, CustomGAnalyticsCookie, ConsentParameters } from '../types'
+import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
 /**
  * Composable used to create and send
  *  Analytics events
- * 
- * @returns Something
  */
 export function useAnalyticsEvent() { 
   if (import.meta.server) {
@@ -86,5 +84,65 @@ export function useAnalyticsEvent() {
     disable,
     isEnabled,
     dataLayer
+  }
+}
+
+export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
+
+export function useConsent() {
+  if (!import.meta.client) {
+    return {
+      cookie: null,
+      updateConsent: () => {},
+      denyAll: () => {}
+    }
+  }
+  
+  const defaultCookie = ref<CustomGAnalyticsCookie>({
+    consent: {
+      wait_for_update: 5000
+    }
+  })
+
+  const cookie = useCookie<CustomGAnalyticsCookie | undefined>('ganalytics', { sameSite: 'strict', secure: true })
+  
+  /**
+   * Update the user's consent parameters
+   * @param params The consent parameters
+   */
+  function updateConsent(params?: ConsentParameters) {
+    if (params) {
+      dataLayerObject(defineConsent(params, 'update'))
+
+      if (!cookie.value) {
+        cookie.value = defaultCookie.value
+      }
+
+      cookie.value.consent = params
+    }
+  }
+
+  /**
+   * Explicitly deny all user consent for GA4 by sending
+   * a consent event to the layer
+   * @param region The region to implement
+   */
+  function denyAll(region?: string[]) {
+    updateConsent({
+      ad_personalization: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      security_storage: 'denied',
+      personalization_storage: 'denied',
+      region
+    })
+  }
+  
+  return {
+    cookie,
+    updateConsent,
+    denyAll
   }
 }

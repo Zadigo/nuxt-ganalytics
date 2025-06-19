@@ -37,6 +37,6 @@ export function defineEvent(name: EventNames, params: EventParameters) {
  * Function used to configure consent on GA4
  * @example gtag("consent", "default", {})
  */
-export function defineConsent(params: ConsentParameters) {
-  return defineCommand('consent', 'default', params)
+export function defineConsent(params: ConsentParameters, command: 'default' | 'update' = 'default') {
+  return defineCommand('consent', command, params)
 }

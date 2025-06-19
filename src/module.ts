@@ -75,7 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.ganalytics = moduleOptions
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin({ src: resolver.resolve('./runtime/plugin.client'), mode: 'client'})
+    addPlugin({ src: resolver.resolve('./runtime/plugins/ganalytics.client'), mode: 'client'})
 
     // We simply just make the useGtm composable available to Nuxt
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
@@ -83,7 +83,8 @@ export default defineNuxtModule<ModuleOptions>({
     const composablesPath = resolver.resolve('./runtime/composables')
     addImports([
       { name: 'useAnalyticsEvent', from: composablesPath },
-      { name: 'useAnalyticsTag', from: composablesPath }
+      { name: 'useAnalyticsTag', from: composablesPath },
+      { name: 'useConsent', from: composablesPath }
     ])
 
     const utilsPath = resolver.resolve('./runtime/utils')
