@@ -1,11 +1,9 @@
-/**
- * Composable that sets and creates the Google Tag
- * Analytics on the current page if not present
- * 
- * @returns Something
- */
-export function useAnalyticsTag() {
-  return {
+import { dataLayerObject, defineConfig } from "#imports"
+import type { ConfigurationParameters } from "../types"
 
-  }
+/**
+ * Creates a tag ID specific to the given page
+ */
+export function useAnalyticsTag(tag: string, params: ConfigurationParameters) {
+  dataLayerObject(defineConfig(tag, params))
 }
