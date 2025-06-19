@@ -1,4 +1,4 @@
-import { addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 import { defu } from 'defu'
 import { setupDevToolsUI } from './devtools'
 import type { GAModuleOptions, GtmModuleOptions } from './runtime/types/module'
@@ -96,6 +96,8 @@ export default defineNuxtModule<ModuleOptions>({
       { name: 'hasTag', from: utilsPath },
       { name: 'initializeAnalytics', from: utilsPath }
     ])
+
+    addComponent({ name: 'NuxtAnalytics', filePath: resolver.resolve('./runtime/components/NuxtAnalytics.vue')})
 
     if (options.devtools) {
       setupDevToolsUI(nuxt, resolver)

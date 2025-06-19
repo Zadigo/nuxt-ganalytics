@@ -18,6 +18,14 @@
         <NuxtButton @click="handleConsent">
           User consent
         </NuxtButton>
+
+        <NuxtAnalytics event="search" :params="{ search_term: 'My application' }">
+          <template #default="{ attrs }">
+            <NuxtButton @click="attrs.sendTemplateEvent()">
+              Nuxt Analytics button
+            </NuxtButton>
+          </template>
+        </NuxtAnalytics>
       </ClientOnly>
     </template>
 
