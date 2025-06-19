@@ -34,6 +34,9 @@ export interface ConfigurationParameters {
    * Analytics provided storage
    */
   user_id?: string | number
+  /**
+   * Debug the tag in the analytics debug view
+   */
   debug?: 'true' | 'false'
 }
 
@@ -164,8 +167,4 @@ export type PaymentEventParameters = Pick<EventParameters, 'currency' | 'value' 
  * List of parameters for a given command
  * @example gtag("...", "...", { method: "Google" })
  */
-export type CommandParameters = ConfigurationParameters
-  | ControlParameters
-  | CustomParameters
-  | EventParameters
-  | ConsentParameters
+export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters

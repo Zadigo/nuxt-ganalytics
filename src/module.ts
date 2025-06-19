@@ -135,7 +135,7 @@ export default defineNuxtModule<ModuleOptions>({
       { name: 'defineEvent', from: utilsPath },
       { name: 'dataLayerObject', from: utilsPath },
       { name: 'hasTag', from: utilsPath },
-      { name: 'tagInitializer', from: utilsPath }
+      { name: 'initializeAnalytics', from: utilsPath }
     ])
 
     if (options.devtools) {

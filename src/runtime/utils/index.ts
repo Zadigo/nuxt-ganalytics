@@ -1,4 +1,6 @@
 import type { RuntimeConfig } from 'nuxt/schema'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 import type { CommandParameters, EventNames, ScriptEventNames } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
@@ -31,28 +33,38 @@ export function hasTag(name: EventNames | ScriptEventNames) {
 }
 
 /**
- * Function used to create a dictionnary of tags used 
- * in order to initialize GA4
+ * Initializes GA4
  * @param config Nuxt runtime configuration
+ * @example 
+ * gtag("js", new Date())
+ * gtag("config", "G-123", {})
  */
-export function tagInitializer(config: RuntimeConfig): boolean {
+export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
+  const stateCompleted = ref<boolean>(false)
+
   window.dataLayer = window.dataLayer || []
   
-  if (config.public.ganalytics.ga4?.enabled) {
-    dataLayerObject(defineCommand('js', new Date()))
-  
-    if (config.public.ganalytics.ga4) {
-      const defaultParams: CommandParameters = {}
-  
-      if (config.public.ganalytics.ga4.enableDebug) {
-        defaultParams.debug = 'true'
-      }
-  
-      dataLayerObject(defineConfig(config.public.ganalytics.ga4.id, defaultParams))
-    } else {
-      return false
+  dataLayerObject(defineCommand('js', new Date()))
+
+  if (config.public.ganalytics.ga4) {
+    const defaultParams: CommandParameters = {'debug': 'true'}
+
+    if (!config.public.ganalytics.ga4.enableDebug) {
+      delete defaultParams['debug']
     }
+    
+    const id = config.public.ganalytics.ga4.id
+    if (typeof id === 'string') {
+      dataLayerObject(defineConfig(id, defaultParams))
+    } else if (Array.isArray(id)) {
+      id.forEach((item) => {
+        if (typeof item === 'string') {
+          dataLayerObject(defineConfig(item, defaultParams))
+        }
+      })
+    }
+    stateCompleted.value = true
   }
-  console.log(window.dataLayer)
-  return true
+
+  return stateCompleted
 }

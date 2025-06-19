@@ -1,8 +1,8 @@
 import { useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onMounted, ref } from 'vue'
-import { dataLayerObject, defineCommand, hasTag, tagInitializer } from '../utils'
 import type { ConfigurationParameters } from '../types'
+import { dataLayerObject, defineCommand, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
 /**
  * Composable used to create and send
@@ -14,13 +14,16 @@ export function useAnalyticsEvent() {
   if (import.meta.server) {
     return {
       sendEvent: () => {},
-      isEnabled: ref(false),
-      dataLayer: []
+      isEnabled: false,
+      dataLayer: [],
+      set: () => {},
+      reset: () => {},
+      disable: () => {}
     }
   }
 
   const config = useRuntimeConfig()
-  const state = tagInitializer(config)
+  const state = initializeAnalytics(config)
 
   const dataLayer = ref<DataLayerObject[]>([])
 
@@ -30,7 +33,7 @@ export function useAnalyticsEvent() {
    * Function used to send an event to the datalayer
    * @param payload The parameters of the command
    */
-  function sendEvent(payload: IArguments) {
+  function sendEvent(payload: ReturnType<typeof defineEvent>) {
     dataLayerObject(payload)
 
     if (window.dataLayer) {
@@ -48,21 +51,26 @@ export function useAnalyticsEvent() {
   }
 
   /**
-   *
+   * Set a specific configuration for this page for
+   * the given tag ID
+   * @example gtag("set", "language", "fr")
    */
-  function set(name: Pick<ConfigurationParameters, 'language' | 'user_id'>, value: string | number) {
+  function set(name: Pick<ConfigurationParameters, 'language' | 'user_id'>, value: string) {
     if (config.public.ganalytics.ga4) {
-      defineCommand('set', config.public.ganalytics.ga4?.id, name, value)
+      const id = config.public.ganalytics.ga4?.id
+      if (id && typeof id === 'string') {
+        defineCommand('set', id, name, value)
+      }
     }
   }
 
   /**
-   * Resets the datalayer container. Calls `tagInitializer`
+   * Resets the datalayer container. Calls `initializeAnalytics`
    * to reload the default analytics tags
    */
   function reset() {
     window.dataLayer = []
-    tagInitializer(config)
+    initializeAnalytics(config)
   }
 
   onMounted(() => {
