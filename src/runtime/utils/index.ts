@@ -44,8 +44,10 @@ export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
 
   if (import.meta.client) {
     window.dataLayer = window.dataLayer || []
-    
-    dataLayerObject(defineCommand('js', new Date()))
+
+    if (!hasTag('js')) {
+      dataLayerObject(defineCommand('js', new Date()))
+    }
   
     if (config.public.ganalytics.ga4) {
       const defaultParams: CommandParameters = {'debug': 'true'}
