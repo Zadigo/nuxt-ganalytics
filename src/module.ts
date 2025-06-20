@@ -48,10 +48,10 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    devtools: true,
+    // devtools: true,
     enabled: true,
     ga4: {
-      immediate: true,
+      // immediate: true,
       enabled: true,
       loadingStrategy: 'defer',
       url: 'https://www.googletagmanager.com/gtag/js'

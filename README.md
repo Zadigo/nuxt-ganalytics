@@ -15,8 +15,8 @@ Implement Google Analytics and Google Tag Manager functionnalities in your proje
 
 - ⛰ Nuxt 3 ready
 - 🚠 SSR friendly
-- Track events with [composables](#conmposables) and built in [components](#components)
-- Use one or multiple [tag IDs](#tag-ids)
+- ✨ Track events with [composables](#sending-events) and built in [components](#sending-events)
+- Use one or multiple [tag IDs](#using-multiple-tag-ids)
 - Send event parameter or values to [third-party API url](#api-url)
 - 🌲 &nbsp;Baz
 
