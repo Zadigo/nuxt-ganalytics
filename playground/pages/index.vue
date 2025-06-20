@@ -12,7 +12,6 @@
                   <Icon name="lucide:github" />
                 </NuxtLink>
               </div>
-
             </div>
           </template>
 
@@ -48,8 +47,8 @@
 
             <!-- List -->
             <ClientOnly>
-              <BlocksList :items="internalDatalayer" />
-              <div class="p-5 bg-slate-100 rounded-md">
+              <BlocksList v-if="searchParams.showList" :items="internalDatalayer" />
+              <div v-else class="p-5 bg-slate-100 rounded-md max-h-[300px] overflow-y-scroll">
                 {{ internalDatalayer }}
               </div>
             </ClientOnly>
@@ -64,11 +63,13 @@
 import { BlocksSearch, BlocksState } from '#components'
 import type { SearchParams } from '../types'
 import { useAnalyticsEvent } from '../../src/runtime/composables/events'
+import { useConsent } from '../../src/runtime/composables'
 
 const config = useRuntimeConfig()
 
 const gtm = useGtm()
 const { sendEvent, internalDatalayer, set, reset, tagIds, gaIds } = useAnalyticsEvent()
+const { acceptAll } = useConsent()
 
 await set('language', 'fr-fr')
 await set('currency', 'EUR')
@@ -76,7 +77,8 @@ await set('currency', 'EUR')
 const searchParams = ref<SearchParams>({
   search: '',
   onlyAnalytics: false,
-  onlyGtm: false
+  onlyGtm: false,
+  showList: true
 })
 
 const customizeEvent = ref<boolean>(false)
@@ -104,4 +106,8 @@ function handleGtmEventClick() {
 function handleClearDatalayer() {
   reset()
 }
+
+onMounted(async () => {
+  await acceptAll()
+})
 </script>

@@ -1,16 +1,14 @@
-import { useCookie, useRuntimeConfig } from '#app'
+import { useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
-import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObjects } from '../types'
-import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
+import type { ConfigurationParameters, ConsentParameters, GAnalyticsDatalayerObjects } from '../types'
+import { dataLayerObject, defineCommand, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
   value: DataLayerObject | GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]
 }
-
-export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
 
@@ -152,63 +150,5 @@ export function useAnalyticsEvent() {
     tagIds,
     isEnabled,
     internalDatalayer
-  }
-}
-
-export function useConsent() {
-  if (!import.meta.client) {
-    return {
-      cookie: null,
-      updateConsent: () => {},
-      denyAll: () => {}
-    }
-  }
-  
-  const defaultCookie = ref<CustomGAnalyticsCookie>({
-    consent: {
-      wait_for_update: 5000
-    }
-  })
-
-  const cookie = useCookie<CustomGAnalyticsCookie | undefined>('ganalytics', { sameSite: 'strict', secure: true })
-  
-  /**
-   * Update the user's consent parameters
-   * @param params The consent parameters
-   */
-  function updateConsent(params?: ConsentParameters) {
-    if (params) {
-      dataLayerObject(defineConsent(params, 'update'))
-
-      if (!cookie.value) {
-        cookie.value = defaultCookie.value
-      }
-
-      cookie.value.consent = params
-    }
-  }
-
-  /**
-   * Explicitly deny all user consent for GA4 by sending
-   * a consent event to the layer
-   * @param region The region to implement
-   */
-  function denyAll(region?: string[]) {
-    updateConsent({
-      ad_personalization: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      analytics_storage: 'denied',
-      functionality_storage: 'denied',
-      security_storage: 'denied',
-      personalization_storage: 'denied',
-      region
-    })
-  }
-  
-  return {
-    cookie,
-    updateConsent,
-    denyAll
   }
 }

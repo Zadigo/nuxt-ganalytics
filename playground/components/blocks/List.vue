@@ -1,21 +1,25 @@
 <template>
-  <div class="border border-slate-100 rounded-md h-[300px] overflow-y-scroll first:rounded-tl-md firt:rounded-tr-md last:rounded-bl-md last:rounded:br-md not-last:border-b not-last:border-b-slate-100">    
-    <div v-for="(item, i) in items" :key="i" class="p-3 transition-all ease-in-out hover:bg-slate-100 flex items-center space-x-3">
-      <Icon :name="`lucide:${getEventIcon(item)}`" class="text-blue-400 text-2xl" />
+  <div class="border border-slate-100 rounded-md h-[300px] overflow-x-scroll overflow-y-scroll first:rounded-tl-md firt:rounded-tr-md last:rounded-bl-md last:rounded:br-md not-last:border-b not-last:border-b-slate-100">    
+    <div v-for="(item, i) in items" :key="i" class="p-3 transition-all ease-in-out hover:bg-slate-100 grid grid-cols-6 auto-cols-min">
+      <div class="col-span-1">
+        <Icon :name="`lucide:${getEventIcon(item)}`" class="text-blue-400 text-2xl" />
+      </div>
       
-      <NuxtBadge v-if="item.category == 'ga4'" color="warning">{{ item.category.toUpperCase() }}</NuxtBadge>
-      <NuxtBadge v-else color="success">{{ item.category.toUpperCase() }}</NuxtBadge>
+      <div class="col-span-1">
+        <NuxtBadge v-if="item.category == 'ga4'" color="warning">{{ item.category.toUpperCase() }}</NuxtBadge>
+        <NuxtBadge v-else color="success">{{ item.category.toUpperCase() }}</NuxtBadge>
+      </div>
       
-      <span class="font-normal">
+      <div class="font-normal text-nowrap col-span-4">
         {{ item.value }}
-      </span>
+      </div>
     </div>
   </div>
 </template>t
 
 <script setup lang="ts">
-import type { EventClassificationCategory } from '#ganalytics/composables';
-import type { GTMCommand, TagCommand } from '#ganalytics/types'
+import type { EventClassificationCategory } from '#ganalytics/composables'
+import type { GTMCommand, GACommand } from '#ganalytics/types'
 
 defineProps<{
   items: EventClassificationCategory[]
@@ -26,7 +30,7 @@ defineProps<{
  * @param name The name of the command
  */
 function getEventIcon(item: EventClassificationCategory): string {
-  const icons: Record<TagCommand | GTMCommand, string> = {
+  const icons: Record<GACommand | GTMCommand, string> = {
     'js': 'code-xml',
     'config': 'settings',
     'event': 'mouse-pointer-click',

@@ -15,6 +15,7 @@ export function defineCommand<K extends GACommand, T extends (string | Date | Co
 
 /**
  * 
+ * Function used to structure configuration parameters
  * @param id The tag ID
  * @param params The command parameters
  */
@@ -25,7 +26,7 @@ export function defineConfig(id: string | undefined, params?: CommandParameters)
 }
 
 /**
- * Function used to create an event
+ * Function used to structure event parameters
  * @param name Name of the event to send
  * @param params Parameters for the given event
  */
@@ -34,7 +35,7 @@ export function defineEvent(name: EventNames, params: EventParameters): IArgumen
 }
 
 /**
- * Function used to configure consent on GA4
+ * Function used to structure conset parameters
  * @example gtag("consent", "default", {})
  */
 export function defineConsent(params: ConsentParameters, command: ConsentNames = 'default'): IArguments {
