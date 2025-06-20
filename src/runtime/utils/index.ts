@@ -7,8 +7,7 @@ import { defineCommand, defineConfig } from './payload'
 export * from './payload'
 
 /**
- * Pushes arguments to the existing 
- * datalayer container
+ * Pushes arguments to the existing datalayer container
  * @param payload The pyaload to be used in the layer
  */
 export function dataLayerObject<T extends IArguments>(payload: T | undefined) {
