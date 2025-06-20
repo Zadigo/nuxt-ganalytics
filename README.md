@@ -89,9 +89,17 @@ export default defineNuxtConfig({
 
 Once the module is installed, you can use it in your Nuxt app. This will automatically inject the necessary script and configuration for GA4.
 
-### Sending events
+### Do I need to enable both GA4 and GTM?
 
-Events can be sent using the `useAnalyticsEvent` composable. This composable allows you to send events to Google Analytics 4 (GA4) or Google Tag Manager (GTM).
+No. You can use either Google Analytics 4 (GA4) or Google Tag Manager (GTM) in your Nuxt app. The main difference between GA4 and GTM resides in the 
+fact that you can use custom events and parameters to be sent. You will need to create the trigers and containers in your Google Tag Manager 
+account in order to handle thes events.
+
+Be default GA4 is enabled in the module.
+
+### Composables - Sending events
+
+Events can be sent using the `useAnalyticsEvent` composable. This composable allows you to send events to GA4 directly without the need for GTM.
 
 ```vue
 <script setup lang="ts">
@@ -109,11 +117,14 @@ function handleLogin() {
 }
 ```
 
-Events are built using the `defineEvent` function, which allows you to define the event [name and its parameters](https://event).
-The `sendEvent` function can then be used to send the event to GA4 or GTM.
+Events are built using the `defineEvent` function, which allows you correctly structure the [name and parameters](https://event) required in certain events.
+As the example shows above, combined with the `sendEvent` function, you can then trigger an event to the layer.
 
-Another way to send events to Google Analytics 4 is by using the `NuxtAnalytics` component. You can wrap elements in your template that
-that will be used to send an event and then use triggers like `@click` to send when the element is clicked or interracted with.
+### NuxtAnalytics Component - Sending events
+
+Another way to trigger events is by using the `NuxtAnalytics` component. You can wrap elements in your template
+that will be then used to send an event by using the `sendTemplateEvent`. Associated with template event generators like `@click`, an event will be triggered when
+the element interracted with.
 
 ```vue
 <template>
@@ -128,7 +139,7 @@ that will be used to send an event and then use triggers like `@click` to send w
 ```
 The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
 
-Sending events can be debounced. This can be done by passing the `debounce` option to the `NuxtAnalytics` component.
+Sending events can be also be debounced. This can be done by passing the `debounce` option to the `NuxtAnalytics` component.
 
 ```vue
 <template>
