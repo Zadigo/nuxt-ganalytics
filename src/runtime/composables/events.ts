@@ -1,7 +1,7 @@
 import { useCookie, useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
-import { computed, onMounted, ref } from 'vue'
-import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie } from '../types'
+import { computed, onBeforeMount, ref } from 'vue'
+import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObject } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
 /**
@@ -13,7 +13,7 @@ export function useAnalyticsEvent() {
     return {
       sendEvent: () => {},
       isEnabled: false,
-      dataLayer: [],
+      internalDatalayer: [],
       set: () => {},
       reset: () => {},
       disable: () => {}
@@ -23,7 +23,7 @@ export function useAnalyticsEvent() {
   const config = useRuntimeConfig()
   const state = initializeAnalytics(config)
 
-  const dataLayer = ref<DataLayerObject[]>([])
+  const internalDatalayer = ref<DataLayerObject[] | GAnalyticsDatalayerObject[]>([])
 
   const isEnabled = computed(() => state)
 
@@ -33,10 +33,11 @@ export function useAnalyticsEvent() {
    * @param payload The parameters of the command
    */
   function sendEvent(payload: ReturnType<typeof defineEvent>) {
-    dataLayerObject(payload)
+    const parsedResult = dataLayerObject(payload)
 
-    if (window.dataLayer) {
-      dataLayer.value = window.dataLayer
+    console.log('sendEvent', parsedResult)
+    if (parsedResult) {
+      internalDatalayer.value.push(parsedResult)
     }
   }
 
@@ -69,22 +70,23 @@ export function useAnalyticsEvent() {
    */
   function reset() {
     window.dataLayer = []
+    internalDatalayer.value = []
     initializeAnalytics(config)
   }
 
-  onMounted(() => {
+  onBeforeMount(() => {
     if (window.dataLayer) {
-      dataLayer.value = window.dataLayer
+      internalDatalayer.value.push(...window.dataLayer.map(x => Array.from(x)))
     }
   })
-  
+
   return {
     sendEvent,
     set,
     reset,
     disable,
     isEnabled,
-    dataLayer
+    internalDatalayer
   }
 }
 
