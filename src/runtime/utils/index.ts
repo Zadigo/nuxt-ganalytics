@@ -28,8 +28,8 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
 export function hasTag(name: EventNames | ScriptEventNames | string): boolean {
   if (import.meta.client && window.dataLayer) {
     // FIXME: Fix the type of window.dataLayer
-    const results = window.dataLayer.filter(x => {
-      const items = Array.from(x)
+    const results = window.dataLayer.filter(item => {
+      const items = Array.from(item)
       return items.includes(name)
     })
     return results.length > 0
