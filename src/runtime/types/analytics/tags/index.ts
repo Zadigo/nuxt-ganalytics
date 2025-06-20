@@ -1,26 +1,42 @@
-import type { CommandParameters } from './parameters'
-
 export * from './parameters'
 export * from './items'
 
-export type Currency = 'EUR' | 'JPY' | 'USN' | 'CNY' | 'INR' | 'KRW' | 'BRL' | 'CHF' | 'CHE' | 'CAD' | 'AUD' | (string & {})
+export type Currency = 
+  | 'EUR'
+  | 'JPY'
+  | 'USN'
+  | 'CNY'
+  | 'INR'
+  | 'KRW'
+  | 'BRL'
+  | 'CHF'
+  | 'CHE'
+  | 'CAD'
+  | 'AUD'
+  | (string & {})
 
 /**
- * TODO: Rename
+ * TODO: Rename: EventCommand
  * @example gtag("consent", "...", {})
  */
-export type TagCommand = 'config' | 'get' | 'set' | 'event' | 'consent' | 'js'
+export type TagCommand = 
+  | 'config'
+  | 'get' 
+  | 'set'
+  | 'event'
+  | 'consent'
+  | 'js'
 
-/**
- * List of structured expected parameters for given commands
- * 
- * @example
- * gtag("consent", "default", {}) -> ['consent', 'default', {}]
- */
-// export interface TagConfigurations {
-//   consent: [command: TagCommand, 'default', params: CommandParameters]
-// }
+// TODO: Move to src/runtime/types/analytics/tags/parameters.ts
+export type ConsentNames = 
+  | 'default'
+  | 'update' 
+  | 'default_with_ad_storage' 
+  | 'default_without_ad_storage' 
+  | 'default_with_analytics_storage' 
+  | 'default_without_analytics_storage'
 
+// TODO: Move to src/runtime/types/analytics/tags/parameters.ts
 export type EventNames =
   | 'add_payment_info'
   | 'add_shipping_info'

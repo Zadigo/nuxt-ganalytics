@@ -3,6 +3,7 @@ import type { Currency, Item, Promotion } from '.'
 export type CustomParameters = Record<string, unknown>
 
 /**
+ * Parameters for the "config" command
  * Reference:
  * @see {@link https://developers.google.com/tag-platform/gtagjs/reference?hl=fr#config Analytics configuration parameters}
  */
@@ -48,10 +49,13 @@ export interface ControlParameters {
 }
 
 /**
- * List of parameters for an event command
+ * Parameters for the "event" command
  */
 export interface EventParameters {
   checkout_option?: string
+  /**
+   * The step in the checkout process where the event occurred
+   */
   checkout_step?: number
   /**
    * An identifier for the content that was selected
@@ -72,6 +76,9 @@ export interface EventParameters {
    * "EUR"
    */
   currency?: Currency
+  /**
+   * The description of the event
+   */
   description?: string
   fatal?: boolean
   /**
@@ -140,11 +147,15 @@ export interface EventParameters {
   unconvert_lead_reason?: string
 }
 
+/**
+ * Consent states
+ */
 export type ConsentState = 'granted' | 'denied'
 
 export type ConsentStateUndefined = ConsentState | undefined
 
 /**
+ * Parameters for the "consent" command
  * Reference:
  * @see {@link https://support.google.com/tagmanager/answer/10718549#consent-types consent-types}
  * @see {@link https://developers.google.com/tag-platform/security/guides/consent consent}
@@ -161,10 +172,13 @@ export interface ConsentParameters {
   region?: string[]
 }
 
-export type PaymentEventParameters = Pick<EventParameters, 'currency' | 'value' | 'coupon' | 'payment_type' | 'items'>
-
 /**
- * List of parameters for a given command
+ * All possible parameters for gtag commands
  * @example gtag("...", "...", { method: "Google" })
  */
 export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters
+
+/**
+ * Accepted Parameters for the "payment" event
+ */
+export type PaymentEventParameters = Pick<EventParameters, 'currency' | 'value' | 'coupon' | 'payment_type' | 'items'>
