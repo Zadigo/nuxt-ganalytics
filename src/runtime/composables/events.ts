@@ -3,6 +3,7 @@ import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onBeforeMount, ref } from 'vue'
 import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObjects } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
+import { walkUpBindingElementsAndPatterns } from 'typescript'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
@@ -16,7 +17,7 @@ export interface EventClassificationCategory {
 export function useAnalyticsEvent() { 
   if (import.meta.server) {
     return {
-      sendEvent: () => {},
+      sendEvent: () => undefined,
       isEnabled: false,
       internalDatalayer: [],
       set: () => {},

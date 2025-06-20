@@ -1,4 +1,4 @@
-import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, GACommand } from './analytics'
+import type { CommandParameters, ConfigurationParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GACommand } from './analytics'
 
 export * from './analytics'
 
@@ -13,9 +13,11 @@ export interface CustomGAnalyticsCookie {
  * gtag("consent", "default", {}) -> ['consent', 'default', {}]
  */
 export interface GAnalyticsDatalayerObjects {
-  config: [command: GACommand, id: string, parameters?: CommandParameters]
-  consent: [command: GACommand, name: ConsentNames, parameters?: ConsentParameters]
-  event: [command: GACommand, name: EventNames, parameters?: CommandParameters]
-  set: [command: GACommand, name: string, value?: string | number | boolean | CommandParameters]
-  get: [command: GACommand, name: string, parameters?: CommandParameters]
+  config: [command: 'config', id: string, parameters?: ConfigurationParameters]
+  consent: [command: 'consent', name: ConsentNames, parameters?: ConsentParameters]
+  event: [command: 'event', name: EventNames, parameters?: EventParameters]
+  set: [command: 'set', name: string, value?: string | number | boolean | CommandParameters]
+  get: [command: 'get', name: string, parameters?: CommandParameters | (string & {})]
 }
+
+export type GAnalyticsDatalayerObject = GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]

@@ -25,9 +25,7 @@ const { sendEvent } = useAnalyticsEvent()
 
 const defaultAttrs = computed(() => {
   return {
-    sendTemplateEvent () {
-      // FIXME: There is a type mismatch here, need to fix it
-      // sendEvent returns type void????
+    async sendTemplateEvent () {
       const parsedResult = sendEvent(defineEvent(props.event, props.params))
       emit('ga-event', parsedResult)
     }
