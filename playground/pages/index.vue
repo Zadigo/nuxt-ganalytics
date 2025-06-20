@@ -21,13 +21,13 @@
               <BlocksState />
             
               <div class="space-x-2 flex items-center">
-                <!-- <NuxtAnalytics event="search" :params="{ search_term: 'My application' }">
+                <NuxtAnalytics event="search" :params="{ search_term: 'My application' }">
                   <template #default="{ attrs }">
                     <NuxtButton @click="attrs.sendTemplateEvent()">
                       Wrapped Analytics
                     </NuxtButton>
                   </template>
-                </NuxtAnalytics> -->
+                </NuxtAnalytics>
 
                 <NuxtButton color="warning" @click="handleGtmEventClick">
                   <Icon name="lucide:pointer" />
@@ -50,6 +50,9 @@
             <!-- List -->
             <ClientOnly>
               <BlocksList :items="internalDatalayer" />
+              <div class="p-5 bg-slate-100 rounded-md">
+                {{ internalDatalayer }}
+              </div>
             </ClientOnly>
           </div>
         </NuxtCard>
@@ -62,7 +65,6 @@
 import { BlocksSearch, BlocksState } from '#components'
 import type { SearchParams } from '../types'
 import { useAnalyticsEvent } from '../../src/runtime/composables/events'
-import { hasTag } from '../../src/runtime/utils'
 
 const config = useRuntimeConfig()
 

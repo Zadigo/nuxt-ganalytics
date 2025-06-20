@@ -4,6 +4,11 @@ import { computed, onBeforeMount, ref } from 'vue'
 import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObject } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
+export interface EventClassificationCategory {
+  category: 'ga4' | 'gtm' | 'other'
+  value: DataLayerObject | GAnalyticsDatalayerObject
+}
+
 /**
  * Composable used to create and send
  *  Analytics events
@@ -23,7 +28,7 @@ export function useAnalyticsEvent() {
   const config = useRuntimeConfig()
   const state = initializeAnalytics(config)
 
-  const internalDatalayer = ref<DataLayerObject[] | GAnalyticsDatalayerObject[]>([])
+  const internalDatalayer = ref<EventClassificationCategory[]>([])
 
   const isEnabled = computed(() => state)
 
@@ -37,7 +42,10 @@ export function useAnalyticsEvent() {
 
     console.log('sendEvent', parsedResult)
     if (parsedResult) {
-      internalDatalayer.value.push(parsedResult)
+      internalDatalayer.value.push({
+        category: 'ga4',
+        value: parsedResult
+      })
     }
   }
 
@@ -76,7 +84,21 @@ export function useAnalyticsEvent() {
 
   onBeforeMount(() => {
     if (window.dataLayer) {
-      internalDatalayer.value.push(...window.dataLayer.map(x => Array.from(x)))
+      window.dataLayer.forEach((item, i) => {
+        const keys = Object.keys(item)
+        
+        if (keys.includes('event')) {
+          internalDatalayer.value.push({
+            category: 'gtm',
+            value: item
+          })
+        } else {
+          internalDatalayer.value.push({
+            category: 'ga4',
+            value: Array.from(item as GAnalyticsDatalayerObject[]) 
+          })
+        }
+      })
     }
   })
 

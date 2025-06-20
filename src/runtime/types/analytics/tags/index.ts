@@ -16,7 +16,7 @@ export type Currency =
   | (string & {})
 
 /**
- * TODO: Rename: EventCommand
+ * TODO: Rename: GA4EventCommand
  * @example gtag("consent", "...", {})
  */
 export type TagCommand = 
@@ -26,6 +26,19 @@ export type TagCommand =
   | 'event'
   | 'consent'
   | 'js'
+
+  export type GTMCommand = 
+  | 'gtm.js'
+  | 'gtm.init'
+  | 'gtm.consent'
+  | 'gtm.start'
+  | 'gtm.load'
+  | 'gtm.linkClick'
+  | 'gtm.click'
+  | 'gtm.formSubmit'
+  | 'gtm.dom'
+  | 'gtm.scrollDepth'
+  
 
 // TODO: Move to src/runtime/types/analytics/tags/parameters.ts
 export type ConsentNames = 
