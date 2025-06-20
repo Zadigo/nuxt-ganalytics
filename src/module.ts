@@ -1,8 +1,8 @@
 import { addComponent, addImports, addPlugin, createResolver, defineNuxtModule, installModule } from '@nuxt/kit'
 import { defu } from 'defu'
-import { setupDevToolsUI } from './devtools'
 import type { GAModuleOptions, GtmModuleOptions } from './runtime/types/module'
-import { addCustomTab } from '@nuxt/devtools-kit'
+
+export * from './runtime/types'
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
@@ -40,8 +40,6 @@ declare module '@nuxt/schema' {
   }
 }
 
-export * from './runtime/types'
-
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-ganalytics',
@@ -78,7 +76,7 @@ export default defineNuxtModule<ModuleOptions>({
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin({ src: resolver.resolve('./runtime/plugins/ganalytics.client'), mode: 'client'})
 
-    // We simply just make the useGtm composable available to Nuxt
+    // ENHANCE: Create a composable that will be a proxy to the useGtm composable
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
     
     const composablesPath = resolver.resolve('./runtime/composables')

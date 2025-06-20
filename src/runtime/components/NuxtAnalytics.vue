@@ -7,10 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineEvent, useAnalyticsEvent, useCounter, useDebounceFn } from '#imports'
-import { computed, useTemplateRef, withDefaults } from 'vue'
-import { dataLayerObject } from '#imports'
+import { useCounter, useDebounceFn } from '@vueuse/core'
+import { computed, useTemplateRef } from 'vue'
+import { useAnalyticsEvent } from '../composables'
 import type { EventNames, EventParameters } from '../types'
+import { dataLayerObject, defineEvent } from '../utils'
 
 interface Props {
   event: EventNames

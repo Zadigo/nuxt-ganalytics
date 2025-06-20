@@ -1,5 +1,5 @@
-import { dataLayerObject, defineConfig } from "#imports"
 import type { ConfigurationParameters } from "../types"
+import { dataLayerObject, defineConfig } from "../utils"
 
 /**
  * Creates a tag ID specific to the given page
