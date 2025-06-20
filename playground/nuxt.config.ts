@@ -17,9 +17,11 @@ export default defineNuxtConfig({
     public: {
       ganalytics: {
         ga4: {
-          // id: 'G-CVKFG2XPVG', 
-          id: ['G-CVKFG2XPVG'],
-          // id: [
+          id: 'G-CVKFG2XPVG', 
+          // id: ['G-CVKFG2XPVG'],
+          // TODO: Use initial in order allos the user to configure
+          // tags that he wants with initial configuration values
+          // initial: [
           //   {
           //     id: 'G-CVKFG2XPVG',
           //     configuration: [
@@ -43,8 +45,8 @@ export default defineNuxtConfig({
           id: 'GTM-TJZFHM5',
           // FIXME: When we do not explicitly set enabled
           // or other params in here they do not appear
-          // in the useOptions in the plugin
-          enabled: false
+          // in the userOptions in the plugin
+          enabled: true
         }
       }
     }
