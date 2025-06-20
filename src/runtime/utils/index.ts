@@ -65,6 +65,7 @@ export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
       }
       
       const id = config.public.ganalytics.ga4.id
+
       if (typeof id === 'string') {
         if (!hasTag(id)) {
           dataLayerObject(defineConfig(id, defaultParams))
@@ -83,6 +84,6 @@ export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
   }
   
   // TODO: Maybe create a reactive object that returns the state and
-  // the results from the datalayerObject function
+  // the results from the datalayerObject function: { state: boolean, tags: [{ name: string, state: boolean }] }
   return stateCompleted
 }

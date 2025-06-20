@@ -5,7 +5,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const router = useRouter()
   const userOptions = nuxtApp.$config.public.ganalytics
   
-  if (userOptions.ga4 && userOptions.ga4.enabled) {
+  if (userOptions.ga4 && userOptions.enabled && userOptions.ga4.enabled) {
     const loadingStrategy = userOptions.ga4.loadingStrategy === 'async' ? 'async' : 'defer'
     const fullUrl = userOptions.ga4.url + `?id=${userOptions.ga4.id}`
 
@@ -27,7 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
   }
 
-  if (userOptions.gtm && userOptions.gtm.enabled) {
+  if (userOptions.gtm && userOptions.enabled && userOptions.gtm.enabled) {
     const options: VueGtmUseOptions = {
       ...userOptions.gtm,
       vueRouter: userOptions.gtm.enableRouterSync && router ? router as VueGtmUseOptions['vueRouter'] : undefined

@@ -10,7 +10,7 @@ export interface ModuleOptions {
    * Enable Nuxt Devtools integration
    * @default true
    */
-  devtools?: boolean
+  // devtools?: boolean
   /**
    * Enable both GA4 and GTM
    * @default true
