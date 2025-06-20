@@ -11,6 +11,8 @@ export interface EventClassificationCategory {
 
 export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
+export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
+
 /**
  * Composable used to create and send
  *  Analytics events
@@ -39,7 +41,7 @@ export function useAnalyticsEvent() {
    * @example gtag("...", "add_payment_info", {})
    * @param payload The parameters of the command
    */
-  function sendEvent(payload: ReturnType<typeof defineEvent>): ReturnType<typeof dataLayerObject> {
+  async function sendEvent(payload: ReturnType<typeof defineEvent>): Promise<ReturnType<typeof dataLayerObject>> {
     const parsedResult = dataLayerObject(payload)
 
     console.log('sendEvent', parsedResult)
@@ -57,22 +59,26 @@ export function useAnalyticsEvent() {
   /**
    *
    */
-  function disable() {
+  async function disable() {
     if (hasTag('gtm.js')) {
       // Do something
     }
   }
 
   /**
-   * Set a specific configuration for this page for
-   * the given tag ID
+   * The set command lets you define parameters that will be associated with every subsequent event on the page
    * @example gtag("set", "language", "fr")
    */
-  function set(name: Pick<ConfigurationParameters, 'language' | 'user_id'>, value: string) {
+  async function set(name: SetNameArg, value: string) {
     if (config.public.ganalytics.ga4) {
-      const id = config.public.ganalytics.ga4?.id
+      const id = config.public.ganalytics.ga4.id
+
       if (id && typeof id === 'string') {
-        defineCommand('set', id, name, value)
+        dataLayerObject(defineCommand('set', id, name, value))
+      } else if (Array.isArray(id)) {
+        id.forEach(tagId => {
+          dataLayerObject(defineCommand('set', tagId, name, value))
+        })
       }
     }
   }
@@ -81,7 +87,7 @@ export function useAnalyticsEvent() {
    * Resets the datalayer container. Calls `initializeAnalytics`
    * to reload the default analytics tags
    */
-  function reset() {
+  async function reset() {
     window.dataLayer = []
     internalDatalayer.value = []
     initializeAnalytics(config)

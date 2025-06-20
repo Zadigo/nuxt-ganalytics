@@ -21,10 +21,16 @@
               <BlocksState />
             
               <div class="space-x-2 flex items-center">
+                <NuxtButton color="error" @click="handleClearDatalayer">
+                  <Icon name="lucide:trash" />
+                  Clear
+                </NuxtButton>
+
                 <NuxtButton color="warning" @click="handleGtmEventClick">
                   <Icon name="lucide:pointer" />
                   Send test GTM event
                 </NuxtButton>
+                
                 <NuxtButton color="warning" @click="handleEventOnClick">
                   <Icon name="lucide:pointer" />
                   Send test GA4 event
@@ -58,7 +64,10 @@ import { useAnalyticsEvent } from '../../src/runtime/composables/events'
 const config = useRuntimeConfig()
 
 const gtm = useGtm()
-const { sendEvent, internalDatalayer } = useAnalyticsEvent()
+const { sendEvent, internalDatalayer, set, reset } = useAnalyticsEvent()
+
+await set('language', 'fr-fr')
+await set('currency', 'EUR')
 
 const searchParams = ref<SearchParams>({
   search: '',
@@ -86,5 +95,9 @@ function handleGtmEventClick() {
       customParam: 'Custom Value'
     })
   }
+}
+
+function handleClearDatalayer() {
+  reset()
 }
 </script>
