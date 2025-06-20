@@ -21,14 +21,6 @@
               <BlocksState />
             
               <div class="space-x-2 flex items-center">
-                <NuxtAnalytics event="search" :params="{ search_term: 'My application' }">
-                  <template #default="{ attrs }">
-                    <NuxtButton @click="attrs.sendTemplateEvent()">
-                      Wrapped Analytics
-                    </NuxtButton>
-                  </template>
-                </NuxtAnalytics>
-
                 <NuxtButton color="warning" @click="handleGtmEventClick">
                   <Icon name="lucide:pointer" />
                   Send test GTM event
@@ -37,15 +29,12 @@
                   <Icon name="lucide:pointer" />
                   Send test GA4 event
                 </NuxtButton>
-                <NuxtSwitch v-model="customizeEvent" label="Customize" />
+                <NuxtSwitch v-model="customizeEvent" label="Advanced" />
               </div>
             </div>
 
-            <div v-if="customizeEvent" class="py-5 space-x-2 flex justify-end">
-              <NuxtInputMenu />
-              <NuxtInput placeholder="Parameter" />
-              <NuxtInput placeholder="Value" />
-            </div>
+            <!-- Events -->
+            <BlocksEvents v-if="customizeEvent" />
 
             <!-- List -->
             <ClientOnly>
