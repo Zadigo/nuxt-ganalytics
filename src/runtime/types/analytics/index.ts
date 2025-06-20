@@ -1,2 +1,2 @@
 export * from './tags'
-export * from './script_config'
+export * from './script'
