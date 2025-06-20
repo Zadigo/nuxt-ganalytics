@@ -1,3 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`NuxtAnalytics > Renders correctly with event 1`] = `[Function]`;
+
+exports[`NuxtAnalytics > Renders correctly with with debounce 1`] = `[Function]`;
+
+exports[`NuxtAnalytics > Renders correctly with with event and params 1`] = `[Function]`;
