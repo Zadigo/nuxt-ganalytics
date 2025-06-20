@@ -1,9 +1,8 @@
-import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
+import { defineNuxtPlugin, useHead, useRouter } from '#app'
 import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const router = useRouter()
-  const config = useRuntimeConfig()
   const userOptions = nuxtApp.$config.public.ganalytics
   
   if (userOptions.ga4 && userOptions.ga4.enabled) {
@@ -33,8 +32,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       ...userOptions.gtm,
       vueRouter: userOptions.gtm.enableRouterSync && router ? router as VueGtmUseOptions['vueRouter'] : undefined
     }
-
-    console.log('userOptions.gtm', userOptions.gtm, options)
+    // console.log('userOptions.gtm', userOptions.gtm, options)
     nuxtApp.vueApp.use(createGtm(options))
   }
 })

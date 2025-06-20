@@ -3,12 +3,13 @@ import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onBeforeMount, ref } from 'vue'
 import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObjects } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
-import { walkUpBindingElementsAndPatterns } from 'typescript'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
   value: DataLayerObject | GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]
 }
+
+export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 /**
  * Composable used to create and send
@@ -115,8 +116,6 @@ export function useAnalyticsEvent() {
     internalDatalayer
   }
 }
-
-export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 export function useConsent() {
   if (!import.meta.client) {
