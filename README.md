@@ -128,7 +128,7 @@ that will be used to send an event and then use triggers like `@click` to send w
 ```
 The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
 
-Sending events can be debounced. This can be done by passing the `debounce` option to the `useAnalyticsEvent` composable.
+Sending events can be debounced. This can be done by passing the `debounce` option to the `NuxtAnalytics` component.
 
 ```vue
 <template>
