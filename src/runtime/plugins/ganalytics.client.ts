@@ -1,13 +1,20 @@
-import { defineNuxtPlugin, useHead, useRouter } from '#app'
+import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
 import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const router = useRouter()
-  const userOptions = nuxtApp.$config.public.ganalytics
+  // const moduleOptions = nuxtApp.$config.public.ganalytics
+  const moduleOptions = useRuntimeConfig().public.ganalytics
+
+  console.log('defineNuxtPlugin - moduleOptions', moduleOptions)
   
-  if (userOptions.ga4 && userOptions.enabled && userOptions.ga4.enabled) {
-    const loadingStrategy = userOptions.ga4.loadingStrategy === 'async' ? 'async' : 'defer'
-    const fullUrl = userOptions.ga4.url + `?id=${userOptions.ga4.id}`
+  if (moduleOptions.ga4 && moduleOptions.enabled && moduleOptions.ga4.enabled) {
+    const loadingStrategy = moduleOptions.ga4.loadingStrategy === 'async' ? 'async' : 'defer'
+    const fullUrl = moduleOptions.ga4.url + `?id=${moduleOptions.ga4.id}`
+
+    if (!moduleOptions.ga4.id || moduleOptions.ga4.id === '') {
+      console.error('GA4 ID is not set. Please provide a valid GA4 ID in the module options')
+    }
 
     useHead({
       link: [
@@ -27,12 +34,17 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
   }
 
-  if (userOptions.gtm && userOptions.enabled && userOptions.gtm.enabled) {
-    const options: VueGtmUseOptions = {
-      ...userOptions.gtm,
-      vueRouter: userOptions.gtm.enableRouterSync && router ? router as VueGtmUseOptions['vueRouter'] : undefined
+  if (moduleOptions.gtm && moduleOptions.enabled && moduleOptions.gtm.enabled) {
+    if (!moduleOptions.gtm.id || moduleOptions.gtm.id === '') {
+      console.error('GTM ID is not set. Please provide a valid GTM ID in the module options.')
+    } else {
+      const gtmOptions: VueGtmUseOptions = {
+        ...moduleOptions.gtm,
+        vueRouter: moduleOptions.gtm.enableRouterSync && router ? router as VueGtmUseOptions['vueRouter'] : undefined
+      }
+      // console.log('moduleOptions.gtm', moduleOptions.gtm, options)
+      nuxtApp.vueApp.use(createGtm(gtmOptions))
     }
-    // console.log('userOptions.gtm', userOptions.gtm, options)
-    nuxtApp.vueApp.use(createGtm(options))
+
   }
 })
