@@ -89,24 +89,6 @@ export default defineNuxtConfig({
 
 Once the module is installed, you can use it in your Nuxt app. This will automatically inject the necessary script and configuration for GA4.
 
-### Do I need to enable both GA4 and GTM?
-
-No. You can use either Google Analytics 4 (GA4) or Google Tag Manager (GTM) in your Nuxt app. The main difference between GA4 and GTM resides in the 
-fact that you can use custom events and parameters to be sent. You will need to create the trigers and containers in your Google Tag Manager 
-account in order to handle thes events.
-
-Be default GA4 is enabled in the module.
-
-### Setting global properties
-
-You can set global properties by using the `set` function from the `useAnalyticsEvent` composable. This allows you to set properties that will be sent with every event.
-
-> [!NOTE]
-> Calling set is not retroactive. In other words, if you want global properties at initialization then you can need to provide these parapeters directly in the
-> module options. Calling set from the composable will always apply the provideed properties to future events
-
-```vue
-
 ### Sending events
 
 #### useAnalyticsEvent
@@ -129,8 +111,28 @@ function handleLogin() {
 }
 ```
 
+`sendEvent`
+
+This is the main function to send events to Google Analytics. It takes an event object created with the `defineEvent` function or any other function that
+uses it under the hood.
+
+`set`
+
+You can set global properties by using the `set` function from the `useAnalyticsEvent` composable. This allows you to set properties that will be sent with every event.
+
+> [!NOTE]
+> Calling set is not retroactive. In other words, if you want global properties at initialization then you can need to provide these parapeters directly in the
+> module options. Calling set from the composable will always apply the provideed properties to future events
+
+`reset`
+
+Clears the window datalayer and rests the global properties.
+
+### Structuring events
+
 Events are built using the `defineEvent` function, which allows you correctly structure the [name and parameters](https://event) required in certain events.
 As the example shows above, combined with the `sendEvent` function, you can then trigger an event to the layer.
+
 
 #### NuxtAnalytics
 
@@ -208,6 +210,14 @@ function handleConsentChange() {
 
 Under the hood, the module will automatically update the consent values in the Google Consent Mode API and save them in the local cookies. 
 This way, you can ensure that the user has control over their consent preferences. 
+
+## Do I need to enable both GA4 and GTM? 🧐
+
+No. You can use either Google Analytics 4 (GA4) or Google Tag Manager (GTM) in your Nuxt app. The main difference between GA4 and GTM resides in the 
+fact that you can use custom events and parameters to be sent. You will need to create the trigers and containers in your Google Tag Manager 
+account in order to handle thes events.
+
+Be default GA4 is enabled in the module.
 
 ## Contributing 🙏
 
