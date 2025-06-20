@@ -1,6 +1,5 @@
 import { useCookie, useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
-import { isArgumentsObject } from 'util/types'
 import { computed, onBeforeMount, ref } from 'vue'
 import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObjects } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
@@ -91,31 +90,19 @@ export function useAnalyticsEvent() {
   onBeforeMount(() => {
     if (window.dataLayer) {
       window.dataLayer.forEach(item => {
-        if (isArgumentsObject(item)) {
+        const keys = Object.keys(item)
+        
+        if (keys.includes('event')) {
           internalDatalayer.value.push({
-            category: 'ga4',
-            value: Array.from<GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]>(item)
+            category: 'gtm',
+            value: item
           })
         } else {
           internalDatalayer.value.push({
-            category: 'gtm',
-            value: item as DataLayerObject
+            category: 'ga4',
+            value: Array.from(item as GAnalyticsDatalayerObjects[]) 
           })
         }
-
-        // const keys = Object.keys(item)
-        
-        // if (keys.includes('event')) {
-        //   internalDatalayer.value.push({
-        //     category: 'gtm',
-        //     value: item
-        //   })
-        // } else {
-        //   internalDatalayer.value.push({
-        //     category: 'ga4',
-        //     value: Array.from(item as GAnalyticsDatalayerObjects[]) 
-        //   })
-        // }
       })
     }
   })
