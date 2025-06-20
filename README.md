@@ -97,7 +97,19 @@ account in order to handle thes events.
 
 Be default GA4 is enabled in the module.
 
-### Composables - Sending events
+### Setting global properties
+
+You can set global properties by using the `set` function from the `useAnalyticsEvent` composable. This allows you to set properties that will be sent with every event.
+
+> [!NOTE]
+> Calling set is not retroactive. In other words, if you want global properties at initialization then you can need to provide these parapeters directly in the
+> module options. Calling set from the composable will always apply the provideed properties to future events
+
+```vue
+
+### Sending events
+
+#### useAnalyticsEvent
 
 Events can be sent using the `useAnalyticsEvent` composable. This composable allows you to send events to GA4 directly without the need for GTM.
 
@@ -120,7 +132,7 @@ function handleLogin() {
 Events are built using the `defineEvent` function, which allows you correctly structure the [name and parameters](https://event) required in certain events.
 As the example shows above, combined with the `sendEvent` function, you can then trigger an event to the layer.
 
-### NuxtAnalytics Component - Sending events
+#### NuxtAnalytics
 
 Another way to trigger events is by using the `NuxtAnalytics` component. You can wrap elements in your template
 that will be then used to send an event by using the `sendTemplateEvent`. Associated with template event generators like `@click`, an event will be triggered when
