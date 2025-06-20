@@ -29,9 +29,13 @@
                   </template>
                 </NuxtAnalytics> -->
 
+                <NuxtButton color="warning" @click="handleGtmEventClick">
+                  <Icon name="lucide:pointer" />
+                  Send test GTM event
+                </NuxtButton>
                 <NuxtButton color="warning" @click="handleEventOnClick">
                   <Icon name="lucide:pointer" />
-                  Send test event
+                  Send test GA4 event
                 </NuxtButton>
                 <NuxtSwitch v-model="customizeEvent" label="Customize" />
               </div>
@@ -62,6 +66,7 @@ import { hasTag } from '../../src/runtime/utils'
 
 const config = useRuntimeConfig()
 
+const gtm = useGtm()
 const { sendEvent, internalDatalayer } = useAnalyticsEvent()
 
 const searchParams = ref<SearchParams>({
@@ -77,5 +82,18 @@ const customizeEvent = ref<boolean>(false)
  */
 function handleEventOnClick() {
   sendEvent(defineEvent('login', { method: 'Google'}))
+}
+
+/**
+ * Sends an event using the GTM composable
+ */
+function handleGtmEventClick() {
+  if (gtm) {
+    gtm.trackEvent({
+      event: 'login',
+      method: 'Google',
+      customParam: 'Custom Value'
+    })
+  }
 }
 </script>
