@@ -23,7 +23,7 @@ export interface GAModuleOptions {
    * Initializes the Google Tag script immediately after the page has loaded
    * @default true
    */
-  immediate?: boolean
+  // immediate?: boolean
   /**
    * Url pointing to the Google Analytics
    * @default "https://www.googletagmanager.com/gtag/js"
