@@ -1,8 +1,7 @@
-import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import type { CommandParameters, EventNames, GACommand, GAnalyticsDatalayerObject, GTMCommand } from '~/src/runtime/types'
+import type { CommandParameters, GACommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'
@@ -11,9 +10,12 @@ export * from './payload'
  * Pushes arguments to the existing datalayer container
  * @param payload The pyaload to be used in the layer
  */
-export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatalayerObject[] | DataLayerObject[]>(payload: T | undefined): R | undefined {
+export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]>(payload: T | undefined): R | undefined {
+  // TODO: We need to ovrride the window.dataLayer type
+  // in order to use the types from GAnalyticsDatalayerObjects
   if (import.meta.client && window.dataLayer && payload) {
-    console.log('arguments', payload)
+    // console.log('arguments', payload)
+
     window.dataLayer?.push(payload)
     // TODO: Maybe return a reactive object that 
     // contains the payload

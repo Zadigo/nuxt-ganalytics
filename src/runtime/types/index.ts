@@ -12,7 +12,7 @@ export interface CustomGAnalyticsCookie {
  * @example
  * gtag("consent", "default", {}) -> ['consent', 'default', {}]
  */
-export interface GAnalyticsDatalayerObject {
+export interface GAnalyticsDatalayerObjects {
   config: [command: GACommand, id: string, parameters?: CommandParameters]
   consent: [command: GACommand, name: ConsentNames, parameters?: ConsentParameters]
   event: [command: GACommand, name: EventNames, parameters?: CommandParameters]

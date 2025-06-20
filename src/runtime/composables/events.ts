@@ -1,12 +1,12 @@
 import { useCookie, useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { computed, onBeforeMount, ref } from 'vue'
-import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObject } from '../types'
+import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObjects } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
-  value: DataLayerObject | GAnalyticsDatalayerObject
+  value: DataLayerObject | GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]
 }
 
 /**
@@ -37,16 +37,19 @@ export function useAnalyticsEvent() {
    * @example gtag("...", "add_payment_info", {})
    * @param payload The parameters of the command
    */
-  function sendEvent(payload: ReturnType<typeof defineEvent>) {
+  function sendEvent(payload: ReturnType<typeof defineEvent>): ReturnType<typeof dataLayerObject> {
     const parsedResult = dataLayerObject(payload)
 
     console.log('sendEvent', parsedResult)
+
     if (parsedResult) {
       internalDatalayer.value.push({
         category: 'ga4',
         value: parsedResult
       })
     }
+
+    return parsedResult
   }
 
   /**
@@ -95,7 +98,7 @@ export function useAnalyticsEvent() {
         } else {
           internalDatalayer.value.push({
             category: 'ga4',
-            value: Array.from(item as GAnalyticsDatalayerObject[]) 
+            value: Array.from(item as GAnalyticsDatalayerObjects[]) 
           })
         }
       })
