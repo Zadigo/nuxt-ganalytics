@@ -2,7 +2,7 @@ import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import type { CommandParameters, EventNames, GAnalyticsDatalayerObject, ScriptEventNames } from '~/src/runtime/types'
+import type { CommandParameters, EventNames, GACommand, GAnalyticsDatalayerObject, GTMCommand } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'
@@ -25,7 +25,7 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
  * Checks if the datalayer contains a given tag name
  * @param name The name of the tag to check
  */
-export function hasTag(name: EventNames | ScriptEventNames | string): boolean {
+export function hasTag(name: GACommand | GTMCommand | string): boolean {
   if (import.meta.client && window.dataLayer) {
     // FIXME: Fix the type of window.dataLayer
     const results = window.dataLayer.filter(item => {

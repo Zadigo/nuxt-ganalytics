@@ -1,4 +1,4 @@
-import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, TagCommand } from '../types'
+import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GACommand } from '../types'
 
 /**
  * Entry function used to define a command for gtag
@@ -9,7 +9,7 @@ import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, Ev
  * @param id The tag ID
  * @param params The command parameters
  */
-export function defineCommand<K extends TagCommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
+export function defineCommand<K extends GACommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
   return arguments
 }
 

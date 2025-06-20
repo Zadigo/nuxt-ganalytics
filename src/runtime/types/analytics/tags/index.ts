@@ -19,7 +19,7 @@ export type Currency =
  * TODO: Rename: GA4EventCommand
  * @example gtag("consent", "...", {})
  */
-export type TagCommand = 
+export type GACommand = 
   | 'config'
   | 'get' 
   | 'set'
