@@ -15,6 +15,7 @@ export function dataLayerObject<T extends IArguments>(payload: T | undefined) {
   if (import.meta.client && window.dataLayer && payload) {
     console.log('arguments', payload)
     window.dataLayer?.push(payload)
+    return Array.from(payload)
   }
 }
 
