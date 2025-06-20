@@ -1,9 +1,9 @@
 <template>
   <div class="py-5 space-x-2 flex">
-    <NuxtAnalytics event="search" :params="{ search_term: 'My application' }" @ga-event="handleReceivedEvent">
+    <NuxtAnalytics event="search" :params="{ search_term: 'My application' }" :debounce="3000" @ga-event="handleReceivedEvent">
       <template #default="{ attrs }">
         <NuxtButton @click="attrs.sendTemplateEvent()">
-          Login
+          Search - {{ attrs.count }}
         </NuxtButton>
       </template>
     </NuxtAnalytics>

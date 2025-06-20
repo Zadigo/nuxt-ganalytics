@@ -113,23 +113,36 @@ Events are built using the `defineEvent` function, which allows you to define th
 The `sendEvent` function can then be used to send the event to GA4 or GTM.
 
 Another way to send events to Google Analytics 4 is by using the `NuxtAnalytics` component. You can wrap elements in your template that
-that will be used to send and event and then use triggers like `@click` to send the event when the element is clicked or interracted with.
+that will be used to send an event and then use triggers like `@click` to send when the element is clicked or interracted with.
 
 ```vue
 <template>
-  <div>
-    <NuxtAnalytics event="login" :params="{ method: 'Google' }">
-      <template #default="{ sendTemplateEvent }">
-        <button @click="sendTemplateEvent">
-          Login with Google
-        </button>
-      </template>
-    </NuxtAnalytics>
-  </div>
+  <NuxtAnalytics event="login" :params="{ method: 'Google' }">
+    <template #default="{ sendTemplateEvent }">
+      <button @click="sendTemplateEvent">
+        Login with Google
+      </button>
+    </template>
+  </NuxtAnalytics>
+</template>
+```
+The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
+
+Sending events can be debounced. This can be done by passing the `debounce` option to the `useAnalyticsEvent` composable.
+
+```vue
+<template>
+  <NuxtAnalytics event="login" :params="{ method: 'Google' }" :debounce="500">
+    <template #default="{ sendTemplateEvent }">
+      <button @click="sendTemplateEvent">
+        Login with Google
+      </button>
+    </template>
+  </NuxtAnalytics>
 </template>
 ```
 
-The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
+The commponent will also track the amount of iterractions with the element which becomes accessible via the `attrs` prop in the template slot.
 
 ### Using Google Consent Mode
 
