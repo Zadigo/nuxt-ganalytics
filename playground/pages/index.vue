@@ -19,6 +19,10 @@
           <div>
             <div class="py-3 flex justify-between items-center">
               <BlocksState />
+
+              {{ tagIds }}
+
+              {{ gaIds }}
             
               <div class="space-x-2 flex items-center">
                 <NuxtButton color="error" @click="handleClearDatalayer">
@@ -64,7 +68,7 @@ import { useAnalyticsEvent } from '../../src/runtime/composables/events'
 const config = useRuntimeConfig()
 
 const gtm = useGtm()
-const { sendEvent, internalDatalayer, set, reset } = useAnalyticsEvent()
+const { sendEvent, internalDatalayer, set, reset, tagIds, gaIds } = useAnalyticsEvent()
 
 await set('language', 'fr-fr')
 await set('currency', 'EUR')

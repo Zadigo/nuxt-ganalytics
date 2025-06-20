@@ -1,5 +1,6 @@
 import { useCookie, useRuntimeConfig } from '#app'
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
+import { useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
 import type { ConfigurationParameters, ConsentParameters, CustomGAnalyticsCookie, GAnalyticsDatalayerObjects } from '../types'
 import { dataLayerObject, defineCommand, defineConsent, defineEvent, hasTag, initializeAnalytics } from '../utils'
@@ -35,6 +36,31 @@ export function useAnalyticsEvent() {
   const internalDatalayer = ref<EventClassificationCategory[]>([])
 
   const isEnabled = computed(() => state)
+
+  const tagIds = computed(() => {
+    const objs = [config.public.ganalytics.ga4?.id, config.public.ganalytics.gtm?.id]
+    const cleanObjs = objs.map(obj => {
+      if (typeof obj === 'string') {
+        return [obj]
+      } else if (typeof obj === 'object' && 'id' in obj) {
+        return obj.id as string
+      } else if (Array.isArray(obj)) {
+        return obj as string[]
+      } else {
+        return obj || []
+      }
+    })
+    return cleanObjs.flat()
+  })
+
+  const gaIds = useArrayFilter(tagIds, (id) => {
+    if (typeof id === 'string') {
+      if (id.startsWith('G-')) {
+        return true
+      }
+    }
+    return false
+  })
 
   /**
    * Function used to send an event to the datalayer
@@ -81,6 +107,10 @@ export function useAnalyticsEvent() {
         })
       }
     }
+    // ENHANCE: Implment this for the above
+    // gaIds.value.forEach(tagId => {
+    //   dataLayerObject(defineCommand('set', tagId, name, value))
+    // })
   }
 
   /**
@@ -118,6 +148,8 @@ export function useAnalyticsEvent() {
     set,
     reset,
     disable,
+    gaIds,
+    tagIds,
     isEnabled,
     internalDatalayer
   }
