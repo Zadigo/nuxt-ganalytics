@@ -1,7 +1,7 @@
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import type { CommandParameters, GACommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
+import type { CommandParameters, GA4EventCommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
 import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'
@@ -24,10 +24,10 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
 }
 
 /**
- * Checks if the datalayer contains a given tag name
+ * Checks if the dataLayer already has a tag with the given name
  * @param name The name of the tag to check
  */
-export function hasTag(name: GACommand | GTMCommand | string): boolean {
+export function hasTag(name: GA4EventCommand | GTMCommand | string): boolean {
   if (import.meta.client && window.dataLayer) {
     // FIXME: Fix the type of window.dataLayer
     const results = window.dataLayer.filter(item => {
@@ -41,7 +41,7 @@ export function hasTag(name: GACommand | GTMCommand | string): boolean {
 }
 
 /**
- * Initializes GA4
+ * Function to initialize the Google Analytics datalayer
  * @param config Nuxt runtime configuration
  * @example
  * gtag("js", new Date())

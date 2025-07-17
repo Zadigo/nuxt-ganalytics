@@ -20,7 +20,7 @@ export type Currency =
  * @see {@link https://developers.google.com/tag-platform/gtagjs/reference Gtag References}
  * @example gtag("consent", "...", {})
  */
-export type GACommand = 
+export type GA4EventCommand = 
   | 'config'
   | 'get' 
   | 'set'

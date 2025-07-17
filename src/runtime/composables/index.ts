@@ -1,7 +1,8 @@
 import { useCookie } from '#app'
 import { ref } from 'vue'
-import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
 import { dataLayerObject, defineConsent } from '../utils'
+
+import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
 
 export * from './events'
 export * from './tags'
@@ -9,7 +10,7 @@ export * from './tags'
 export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 /**
- * Composable used to manage user consent
+ * This composable provides methods to update consent parameters and manage user consent preferences
  */
 export function useConsent() {
   if (!import.meta.client) {
@@ -28,10 +29,6 @@ export function useConsent() {
 
   const cookie = useCookie<CustomGAnalyticsCookie | undefined>('ganalytics', { sameSite: 'strict', secure: true })
 
-  /**
-   * Accept or deny a specific consent parameter
-   * @param params The consent parameters to update
-   */
   async function updateConsent(params?: ConsentParameters) {
     if (params) {
       dataLayerObject(defineConsent(params, 'update'))
@@ -44,10 +41,6 @@ export function useConsent() {
     }
   }
 
-  /**
-   * Denies all consent for the user
-   * @param region The region to implement
-   */
   async function acceptAll(region?: string[]) {
     await updateConsent({
       ad_personalization: 'granted',
@@ -61,10 +54,6 @@ export function useConsent() {
     })
   }
 
-  /**
-   * Denies all consent for the user
-   * @param region The region to implement
-   */
   async function denyAll(region?: string[]) {
     await updateConsent({
       ad_personalization: 'denied',
@@ -79,9 +68,25 @@ export function useConsent() {
   }
 
   return {
+    /**
+     * The cookie used to store consent parameters
+     * for the user
+     */
     cookie,
+    /**
+     * Acceps all consent for the user
+     * @param region The region for which consent is accepted
+     */
     acceptAll,
+    /**
+     * Accept or update consent parameters for the user
+     * @param params The consent parameters to update
+     */
     updateConsent,
+    /**
+     * Denies all consent for the user
+     * @param region The region for which consent is denied
+     */
     denyAll
   }
 }

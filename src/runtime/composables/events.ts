@@ -1,9 +1,10 @@
 import { useRuntimeConfig } from '#app'
-import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
-import type { ConfigurationParameters, ConsentParameters, GAnalyticsDatalayerObjects } from '../types'
 import { dataLayerObject, defineCommand, defineEvent, hasTag, initializeAnalytics } from '../utils'
+
+import type { DataLayerObject } from '@gtm-support/vue-gtm'
+import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
@@ -13,8 +14,8 @@ export interface EventClassificationCategory {
 export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
 
 /**
- * Composable used to create and send
- *  Analytics events
+ * Composable to send events to the Google Analytics datalayer
+ * and manage the datalayer state
  */
 export function useAnalyticsEvent() { 
   if (import.meta.server) {
@@ -60,11 +61,6 @@ export function useAnalyticsEvent() {
     return false
   })
 
-  /**
-   * Function used to send an event to the datalayer
-   * @example gtag("...", "add_payment_info", {})
-   * @param payload The parameters of the command
-   */
   async function sendEvent(payload: ReturnType<typeof defineEvent>): Promise<ReturnType<typeof dataLayerObject>> {
     const parsedResult = dataLayerObject(payload)
 
@@ -89,10 +85,6 @@ export function useAnalyticsEvent() {
     }
   }
 
-  /**
-   * The set command lets you define parameters that will be associated with every subsequent event on the page
-   * @example gtag("set", "language", "fr")
-   */
   async function set(name: SetNameArg, value: string) {
     if (config.public.ganalytics.ga4) {
       const id = config.public.ganalytics.ga4.id
@@ -111,10 +103,6 @@ export function useAnalyticsEvent() {
     // })
   }
 
-  /**
-   * Resets the datalayer container. Calls `initializeAnalytics`
-   * to reload the default analytics tags
-   */
   async function reset() {
     window.dataLayer = []
     internalDatalayer.value = []
@@ -142,13 +130,48 @@ export function useAnalyticsEvent() {
   })
 
   return {
+    /**
+     * Function used to send an event to the datalayer
+     * @param payload The parameters of the command
+     * @param payload.event The event name to send
+     * @param payload.params The parameters of the event to send
+     * @example gtag("...", "add_payment_info", {})
+     */
     sendEvent,
+    /**
+     * Sets a configuration parameter for the Google Analytics tag
+     * @param name The name of the parameter to set, can be a string or an object with parameters
+     * @param value The value of the parameter to set, if `name` is a string
+     * @example gtag("set", "language", "fr")
+     */
     set,
+    /**
+     * Resets the datalayer container. Calls `initializeAnalytics`
+     * to reload the default analytics tags
+     */
     reset,
+    /**
+     * Disables the analytics tags
+     */
     disable,
+    /**
+     * The list of GA4 iDs used in the project
+     * @example ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
+     */
     gaIds,
+    /**
+     * The list of GTM IDs used in the project
+     * @example ['GTM-XXXXXXXXXX', 'GTM-YYYYYYYYYY']
+     */
     tagIds,
+    /**
+     * Whether the analytics tags are enabled or not
+     */
     isEnabled,
+    /**
+     * The internal datalayer used to store events
+     * and commands for debugging purposes
+     */
     internalDatalayer
   }
 }

@@ -1,6 +1,18 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { defineEvent, defineCommand, defineConsent } from '../../src/runtime/utils'
 import { isArgumentsObject } from 'util/types'
+
+vi.mock(import('@vueuse/core'), (importOriginal) => {
+  const actual = importOriginal()
+
+  return {
+    ...actual,
+    useCounter: vi.fn().mockReturnValue(0),
+    useDebounceFn: vi.fn().mockReturnValue(() => { }),
+    useTemplateRef: vi.fn().mockReturnValue({ value: null }),
+    useArrayFilter: vi.fn().mockReturnValue([])
+  }
+})
 
 describe('Define Event and Command', () => {
   it('should define an event with parameters', () => {

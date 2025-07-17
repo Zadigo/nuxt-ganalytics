@@ -93,7 +93,7 @@ Once the module is installed, you can use it in your Nuxt app. This will automat
 
 #### useAnalyticsEvent
 
-Events can be sent using the `useAnalyticsEvent` composable. This composable allows you to send events to GA4 directly without the need for GTM.
+Events can be sent using the `useAnalyticsEvent`. This composable allows you to send events to GA4 directly without the need for GTM.
 
 ```vue
 <script setup lang="ts">
@@ -102,18 +102,13 @@ import { useAnalyticsEvent } from 'nuxt-ganalytics'
 const { sendEvent } = useAnalyticsEvent()
 
 function handleLogin() {
-  sendEvent(defineEvent({
-    name: 'login',
-    params: {
-      method: 'Google'
-    }
-  }))
+  sendEvent(defineEvent('login', { method: 'Google' }))
 }
 ```
 
 `sendEvent`
 
-This is the main function to send events to Google Analytics. It takes an event object created with the `defineEvent` function or any other function that
+This is the main function used to send events to Google Analytics. It takes an event object created with the `defineEvent` function or any other function that
 uses it under the hood.
 
 `set`
@@ -137,8 +132,8 @@ As the example shows above, combined with the `sendEvent` function, you can then
 #### NuxtAnalytics
 
 Another way to trigger events is by using the `NuxtAnalytics` component. You can wrap elements in your template
-that will be then used to send an event by using the `sendTemplateEvent`. Associated with template event generators like `@click`, an event will be triggered when
-the element interracted with.
+that will be then used to send an event by using `sendTemplateEvent`. Associated with template event generators like `@click`, an event will be triggered when
+the element is interracted with.
 
 ```vue
 <template>
@@ -251,7 +246,7 @@ Be default GA4 is enabled in the module.
 
 ## Thanks 🌸
 
-his project wa inspired by the following awesome projects:
+This project wa inspired by the following awesome projects:
 
 * [Nuxt GTM](https://github.com/zadigetvoltaire/nuxt-gtm)
 * [Nuxt GTAG](https://github.com/johannschopplich/nuxt-gtag)

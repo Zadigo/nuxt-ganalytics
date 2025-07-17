@@ -10,8 +10,9 @@
 import { useCounter, useDebounceFn } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
 import { useAnalyticsEvent } from '../composables'
-import type { EventNames, EventParameters } from '../types'
 import { dataLayerObject, defineEvent } from '../utils'
+
+import type { EventNames, EventParameters } from '../types'
 
 interface Props {
   event: EventNames
@@ -27,11 +28,11 @@ const { sendEvent } = useAnalyticsEvent()
 const { inc: increment, count } = useCounter()
 
 /**
- * Method to send a Google Analytics event with 
- * the specified parameters
+ * Funtion that wraps `sendEvent` in order to send events
+ * directly from the template.
  */
 async function sendTemplateEvent () {
-  const parsedResult = sendEvent(defineEvent(props.event, props.params))
+  const parsedResult = await sendEvent(defineEvent(props.event, props.params))
   increment(1)
   emit('ga-event', parsedResult)
 }
@@ -44,24 +45,4 @@ const defaultAttrs = computed(() => {
     sendTemplateEvent: debouncedSendTemplateEvent
   }
 })
-
-// onMounted(() => {
-//   console.log(ganalyticsEl.value)
-//   if (ganalyticsEl.value) {
-//     console.log(ganalyticsEl.value)
-//     // const children = ganalyticsEl.value.children
-//     // console.log('NuxtAnalytics', children)
-
-//     // if (children.length > 1) {
-//     //   console.warn('NuxtAnalytics: Only one child element is allowed inside the NuxtAnalytics component.')
-//     // } else if (children.length === 1) {
-//     //   const child = children[0]
-//     //   if (child instanceof HTMLElement) {
-//     //     child.setAttribute('data-id', 'ganalytics-item')
-//     //   }
-//     // } else {
-//     //   console.warn('NuxtAnalytics: No child element found inside the NuxtAnalytics component.')
-//     // }
-//   }
-// })
 </script>

@@ -2,7 +2,9 @@ import type { ConfigurationParameters } from "../types"
 import { dataLayerObject, defineConfig } from "../utils"
 
 /**
- * Creates a tag ID specific to the given page
+ * Create and send events to GA4 using a spcific tag for a spcific given page
+ * @param tag The tag to use for the event
+ * @param params The parameters of the event to send
  */
 export function useAnalyticsTag(tag: string, params: ConfigurationParameters) {
   if (import.meta.client) {

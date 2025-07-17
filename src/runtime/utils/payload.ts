@@ -1,7 +1,7 @@
-import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GACommand } from '../types'
+import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GA4EventCommand } from '../types'
 
 /**
- * Entry function used to define a command for gtag
+ * Function to structure the command parameters
  * 
  * Reference:
  * @see {@link https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag List of events}
@@ -9,13 +9,12 @@ import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, Ev
  * @param id The tag ID
  * @param params The command parameters
  */
-export function defineCommand<K extends GACommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
+export function defineCommand<K extends GA4EventCommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
   return arguments
 }
 
 /**
- * 
- * Function used to structure configuration parameters
+ * Function used to structure configuration parameters for tag
  * @param id The tag ID
  * @param params The command parameters
  */

@@ -30,12 +30,13 @@ export interface GAModuleOptions {
    */
   url?: string
   /**
-   * TODO:
+   * Whether to load the Google Tag script immediately or defer it
    * @default "defer"
    */
   loadingStrategy?: LoadingStrategy
   /**
    * Whether to enable the debug mode for the debug view in GA4
+   * and send debug events
    * @default false
    */
   enableDebug?: boolean

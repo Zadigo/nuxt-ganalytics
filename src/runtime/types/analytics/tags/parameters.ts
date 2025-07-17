@@ -18,6 +18,9 @@ export interface ConfigurationParameters {
    * Defaults to the user's `document.location` value
    */
   page_location?: string
+  /**
+   * Specifies the path of the page, excluding the domain and query string
+   */
   page_path?: string
   /**
    * Set to false to prevent the default snippet from sending a page_view
@@ -80,6 +83,9 @@ export interface EventParameters {
    * The description of the event
    */
   description?: string
+  /**
+   * Indicates whether the event excetion was fatal or not
+   */
   fatal?: boolean
   /**
    * The items for the event
@@ -93,6 +99,9 @@ export interface EventParameters {
   method?: string
   number?: string
   promotions?: Promotion[]
+  /**
+   * The name of the scenario where the event occurred
+   */
   screen_name?: string
   /**
    * The term that was searched for
@@ -173,12 +182,12 @@ export interface ConsentParameters {
 }
 
 /**
- * All possible parameters for gtag commands
+ * List of all accepted parameters for gtag commands
  * @example gtag("...", "...", { method: "Google" })
  */
 export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters
 
 /**
- * Accepted Parameters for the "payment" event
+ * List of all parameters used for payment events
  */
 export type PaymentEventParameters = Pick<EventParameters, 'currency' | 'value' | 'coupon' | 'payment_type' | 'items'>
