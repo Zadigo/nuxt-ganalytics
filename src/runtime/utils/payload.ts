@@ -35,6 +35,8 @@ export function defineEvent(name: EventNames, params: EventParameters): IArgumen
 
 /**
  * Function used to structure conset parameters
+ * @param params The consent parameters
+ * @param command The consent command name, defaults to 'default'
  * @example gtag("consent", "default", {})
  */
 export function defineConsent(params: ConsentParameters, command: ConsentNames = 'default'): IArguments {

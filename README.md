@@ -16,16 +16,17 @@ Implement Google Analytics and Google Tag Manager functionnalities in your proje
 - ⛰ Nuxt 3 ready
 - 🚠 SSR friendly
 - ✨ Track events with [composables](#sending-events) and built in [components](#sending-events)
-- Use one or multiple [tag IDs](#using-multiple-tag-ids)
-- Send event parameter or values to [third-party API url](#api-url)
-- 🌲 &nbsp;Baz
+- 🕸️ Use one or multiple [tag IDs](#using-multiple-tag-ids)
+- 🌳 Send event parameter or values to [third-party API url](#api-url)
+- 🌐 Use [Google Consent Mode](#using-google-consent-mode) to manage user consent
+- 🧩 Use [Nuxt Analytics](#nuxtanalytics) component to send events from your templates
 
 ## Setup 🚀
 
 Run the following command to add the module to your project:
 
 ```bash
-npx nuxi module add ganalytics
+npx nuxi module add nuxt-ganalytics
 ```
 
 That's it! You can now use G-Analytics in your Nuxt app ✨
@@ -54,13 +55,13 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
 
 ### Enable GA4 on all pages
 
-You can enable Google Analytics 4 on a specific page by using the `useAnalyticsEvent` property on your page.
+You can enable Google Analytics 4 on all pages by providing the `gtag.id` property in your `nuxt.config.ts` file.
 
 ```typescript
 export default defineNuxtConfig({
   modules: ['nuxt-ganalytics'],
 
-  gtag: {
+  ganalytics: {
     id: 'G-XXXXXXXXXX'
   }
 })
@@ -69,7 +70,7 @@ export default defineNuxtConfig({
 ### Partial disable of GA4
 
 You can disable Google Analytics 4 on specific pages by setting the `gtag` property to `false` in the page's configuration by calling
-the `disable` function within the  `useAnalyticsEvent` composable.
+the `disable` function within the `useAnalyticsEvent` composable.
 
 ### Using multiple tag IDs
 
@@ -79,7 +80,7 @@ You can use multiple tag IDs by providing an array of IDs in the `gtag.id` prope
 export default defineNuxtConfig({
   modules: ['nuxt-ganalytics'],
 
-  gtag: {
+  ganalytics: {
     id: ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
   }
 })
@@ -148,7 +149,10 @@ the element is interracted with.
 ```
 The example above will send a `login` event with the parameter `method: 'Google'` when the button is clicked.
 
-Sending events can be also be debounced. This can be done by passing the `debounce` option to the `NuxtAnalytics` component.
+> [!NOTE]
+> ⚠️ Events are sent only on the client-side. This means that the component will not render on the server-side and will not send events during SSR.
+
+Sending events can be also be debounced. This can be done by passing the `debounce` option:
 
 ```vue
 <template>
@@ -162,7 +166,7 @@ Sending events can be also be debounced. This can be done by passing the `deboun
 </template>
 ```
 
-The commponent will also track the amount of iterractions with the element which becomes accessible via the `attrs` prop in the template slot.
+The commponent will also track the amount of iterractions with the wrapped element and exposed via the `attrs` prop in the template slot.
 
 ### Using Google Consent Mode
 
@@ -251,13 +255,13 @@ This project wa inspired by the following awesome projects:
 * [Nuxt GTM](https://github.com/zadigetvoltaire/nuxt-gtm)
 * [Nuxt GTAG](https://github.com/johannschopplich/nuxt-gtag)
 
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-module
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-ganalytics/latest.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-version-href]: https://npmjs.com/package/nuxt-ganalytics
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/my-module
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-ganalytics.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-downloads-href]: https://npm.chart.dev/nuxt-ganalytics
 
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
+[license-src]: https://img.shields.io/npm/l/nuxt-ganalytics.svg?style=flat&colorA=020420&colorB=00DC82
 [license-href]: https://github.com/Zadigo/nuxt-ganalytics/blob/main/LICENCE
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js

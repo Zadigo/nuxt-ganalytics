@@ -4,7 +4,6 @@ export type CustomParameters = Record<string, unknown>
 
 /**
  * Parameters for the "config" command
- * Reference:
  * @see {@link https://developers.google.com/tag-platform/gtagjs/reference?hl=fr#config Analytics configuration parameters}
  */
 export interface ConfigurationParameters {
@@ -170,14 +169,46 @@ export type ConsentStateUndefined = ConsentState | undefined
  * @see {@link https://developers.google.com/tag-platform/security/guides/consent consent}
  */
 export interface ConsentParameters {
+  /**
+   * The consent state for ad personalization
+   * @description V2
+   */
   ad_personalization?: ConsentStateUndefined
+  /**
+   * The consent state for ad user data
+   * @description V2
+   */
   ad_user_data?: ConsentStateUndefined
+  /**
+   * The consent state for ad storage
+   */
   ad_storage?: ConsentState
+  /**
+   * The consent state for analytics storage
+   */
   analytics_storage?: ConsentState
+  /**
+   * The consent state for functionality storage
+   */
   functionality_storage?: ConsentState
+  /**
+   * The consent state for personalization storage
+   */
   personalization_storage?: ConsentState
+  /**
+   * The consent state for security storage
+   */
   security_storage?: ConsentState
+  /**
+   * Use this parameter to delay data collection until the user's consent status is updated,
+   * especially when your consent banner loads asynchronously and may not execute before Google tags.
+   * Set `wait_for_update` in your default consent settings to ensure consent is properly handled.
+   */
   wait_for_update?: number
+  /**
+   * For optimal measurement, scope default consent settings to regions where consent banners are shown to users.
+   * This ensures Google tags adjust behavior as needed and measurement is preserved in regions requiring consent.
+   */
   region?: string[]
 }
 
