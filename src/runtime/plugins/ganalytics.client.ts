@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   // const moduleOptions = nuxtApp.$config.public.ganalytics
   const moduleOptions = useRuntimeConfig().public.ganalytics
 
-  console.log('defineNuxtPlugin - moduleOptions', moduleOptions)
+  // console.log('defineNuxtPlugin - moduleOptions', moduleOptions)
   
   if (moduleOptions.ga4 && moduleOptions.enabled && moduleOptions.ga4.enabled) {
     const loadingStrategy = moduleOptions.ga4.loadingStrategy === 'async' ? 'async' : 'defer'

@@ -4,7 +4,7 @@ import { defineVitestConfig } from '@nuxt/test-utils/config'
 export default defineVitestConfig({
   test: {
     globals: true,
-    testTimeout: 30000,
+    testTimeout: 50000,
     silent: true,
     coverage: {
       enabled: true

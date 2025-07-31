@@ -1,8 +1,9 @@
-import type { ConfigurationParameters } from "../types"
-import { dataLayerObject, defineConfig } from "../utils"
+import { dataLayerObject, defineConfig } from '../utils'
+
+import type { ConfigurationParameters } from '../types'
 
 /**
- * Create and send events to GA4 using a spcific tag for a spcific given page
+ * Create and send events to GA4 using a specific tag for a specific given page
  * @param tag The tag to use for the event
  * @param params The parameters of the event to send
  */

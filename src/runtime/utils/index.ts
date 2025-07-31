@@ -1,24 +1,24 @@
+import { ref } from 'vue'
+import { defineCommand, defineConfig } from './payload'
+
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
-import { ref } from 'vue'
 import type { CommandParameters, GA4EventCommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
-import { defineCommand, defineConfig } from './payload'
 
 export * from './payload'
 
 /**
  * Pushes arguments to the existing datalayer container
- * @param payload The pyaload to be used in the layer
+ * @param payload The payload to be used in the layer
  */
 export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]>(payload: T | undefined): R | undefined {
-  // TODO: We need to ovrride the window.dataLayer type
+  // TODO: We need to override the window.dataLayer type
   // in order to use the types from GAnalyticsDatalayerObjects
   if (import.meta.client && window.dataLayer && payload) {
     // console.log('arguments', payload)
 
     window.dataLayer?.push(payload)
-    // TODO: Maybe return a reactive object that 
-    // contains the payload
+    // TODO: Maybe return a reactive object that contains the payload
     return Array.from(payload) as R
   }
 }
@@ -29,11 +29,13 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
  */
 export function hasTag(name: GA4EventCommand | GTMCommand | string): boolean {
   if (import.meta.client && window.dataLayer) {
-    // FIXME: Fix the type of window.dataLayer
+    // FIXME: Fix the type of window.dataLayer which is "DataLayerObject[]"
     const results = window.dataLayer.filter(item => {
       const items = Array.from(item)
+      
       return items.includes(name)
     })
+    
     return results.length > 0
   } else {
     return false
