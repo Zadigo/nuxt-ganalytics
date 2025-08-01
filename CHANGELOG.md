@@ -1,3 +1,8 @@
+## Version 1.0.3 (2025-08-01)
+
+## Enhancements
+- Documentation updates for better clarity especially on the `NuxtAnalytics` component usage
+
 ## Version 1.0.2 (2025-08-01)
 
 ### Enhancements

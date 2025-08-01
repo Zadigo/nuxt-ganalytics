@@ -143,15 +143,14 @@ As the example shows above, combined with the `sendEvent` function, you can then
 
 #### NuxtAnalytics
 
-Another way to trigger events is by using the `NuxtAnalytics` component. You can wrap elements in your template
-that will be then used to send an event by using `sendTemplateEvent`. Associated with template event generators like `@click`, an event will be triggered when
-the element is interracted with.
+Another way to trigger events is by using the `NuxtAnalytics` component. You can wrap elements and then use `sendTemplateEvent` to trigger and event. 
+Associated with template event generators like `@click`, an event will then be triggered when the element is interracted with.
 
 ```vue
 <template>
   <NuxtAnalytics event="login" :params="{ method: 'Google' }">
-    <template #default="{ sendTemplateEvent }">
-      <button @click="sendTemplateEvent">
+    <template #default="{ attrs }">
+      <button @click="() => attrs.sendTemplateEvent()">
         Login with Google
       </button>
     </template>
@@ -168,8 +167,8 @@ Sending events can be also be debounced. This can be done by passing the `deboun
 ```vue
 <template>
   <NuxtAnalytics event="login" :params="{ method: 'Google' }" :debounce="500">
-    <template #default="{ sendTemplateEvent }">
-      <button @click="sendTemplateEvent">
+    <template #default="{ attrs }">
+      <button @click="() => attrs.sendTemplateEvent()">
         Login with Google
       </button>
     </template>
@@ -177,12 +176,12 @@ Sending events can be also be debounced. This can be done by passing the `deboun
 </template>
 ```
 
-The commponent will also track the amount of iterractions with the wrapped element and exposed via the `attrs` prop in the template slot.
+The commponent will also track the amount of iterractions with the wrapped element and expose the value via `attrs.count` prop in the template slot.
 
 ### Using Google Consent Mode
 
-By default the default no consent mode is used. You can enable consent mode using the builtin composable "useConsent"
-which provides functions to update or deny the consent values.
+By default the _default_ no consent mode is used. You can enable consent using the builtin composable `useConsent`
+which provides functions to update or deny the user consent values.
 
 The example below shows how to use the composable in your app:
 
@@ -196,12 +195,13 @@ onMounted(() => {
 </script>
 ```
 
-Deny all consent values until the the user has accepted the cookies. You can then use the `updateConsent` function to update the consent values for specific categories:
+This above code denies all consent values until the the user has accepted the cookies. You can then use the `updateConsent` 
+function to update the consent values for specific categories:
 
 ```vue
 <template>
   <div>
-    <button @click="handleConsentChange">
+    <button @click="() => handleConsentChange()">
       Accept Cookies
     </button>
   </div>
@@ -220,6 +220,14 @@ function handleConsentChange() {
 
 Under the hood, the module will automatically update the consent values in the Google Consent Mode API and save them in the local cookies. 
 This way, you can ensure that the user has control over their consent preferences. 
+
+In peculiar cases, you can also use the `acceptAll` function to accept all consent values at once:
+
+```vue
+<script setup lang="ts">
+const { acceptAll } = useConsent()
+</script>
+```
 
 ## Do I need to enable both GA4 and GTM? 🧐
 

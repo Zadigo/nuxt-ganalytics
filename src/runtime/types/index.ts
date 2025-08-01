@@ -1,4 +1,4 @@
-import type { CommandParameters, ConfigurationParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GA4EventCommand } from './analytics'
+import type { CommandParameters, ConfigurationParameters, ConsentNames, ConsentParameters, EventNames, EventParameters } from './analytics'
 
 export * from './analytics'
 

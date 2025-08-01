@@ -123,7 +123,13 @@ export interface EventParameters {
    * The monetary value of the event
    */
   value?: number
+  /**
+   * The name of the event
+   */
   event_label?: string
+  /**
+   * The category of the event, used to group events together
+   */
   event_category?: string
   /**
    * The shipping tier selected for delivery of the purchased item
