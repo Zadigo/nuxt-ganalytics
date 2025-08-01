@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ganalytics",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Integration for Google Analytics 4 and Google Tag Manager in Nuxt",
   "repository": "https://github.com/Zadigo/nuxt-ganalytics",
   "author": {
@@ -39,10 +39,14 @@
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
+  "peerDependencies": {
+    "nuxt": "^3.0.0 || ^4.0.0",
+    "@vueuse/core": "^13.0.0"
+  },
   "dependencies": {
     "@gtm-support/vue-gtm": "^3.1.0",
     "@vueuse/core": "^13.4.0",
-    "@nuxt/kit": "^3.17.5",
+    "@nuxt/kit": "^4.0.2",
     "defu": "^6.1.4",
     "ufo": "^1.6.1"
   },
@@ -52,7 +56,7 @@
     "@nuxt/eslint-config": "^1.4.1",
     "@nuxt/fonts": "0.11.4",
     "@nuxt/module-builder": "^1.0.1",
-    "@nuxt/schema": "^3.17.5",
+    "@nuxt/schema": "^4.0.2",
     "@nuxt/scripts": "0.11.8",
     "@nuxt/test-utils": "^3.19.1",
     "@types/node": "latest",
@@ -67,11 +71,11 @@
     "changelogen": "^0.6.1",
     "eslint": "^9.29.0",
     "happy-dom": "^18.0.1",
-    "nuxt": "^3.17.5",
+    "nuxt": "^4.0.2",
     "typescript": "~5.8.3",
     "vitest": "^3.2.3",
     "vue": "^3.5.16",
-    "vue-tsc": "^2.2.10"
+    "vue-tsc": "^3.0.4"
   },
   "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
 }

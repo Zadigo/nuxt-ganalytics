@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "nuxt-ganlytics-playground",
+  "name": "nuxt-ganalytics-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",
@@ -8,6 +8,6 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "nuxt": "^3.17.5"
+    "nuxt": "^4.0.2"
   }
 }

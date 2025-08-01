@@ -46,7 +46,18 @@ That's it! You can now use G-Analytics in your Nuxt app ✨
   export default defineNuxtConfig({
     modules: [
       'nuxt-ganalytics'
-    ]
+    ],
+    
+    ganalytics: {
+      ga4: {
+        // Your GA4 ID
+        id: 'G-XXXXXXXXXX'
+      },
+      gtm: {
+        // Your GTM ID
+        id: 'GTM-XXXXXXXXXX'
+      }
+    }
   })
   ```
 </details>

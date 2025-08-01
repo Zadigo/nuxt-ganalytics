@@ -19,10 +19,12 @@
             <div class="py-3 flex justify-between items-center">
               <BlocksState />
 
-              {{ tagIds }}
+              <ClientOnly>
+                {{ tagIds }}
 
-              {{ gaIds }}
-            
+                {{ gaIds }}
+              </ClientOnly>
+              
               <div class="space-x-2 flex items-center">
                 <NuxtButton color="error" @click="handleClearDatalayer">
                   <Icon name="lucide:trash" />

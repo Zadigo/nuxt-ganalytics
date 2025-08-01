@@ -18,7 +18,7 @@ export default defineNuxtConfig({
       ganalytics: {
         ga4: {
           id: 'G-CVKFG2XPVG', 
-          // TODO: Use initial in order allos the user to configure
+          // TODO: Use initial in order to allow the user to configure
           // tags that he wants with initial configuration values
           // initial: [
           //   {
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
           enableDebug: true
         },
         gtm: {
-          id: 'GTM-TJZFHM5',
+          id: 'GTM-TJZFHM5'
         }
       }
     }

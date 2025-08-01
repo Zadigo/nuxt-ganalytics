@@ -15,9 +15,10 @@ export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 export function useConsent() {
   if (!import.meta.client) {
     return {
-      cookie: null,
-      updateConsent: () => { },
-      denyAll: () => { }
+      cookie: ref(null),
+      updateConsent: () => {},
+      acceptAll: () => {},
+      denyAll: () => {}
     }
   }
 
@@ -53,7 +54,7 @@ export function useConsent() {
       region
     })
   }
-
+  
   async function denyAll(region?: string[]) {
     await updateConsent({
       ad_personalization: 'denied',

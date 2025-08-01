@@ -22,9 +22,12 @@ export function useAnalyticsEvent() {
     return {
       sendEvent: () => undefined,
       isEnabled: false,
+      gaIds: [],
+      tagIds: [],
       internalDatalayer: [],
       set: () => {},
       reset: () => {},
+      enable: () => {},
       disable: () => {}
     }
   }
@@ -32,6 +35,8 @@ export function useAnalyticsEvent() {
   const config = useRuntimeConfig()
   const state = initializeAnalytics(config)
 
+  // TODO: Instead of relying on Window datalayer, create a class that
+  // will store and centralize events that were sent to the window.dataLayer
   const internalDatalayer = ref<EventClassificationCategory[]>([])
 
   const isEnabled = computed(() => state)
@@ -54,9 +59,7 @@ export function useAnalyticsEvent() {
 
   const gaIds = useArrayFilter(tagIds, (id) => {
     if (typeof id === 'string') {
-      if (id.startsWith('G-')) {
-        return true
-      }
+      return id.startsWith('G-')
     }
     return false
   })
@@ -64,7 +67,7 @@ export function useAnalyticsEvent() {
   async function sendEvent(payload: ReturnType<typeof defineEvent>): Promise<ReturnType<typeof dataLayerObject>> {
     const parsedResult = dataLayerObject(payload)
 
-    console.log('sendEvent', parsedResult)
+    // console.log('sendEvent', parsedResult)
 
     if (parsedResult) {
       internalDatalayer.value.push({
@@ -76,15 +79,23 @@ export function useAnalyticsEvent() {
     return parsedResult
   }
 
-  /**
-   *
-   */
-  async function disable() {
-    if (hasTag('gtm.js')) {
-      // Do something
+  async function enable(id: string) {
+    if (window) {
+      // @ts-ignore Is "any"
+      delete (window as Window)[`ga-disable-${id}`]
     }
   }
 
+  async function disable(id: string) {
+    if (window) {
+      // @ts-ignore Is "any"
+      (window as Window)[`ga-disable-${id}`] = true
+    }
+  }
+
+  // FIXME: Does this only for one single IDs but not
+  // if the user provides multiple IDs
+  // ENHANCE: Allow setting only one iD
   async function set(name: SetNameArg, value: string) {
     if (config.public.ganalytics.ga4) {
       const id = config.public.ganalytics.ga4.id
@@ -97,7 +108,7 @@ export function useAnalyticsEvent() {
         })
       }
     }
-    // ENHANCE: Implment this for the above
+    // ENHANCE: Implement this for the above
     // gaIds.value.forEach(tagId => {
     //   dataLayerObject(defineCommand('set', tagId, name, value))
     // })
@@ -151,21 +162,27 @@ export function useAnalyticsEvent() {
      */
     reset,
     /**
-     * Disables the analytics tags
+     * Enables analytics tags
+     * @param id The ID of the tag to enable, if not provided, all tags are enabled
+     */
+    enable,
+    /**
+     * Disables analytics tags
+     * @param id The ID of the tag to disable, if not provided, all tags are disabled
      */
     disable,
     /**
-     * The list of GA4 iDs used in the project
+     * List of GA4 iDs currently used in the project
      * @example ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
      */
     gaIds,
     /**
-     * The list of GTM IDs used in the project
+     * List of GTM IDs currently used in the project
      * @example ['GTM-XXXXXXXXXX', 'GTM-YYYYYYYYYY']
      */
     tagIds,
     /**
-     * Whether the analytics tags are enabled or not
+     * Whether the analytics tags are enabled
      */
     isEnabled,
     /**
