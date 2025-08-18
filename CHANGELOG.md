@@ -1,3 +1,7 @@
+## v2.0.1
+
+[compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v1.0.3...v2.0.1)
+
 ## Version 1.0.3 (2025-08-01)
 
 ## Enhancements
