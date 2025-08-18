@@ -9,7 +9,7 @@ import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, Ev
  * @param id The tag ID
  * @param params The command parameters
  */
-export function defineCommand<K extends GA4EventCommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
+export function defineAnalyticsCommand<K extends GA4EventCommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
   return arguments
 }
 
@@ -18,9 +18,9 @@ export function defineCommand<K extends GA4EventCommand, T extends (string | Dat
  * @param id The tag ID
  * @param params The command parameters
  */
-export function defineConfig(id: string | undefined, params?: CommandParameters): IArguments | undefined {
+export function defineAnalyticsConfig(id: string | undefined, params?: CommandParameters): IArguments | undefined {
   if (id && params) {
-    return defineCommand('config', id, params)
+    return defineAnalyticsCommand('config', id, params)
   }
 }
 
@@ -29,8 +29,8 @@ export function defineConfig(id: string | undefined, params?: CommandParameters)
  * @param name Name of the event to send
  * @param params Parameters for the given event
  */
-export function defineEvent(name: EventNames, params: EventParameters): IArguments {
-  return defineCommand('event', name, params)
+export function defineAnalyticsEvent(name: EventNames, params: EventParameters): IArguments {
+  return defineAnalyticsCommand('event', name, params)
 }
 
 /**
@@ -39,6 +39,6 @@ export function defineEvent(name: EventNames, params: EventParameters): IArgumen
  * @param command The consent command name, defaults to 'default'
  * @example gtag("consent", "default", {})
  */
-export function defineConsent(params: ConsentParameters, command: ConsentNames = 'default'): IArguments {
-  return defineCommand('consent', command, params)
+export function defineAnalyticsConsent(params: ConsentParameters, command: ConsentNames = 'default'): IArguments {
+  return defineAnalyticsCommand('consent', command, params)
 }

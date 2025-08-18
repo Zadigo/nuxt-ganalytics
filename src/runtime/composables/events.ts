@@ -1,7 +1,7 @@
 import { useRuntimeConfig } from '#app'
 import { useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
-import { dataLayerObject, defineCommand, defineEvent, hasTag, initializeAnalytics } from '../utils'
+import { dataLayerObject, defineAnalyticsCommand, defineAnalyticsEvent, hasTag, initializeAnalytics } from '../utils'
 
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
@@ -64,7 +64,7 @@ export function useAnalyticsEvent() {
     return false
   })
 
-  async function sendEvent(payload: ReturnType<typeof defineEvent>): Promise<ReturnType<typeof dataLayerObject>> {
+  async function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): Promise<ReturnType<typeof dataLayerObject>> {
     const parsedResult = dataLayerObject(payload)
 
     // console.log('sendEvent', parsedResult)
@@ -101,10 +101,10 @@ export function useAnalyticsEvent() {
       const id = config.public.ganalytics.ga4.id
 
       if (id && typeof id === 'string') {
-        dataLayerObject(defineCommand('set', id, name, value))
+        dataLayerObject(defineAnalyticsCommand('set', id, name, value))
       } else if (Array.isArray(id)) {
         id.forEach(tagId => {
-          dataLayerObject(defineCommand('set', tagId, name, value))
+          dataLayerObject(defineAnalyticsCommand('set', tagId, name, value))
         })
       }
     }

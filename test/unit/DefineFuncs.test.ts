@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { defineEvent, defineCommand, defineConsent } from '../../src/runtime/utils'
+import { defineAnalyticsEvent, defineAnalyticsCommand, defineAnalyticsConsent } from '../../src/runtime/utils'
 import { isArgumentsObject } from 'util/types'
 
 vi.mock(import('@vueuse/core'), (importOriginal) => {
@@ -16,7 +16,7 @@ vi.mock(import('@vueuse/core'), (importOriginal) => {
 
 describe('Define Event and Command', () => {
   it('should define an event with parameters', () => {
-    const result = defineEvent('add_to_cart', { coupon: '1' })
+    const result = defineAnalyticsEvent('add_to_cart', { coupon: '1' })
     expect(isArgumentsObject(result)).toBeTruthy()
 
     const items = Array.from(result)
@@ -26,7 +26,7 @@ describe('Define Event and Command', () => {
   })
 
   it('should define a command with parameters', () => {
-    const result = defineCommand('config', 'G-1234567890', { send_page_view: false })
+    const result = defineAnalyticsCommand('config', 'G-1234567890', { send_page_view: false })
     expect(isArgumentsObject(result)).toBeTruthy()
 
     const items = Array.from(result)
@@ -37,7 +37,7 @@ describe('Define Event and Command', () => {
   })
 
   it('should define consent parameters', () => {
-    const result = defineConsent({ ad_storage: 'denied', analytics_storage: 'granted' })
+    const result = defineAnalyticsConsent({ ad_storage: 'denied', analytics_storage: 'granted' })
     expect(isArgumentsObject(result)).toBeTruthy()
 
     const items = Array.from(result)

@@ -10,7 +10,7 @@
 import { useCounter, useDebounceFn } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
 import { useAnalyticsEvent } from '../composables'
-import { dataLayerObject, defineEvent } from '../utils'
+import { dataLayerObject, defineAnalyticsEvent } from '../utils'
 
 import type { EventNames, EventParameters } from '../types'
 
@@ -32,7 +32,7 @@ const { inc: increment, count } = useCounter()
  * directly from the template.
  */
 async function sendTemplateEvent () {
-  const parsedResult = await sendEvent(defineEvent(props.event, props.params))
+  const parsedResult = await sendEvent(defineAnalyticsEvent(props.event, props.params))
   increment(1)
   emit('ga-event', parsedResult)
 }

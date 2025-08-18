@@ -66,6 +66,7 @@ import { BlocksSearch, BlocksState } from '#components'
 import type { SearchParams } from '../types'
 import { useAnalyticsEvent } from '../../src/runtime/composables/events'
 import { useConsent } from '../../src/runtime/composables'
+import { defineAnalyticsEvent } from '#ganalytics/utils'
 
 const config = useRuntimeConfig()
 
@@ -89,7 +90,7 @@ const customizeEvent = ref<boolean>(false)
  * Sends an event on button click
  */
 function handleEventOnClick() {
-  sendEvent(defineEvent('login', { method: 'Google'}))
+  sendEvent(defineAnalyticsEvent('login', { method: 'Google'}))
 }
 
 /**

@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { defineCommand, defineConfig } from './payload'
+import { defineAnalyticsCommand, defineAnalyticsConfig } from './payload'
 
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
@@ -56,7 +56,7 @@ export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
     window.dataLayer = window.dataLayer || []
 
     if (!hasTag('js')) {
-      dataLayerObject(defineCommand('js', new Date()))
+      dataLayerObject(defineAnalyticsCommand('js', new Date()))
     }
   
     if (config.public.ganalytics.ga4) {
@@ -70,13 +70,13 @@ export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
 
       if (typeof id === 'string') {
         if (!hasTag(id)) {
-          dataLayerObject(defineConfig(id, defaultParams))
+          dataLayerObject(defineAnalyticsConfig(id, defaultParams))
         }
       } else if (Array.isArray(id)) {
         id.forEach((item) => {
           if (typeof item === 'string') {
             if (!hasTag(item)) {
-              dataLayerObject(defineConfig(item, defaultParams))
+              dataLayerObject(defineAnalyticsConfig(item, defaultParams))
             }
           }
         })

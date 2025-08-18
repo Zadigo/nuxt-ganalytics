@@ -13,7 +13,7 @@ describe.skip('NuxtAnalytics', () => {
 
   vi.mock('../../src/runtime/utils', () => ({
     dataLayerObject: vi.fn(),
-    defineEvent: vi.fn(),
+    defineAnalyticsEvent: vi.fn(),
     initializeAnalytics: vi.fn()
   }))
 
