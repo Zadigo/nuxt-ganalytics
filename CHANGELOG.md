@@ -2,6 +2,8 @@
 
 [compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v1.0.3...v2.0.1)
 
+- Changed define util functions to defineAnalytics because the simple define prefix clashes with other define function from some other Nuxt modules
+
 ## Version 1.0.3 (2025-08-01)
 
 ## Enhancements
