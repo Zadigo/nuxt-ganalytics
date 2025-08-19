@@ -114,13 +114,13 @@ import { useAnalyticsEvent } from 'nuxt-ganalytics'
 const { sendEvent } = useAnalyticsEvent()
 
 function handleLogin() {
-  sendEvent(defineEvent('login', { method: 'Google' }))
+  sendEvent(defineAnalyticsEvent('login', { method: 'Google' }))
 }
 ```
 
 `sendEvent`
 
-This is the main function used to send events to Google Analytics. It takes an event object created with the `defineEvent` function or any other function that
+This is the main function used to send events to Google Analytics. It takes an event object created with the `defineAnalyticsEvent` function or any other function that
 uses it under the hood.
 
 `set`
@@ -137,7 +137,7 @@ Clears the window datalayer and rests the global properties.
 
 ### Structuring events
 
-Events are built using the `defineEvent` function, which allows you correctly structure the [name and parameters](https://event) required in certain events.
+Events are built using the `defineAnalyticsEvent` function, which allows you correctly structure the [name and parameters](https://event) required in certain events.
 As the example shows above, combined with the `sendEvent` function, you can then trigger an event to the layer.
 
 
