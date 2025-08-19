@@ -89,8 +89,8 @@ export default defineNuxtModule<ModuleOptions>({
     const utilsPath = resolver.resolve('./runtime/utils')
     addImports([
       { name: 'defineCommand', from: utilsPath },
-      { name: 'defineConfig', from: utilsPath },
-      { name: 'defineEvent', from: utilsPath },
+      { name: 'defineAnalyticsConfig', from: utilsPath },
+      { name: 'defineAnalyticsEvent', from: utilsPath },
       { name: 'dataLayerObject', from: utilsPath },
       { name: 'hasTag', from: utilsPath },
       { name: 'initializeAnalytics', from: utilsPath }

@@ -5,7 +5,7 @@ import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
 import type { CommandParameters, GA4EventCommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
 
-export * from './payload'
+export { defineAnalyticsCommand, defineAnalyticsConfig, defineAnalyticsConsent, defineAnalyticsEvent } from './payload'
 
 /**
  * Pushes arguments to the existing datalayer container
