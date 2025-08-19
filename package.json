@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ganalytics",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Integration for Google Analytics 4 and Google Tag Manager in Nuxt",
   "repository": "https://github.com/Zadigo/nuxt-ganalytics",
   "author": {
@@ -39,7 +39,7 @@
     "dev": "npm run dev:prepare && nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint & npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",

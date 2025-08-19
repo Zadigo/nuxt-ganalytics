@@ -1,4 +1,4 @@
-import { dataLayerObject, defineConfig } from '../utils'
+import { dataLayerObject, defineAnalyticsConfig } from '../utils'
 
 import type { ConfigurationParameters } from '../types'
 
@@ -9,6 +9,6 @@ import type { ConfigurationParameters } from '../types'
  */
 export function useAnalyticsTag(tag: string, params: ConfigurationParameters) {
   if (import.meta.client) {
-    dataLayerObject(defineConfig(tag, params))
+    dataLayerObject(defineAnalyticsConfig(tag, params))
   }
 }
