@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     public: {
       ganalytics: {
         ga4: {
-          id: 'G-CVKFG2XPVG', 
+          id: 'G-CVKFG2XPVG',
           // TODO: Use initial in order to allow the user to configure
           // tags that he wants with initial configuration values
           // initial: [

@@ -4,7 +4,7 @@
     <NuxtCheckbox v-model="value.onlyAnalytics" label="Only GA4" />
     <NuxtCheckbox v-model="value.onlyGtm" label="Only GTM" />
 
-    <NuxtButton color="info" @click="() => { props.modelValue.showList = !props.modelValue.showList}">
+    <NuxtButton color="info" @click="() => { props.modelValue.showList = !props.modelValue.showList }">
       <Icon v-if="props.modelValue.showList" name="lucide:file-json" />
       <Icon v-else name="lucide:list" />
     </NuxtButton>

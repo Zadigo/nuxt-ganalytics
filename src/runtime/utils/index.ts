@@ -30,12 +30,12 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
 export function hasTag(name: GA4EventCommand | GTMCommand | string): boolean {
   if (import.meta.client && window.dataLayer) {
     // FIXME: Fix the type of window.dataLayer which is "DataLayerObject[]"
-    const results = window.dataLayer.filter(item => {
+    const results = window.dataLayer.filter((item) => {
       const items = Array.from(item)
-      
+
       return items.includes(name)
     })
-    
+
     return results.length > 0
   } else {
     return false
@@ -51,21 +51,21 @@ export function hasTag(name: GA4EventCommand | GTMCommand | string): boolean {
  */
 export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
   const stateCompleted = ref<boolean>(false)
-  
-  if (import.meta.client) {  
+
+  if (import.meta.client) {
     window.dataLayer = window.dataLayer || []
 
     if (!hasTag('js')) {
       dataLayerObject(defineAnalyticsCommand('js', new Date()))
     }
-  
+
     if (config.public.ganalytics.ga4) {
-      const defaultParams: CommandParameters = {'debug': 'true'}
-  
+      const defaultParams: CommandParameters = { debug: 'true' }
+
       if (!config.public.ganalytics.ga4.enableDebug) {
         delete defaultParams['debug']
       }
-      
+
       const id = config.public.ganalytics.ga4.id
 
       if (typeof id === 'string') {
@@ -84,7 +84,7 @@ export function initializeAnalytics(config: RuntimeConfig): Ref<boolean> {
       stateCompleted.value = true
     }
   }
-  
+
   // TODO: Maybe create a reactive object that returns the state and
   // the results from the datalayerObject function: { state: boolean, tags: [{ name: string, state: boolean }] }
   return stateCompleted

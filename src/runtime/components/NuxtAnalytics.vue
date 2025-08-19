@@ -22,7 +22,7 @@ interface Props {
 
 const ganalyticsEl = useTemplateRef<HTMLElement>('ganalyticsEl')
 const props = withDefaults (defineProps<Props>(), { debounce: 0 })
-const emit = defineEmits<{ 'ga-event': [ data: ReturnType<typeof dataLayerObject>  | undefined ] }>()
+const emit = defineEmits<{ 'ga-event': [ data: ReturnType<typeof dataLayerObject> | undefined ] }>()
 
 const { sendEvent } = useAnalyticsEvent()
 const { inc: increment, count } = useCounter()
@@ -31,7 +31,7 @@ const { inc: increment, count } = useCounter()
  * Funtion that wraps `sendEvent` in order to send events
  * directly from the template.
  */
-async function sendTemplateEvent () {
+async function sendTemplateEvent() {
   const parsedResult = await sendEvent(defineAnalyticsEvent(props.event, props.params))
   increment(1)
   emit('ga-event', parsedResult)

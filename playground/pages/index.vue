@@ -3,7 +3,7 @@
     <NuxtContainer>
       <div class="max-w-7xl mx-auto my-10">
         <NuxtCard>
-          <template class="border-b" #header>
+          <template #header>
             <div class="grid grid-cols-12">
               <BlocksSearch v-model="searchParams" />
 
@@ -24,7 +24,7 @@
 
                 {{ gaIds }}
               </ClientOnly>
-              
+
               <div class="space-x-2 flex items-center">
                 <NuxtButton color="error" @click="handleClearDatalayer">
                   <Icon name="lucide:trash" />
@@ -35,7 +35,7 @@
                   <Icon name="lucide:pointer" />
                   Send test GTM event
                 </NuxtButton>
-                
+
                 <NuxtButton color="warning" @click="handleEventOnClick">
                   <Icon name="lucide:pointer" />
                   Send test GA4 event
@@ -62,13 +62,13 @@
 </template>
 
 <script setup lang="ts">
-import { BlocksSearch, BlocksState } from '#components'
 import type { SearchParams } from '../types'
 import { useAnalyticsEvent } from '../../src/runtime/composables/events'
 import { useConsent } from '../../src/runtime/composables'
+import { BlocksSearch, BlocksState } from '#components'
 import { defineAnalyticsEvent } from '#ganalytics/utils'
 
-const config = useRuntimeConfig()
+useRuntimeConfig()
 
 const gtm = useGtm()
 const { sendEvent, internalDatalayer, set, reset, tagIds, gaIds } = useAnalyticsEvent()
@@ -90,7 +90,7 @@ const customizeEvent = ref<boolean>(false)
  * Sends an event on button click
  */
 function handleEventOnClick() {
-  sendEvent(defineAnalyticsEvent('login', { method: 'Google'}))
+  sendEvent(defineAnalyticsEvent('login', { method: 'Google' }))
 }
 
 /**

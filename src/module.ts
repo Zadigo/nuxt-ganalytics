@@ -34,7 +34,7 @@ declare module '@nuxt/schema' {
   interface NuxtConfig {
     ganalytics?: ModuleOptions
   }
-  
+
   interface NuxtOptions {
     ganalytics?: ModuleOptions
   }
@@ -65,20 +65,20 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
     // Deep-merge nuxt module options + user custom gtm optionss filling missing fields
     const moduleOptions: ModuleOptions = defu(nuxt.options.runtimeConfig.public.ganalytics, options)
-    
+
     // Transpile and alias runtime
     const runtimeDir = resolver.resolve('./runtime')
     nuxt.options.alias['#ganalytics'] = runtimeDir
     nuxt.options.build.transpile.push(runtimeDir)
-    
+
     nuxt.options.runtimeConfig.public.ganalytics = moduleOptions
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin({ src: resolver.resolve('./runtime/plugins/ganalytics.client'), mode: 'client'})
+    addPlugin({ src: resolver.resolve('./runtime/plugins/ganalytics.client'), mode: 'client' })
 
     // ENHANCE: Create a composable that will be a proxy to the useGtm composable
     addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
-    
+
     const composablesPath = resolver.resolve('./runtime/composables')
     addImports([
       { name: 'useAnalyticsEvent', from: composablesPath },
@@ -96,7 +96,7 @@ export default defineNuxtModule<ModuleOptions>({
       { name: 'initializeAnalytics', from: utilsPath }
     ])
 
-    addComponent({ name: 'NuxtAnalytics', filePath: resolver.resolve('./runtime/components/NuxtAnalytics.vue')})
+    addComponent({ name: 'NuxtAnalytics', filePath: resolver.resolve('./runtime/components/NuxtAnalytics.vue') })
 
     // nuxt.hook('pages:extend', (pages) => {
     //   pages.push({

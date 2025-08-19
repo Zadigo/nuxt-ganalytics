@@ -1,10 +1,11 @@
-import { useRuntimeConfig } from '#app'
+import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
-import { dataLayerObject, defineAnalyticsCommand, defineAnalyticsEvent, hasTag, initializeAnalytics } from '../utils'
+import { dataLayerObject, defineAnalyticsCommand, defineAnalyticsEvent, initializeAnalytics } from '../utils'
 
-import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
+
+import { useRuntimeConfig } from '#app'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
@@ -17,7 +18,7 @@ export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> |
  * Composable to send events to the Google Analytics datalayer
  * and manage the datalayer state
  */
-export function useAnalyticsEvent() { 
+export function useAnalyticsEvent() {
   if (import.meta.server) {
     return {
       sendEvent: () => undefined,
@@ -43,7 +44,7 @@ export function useAnalyticsEvent() {
 
   const tagIds = computed(() => {
     const objs = [config.public.ganalytics.ga4?.id, config.public.ganalytics.gtm?.id]
-    const cleanObjs = objs.map(obj => {
+    const cleanObjs = objs.map((obj) => {
       if (typeof obj === 'string') {
         return [obj]
       } else if (typeof obj === 'object' && 'id' in obj) {
@@ -81,14 +82,14 @@ export function useAnalyticsEvent() {
 
   async function enable(id: string) {
     if (window) {
-      // @ts-ignore Is "any"
+      // @ts-expect-error "Id is returned as any from the Window"
       delete (window as Window)[`ga-disable-${id}`]
     }
   }
 
   async function disable(id: string) {
     if (window) {
-      // @ts-ignore Is "any"
+      // @ts-expect-error "Id is returned as any from the Window"
       (window as Window)[`ga-disable-${id}`] = true
     }
   }
@@ -103,7 +104,7 @@ export function useAnalyticsEvent() {
       if (id && typeof id === 'string') {
         dataLayerObject(defineAnalyticsCommand('set', id, name, value))
       } else if (Array.isArray(id)) {
-        id.forEach(tagId => {
+        id.forEach((tagId) => {
           dataLayerObject(defineAnalyticsCommand('set', tagId, name, value))
         })
       }
@@ -122,9 +123,9 @@ export function useAnalyticsEvent() {
 
   onBeforeMount(() => {
     if (window.dataLayer) {
-      window.dataLayer.forEach(item => {
+      window.dataLayer.forEach((item) => {
         const keys = Object.keys(item)
-        
+
         if (keys.includes('event')) {
           internalDatalayer.value.push({
             category: 'gtm',
@@ -133,7 +134,7 @@ export function useAnalyticsEvent() {
         } else {
           internalDatalayer.value.push({
             category: 'ga4',
-            value: Array.from(item as GAnalyticsDatalayerObjects[]) 
+            value: Array.from(item as GAnalyticsDatalayerObjects[])
           })
         }
       })

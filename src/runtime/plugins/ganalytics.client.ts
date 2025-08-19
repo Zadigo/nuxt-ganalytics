@@ -1,13 +1,14 @@
-import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
 import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
+import type { NuxtApp } from 'nuxt/app'
+import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
   const router = useRouter()
   // const moduleOptions = nuxtApp.$config.public.ganalytics
   const moduleOptions = useRuntimeConfig().public.ganalytics
 
   // console.log('defineNuxtPlugin - moduleOptions', moduleOptions)
-  
+
   if (moduleOptions.ga4 && moduleOptions.enabled && moduleOptions.ga4.enabled) {
     const loadingStrategy = moduleOptions.ga4.loadingStrategy === 'async' ? 'async' : 'defer'
     const fullUrl = moduleOptions.ga4.url + `?id=${moduleOptions.ga4.id}`
@@ -26,7 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       ],
       script: [
         {
-          src: fullUrl,
+          'src': fullUrl,
           [loadingStrategy]: true,
           'data-ganalytics': ''
         }
@@ -45,6 +46,5 @@ export default defineNuxtPlugin((nuxtApp) => {
       // console.log('moduleOptions.gtm', moduleOptions.gtm, options)
       nuxtApp.vueApp.use(createGtm(gtmOptions))
     }
-
   }
 })

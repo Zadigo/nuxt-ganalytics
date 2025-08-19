@@ -8,12 +8,12 @@ export type CustomParameters = Record<string, unknown>
  */
 export interface ConfigurationParameters {
   /**
-   * The title of the page or document. 
+   * The title of the page or document.
    * Defaults to the user's `document.title` value
    */
   page_title?: string
   /**
-   * Specifies the full URL of the page. 
+   * Specifies the full URL of the page.
    * Defaults to the user's `document.location` value
    */
   page_location?: string
@@ -26,14 +26,14 @@ export interface ConfigurationParameters {
    */
   send_page_view?: boolean
   /**
-   * Specifies the language preference of the user. 
+   * Specifies the language preference of the user.
    * Defaults to the user's navigator.language value.
    */
   language?: string
   /**
-   * Specifies a known identifier for a user provided by the site 
-   * owner/library user. It must not itself be PII (personally identifiable information). 
-   * The value should never be persisted in Google Analytics cookies or other 
+   * Specifies a known identifier for a user provided by the site
+   * owner/library user. It must not itself be PII (personally identifiable information).
+   * The value should never be persisted in Google Analytics cookies or other
    * Analytics provided storage
    */
   user_id?: string | number
@@ -115,7 +115,7 @@ export interface EventParameters {
    */
   tax?: Currency
   /**
-   * The unique identifier of a transaction. The `transaction_id` parameter 
+   * The unique identifier of a transaction. The `transaction_id` parameter
    * helps you avoid getting duplicate events for a purchase
    */
   transaction_id?: string

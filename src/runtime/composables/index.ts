@@ -1,8 +1,9 @@
-import { useCookie } from '#app'
 import { ref } from 'vue'
-import { dataLayerObject, defineConsent } from '../utils'
+import { dataLayerObject, defineAnalyticsConsent } from '../utils'
 
 import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
+
+import { useCookie } from '#app'
 
 export * from './events'
 export * from './tags'
@@ -32,7 +33,7 @@ export function useConsent() {
 
   async function updateConsent(params?: ConsentParameters) {
     if (params) {
-      dataLayerObject(defineConsent(params, 'update'))
+      dataLayerObject(defineAnalyticsConsent(params, 'update'))
 
       if (!cookie.value) {
         cookie.value = defaultCookie.value
@@ -54,7 +55,7 @@ export function useConsent() {
       region
     })
   }
-  
+
   async function denyAll(region?: string[]) {
     await updateConsent({
       ad_personalization: 'denied',

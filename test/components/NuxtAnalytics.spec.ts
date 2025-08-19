@@ -8,7 +8,7 @@ import type { EventNames, EventParameters } from '../../src/module'
 describe.skip('NuxtAnalytics', () => {
   vi.mock('@vueuse/core', () => ({
     useCounter: vi.fn(() => 0),
-    useDebounceFn: vi.fn((fn) => fn)
+    useDebounceFn: vi.fn(fn => fn)
   }))
 
   vi.mock('../../src/runtime/utils', () => ({
@@ -18,7 +18,7 @@ describe.skip('NuxtAnalytics', () => {
   }))
 
   const props: { event: EventNames, params: EventParameters } = { event: 'add_to_cart', params: { coupon: '1' } }
-  
+
   it.each([
     // Props
     ['with event and params', { props }],

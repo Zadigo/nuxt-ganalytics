@@ -8,7 +8,7 @@ export interface CustomGAnalyticsCookie {
 
 /**
  * List of structured expected parameters for given commands
- * 
+ *
  * @example
  * gtag("consent", "default", {}) -> ['consent', 'default', {}]
  */

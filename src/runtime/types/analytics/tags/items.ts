@@ -3,7 +3,7 @@ import type { Currency } from '.'
 /**
  * Interface of an item object used in events like `view_item`, `view_item_list`, `select_item`, `add_to_cart`, and `view_cart`
  * in order to provide details about the item being interacted with
- * 
+ *
  * Reference:
  * @see {@link https://developers.google.com/analytics/devguides/collection/ga4/reference/events#view_item_item view_item_item}
  * @see {@link https://developers.google.com/analytics/devguides/collection/ga4/reference/events#view_item_list_item view_item_list_item}

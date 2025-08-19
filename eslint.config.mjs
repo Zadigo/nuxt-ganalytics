@@ -18,7 +18,8 @@ export default createConfigForNuxt({
   .append(
     {
       rules: {
-        '@stylistic/comma-dangle': ['off', 'always-multiline']
+        '@stylistic/comma-dangle': ['off', 'always-multiline'],
+        '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
         // '@typescript-eslint/unified-signatures': 'error',
         // '@typescript-eslint/related-getter-setter-pairs': 'warn',
         // '@typescript-eslint/no-unnecessary-type-arguments': 'warn',

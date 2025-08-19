@@ -1,10 +1,9 @@
 export * from './parameters'
 export * from './items'
 
-export type Currency = 
-  | 'EUR'
+export type Currency = 'EUR'
   | 'JPY'
-  | 'USN'
+  | 'USD'
   | 'CNY'
   | 'INR'
   | 'KRW'
@@ -20,16 +19,14 @@ export type Currency =
  * @see {@link https://developers.google.com/tag-platform/gtagjs/reference Gtag References}
  * @example gtag("consent", "...", {})
  */
-export type GA4EventCommand = 
-  | 'config'
-  | 'get' 
+export type GA4EventCommand = 'config'
+  | 'get'
   | 'set'
   | 'event'
   | 'consent'
   | 'js'
 
-  export type GTMCommand = 
-  | 'gtm.js'
+export type GTMCommand = 'gtm.js'
   | 'gtm.init'
   | 'gtm.consent'
   | 'gtm.start'
@@ -39,20 +36,17 @@ export type GA4EventCommand =
   | 'gtm.formSubmit'
   | 'gtm.dom'
   | 'gtm.scrollDepth'
-  
 
 // TODO: Move to src/runtime/types/analytics/tags/parameters.ts
-export type ConsentNames = 
-  | 'default'
-  | 'update' 
-  | 'default_with_ad_storage' 
-  | 'default_without_ad_storage' 
-  | 'default_with_analytics_storage' 
+export type ConsentNames = 'default'
+  | 'update'
+  | 'default_with_ad_storage'
+  | 'default_without_ad_storage'
+  | 'default_with_analytics_storage'
   | 'default_without_analytics_storage'
 
 // TODO: Move to src/runtime/types/analytics/tags/parameters.ts
-export type EventNames =
-  | 'add_payment_info'
+export type EventNames = 'add_payment_info'
   | 'add_shipping_info'
   | 'add_to_cart'
   | 'add_to_wishlist'
