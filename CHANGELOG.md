@@ -1,3 +1,7 @@
+## v2.2.2
+
+[compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v2.2.1...v2.2.2)
+
 ## v2.2.1
 
 [compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v2.1.1...v2.2.1)
