@@ -1,2 +1,2 @@
-export * from './tags'
-export * from './script'
+export type * from './tags'
+export type * from './script'

@@ -1,6 +1,6 @@
 // import { addCustomTab } from '@nuxt/devtools-kit'
-import { existsSync } from 'fs'
 // import { joinURL } from 'ufo'
+import { existsSync } from 'node:fs'
 import { DEVTOOLS_UI_PATH, DEVTOOLS_UI_PORT } from './constants'
 
 import type { Resolver } from '@nuxt/kit'

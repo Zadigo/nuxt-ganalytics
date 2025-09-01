@@ -1,5 +1,5 @@
-export * from './parameters'
-export * from './items'
+export type * from './parameters'
+export type * from './items'
 
 export type Currency = 'EUR'
   | 'JPY'

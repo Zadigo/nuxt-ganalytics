@@ -1,7 +1,8 @@
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
-import { dataLayerObject, defineAnalyticsCommand, defineAnalyticsEvent, initializeAnalytics } from '../utils'
+import type { defineAnalyticsEvent } from '../utils'
+import { dataLayerObject, defineAnalyticsCommand, initializeAnalytics } from '../utils'
 
 import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
 
