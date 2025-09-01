@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { defineAnalyticsEvent, defineAnalyticsCommand, defineAnalyticsConsent } from '../../src/runtime/utils'
-import { isArgumentsObject } from 'util/types'
+import { isArgumentsObject } from 'node:util/types'
 
 vi.mock(import('@vueuse/core'), (importOriginal) => {
   const actual = importOriginal()

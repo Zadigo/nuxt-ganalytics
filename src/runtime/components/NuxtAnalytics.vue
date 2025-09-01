@@ -10,7 +10,8 @@
 import { useCounter, useDebounceFn } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
 import { useAnalyticsEvent } from '../composables'
-import { dataLayerObject, defineAnalyticsEvent } from '../utils'
+import type { dataLayerObject } from '../utils'
+import { defineAnalyticsEvent } from '../utils'
 
 import type { EventNames, EventParameters } from '../types'
 
