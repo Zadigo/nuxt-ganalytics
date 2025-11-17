@@ -11,10 +11,11 @@ export * from './tags'
 export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 /**
- * This composable provides methods to update consent parameters and manage user consent preferences
+ * A composable that provides methods to update consent
+ * parameters and manage user consent preferences
  */
 export function useConsent() {
-  if (!import.meta.client) {
+  if (import.meta.server) {
     return {
       cookie: ref(null),
       updateConsent: () => {},
