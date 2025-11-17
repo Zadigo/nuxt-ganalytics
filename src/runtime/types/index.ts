@@ -2,6 +2,12 @@ import type { CommandParameters, ConfigurationParameters, ConsentNames, ConsentP
 
 export * from './analytics'
 
+export type Nullable<T> = T | null
+
+export type Undefinable<T> = T | undefined
+
+export type MaybeType<T> = T | null | undefined
+
 export interface CustomGAnalyticsCookie {
   consent: ConsentParameters
 }
