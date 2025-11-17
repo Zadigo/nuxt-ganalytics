@@ -86,16 +86,12 @@ const searchParams = ref<SearchParams>({
 
 const customizeEvent = ref<boolean>(false)
 
-/**
- * Sends an event on button click
- */
+// Sends an event on button click
 function handleEventOnClick() {
   sendEvent(defineAnalyticsEvent('login', { method: 'Google' }))
 }
 
-/**
- * Sends an event using the GTM composable
- */
+// Sends an event using the GTM composable
 function handleGtmEventClick() {
   if (gtm) {
     gtm.trackEvent({
