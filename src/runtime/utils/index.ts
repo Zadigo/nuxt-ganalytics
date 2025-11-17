@@ -1,10 +1,8 @@
-import { ref } from 'vue'
-import { defineAnalyticsCommand, defineAnalyticsConfig } from './payload'
-
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
+import { ref } from 'vue'
 import type { CommandParameters, GA4EventCommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
-
+import { defineAnalyticsCommand, defineAnalyticsConfig } from './payload'
 export { defineAnalyticsCommand, defineAnalyticsConfig, defineAnalyticsConsent, defineAnalyticsEvent } from './payload'
 
 /**

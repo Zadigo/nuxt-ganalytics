@@ -39,7 +39,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         ...moduleOptions.gtm,
         vueRouter: moduleOptions.gtm.enableRouterSync && router ? router as VueGtmUseOptions['vueRouter'] : undefined
       }
-      // console.log('moduleOptions.gtm', moduleOptions.gtm, options)
+
       nuxtApp.vueApp.use(createGtm(gtmOptions))
     }
   }
