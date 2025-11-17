@@ -6,8 +6,8 @@ import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, Ev
  * Reference:
  * @see {@link https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag List of events}
  *
- * @param command The command name
- * @param args The command parameters
+ * @param _command The command name
+ * @param _args The command parameters
  */
 export function defineAnalyticsCommand<K extends GA4EventCommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
   return arguments
