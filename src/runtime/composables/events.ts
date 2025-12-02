@@ -16,7 +16,7 @@ export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> |
 
 /**
  * Composable to send events to the Google Analytics datalayer
- * and manage the datalayer state
+ * and manage its state
  */
 export function useAnalyticsEvent() {
   if (import.meta.server) {
@@ -34,6 +34,7 @@ export function useAnalyticsEvent() {
   }
 
   const config = useRuntimeConfig()
+  const ganalyticsConfig = config.public.ganalytics
   const state = initializeAnalytics(config)
 
   // TODO: Instead of relying on Window datalayer, create a class that
@@ -43,7 +44,7 @@ export function useAnalyticsEvent() {
   const isEnabled = computed(() => state)
 
   const tagIds = computed(() => {
-    const objs = [config.public.ganalytics.ga4?.id, config.public.ganalytics.gtm?.id]
+    const objs = [ganalyticsConfig.ga4?.id, ganalyticsConfig.gtm?.id]
     const cleanObjs = objs.map((obj) => {
       if (typeof obj === 'string') {
         return [obj]

@@ -37,6 +37,8 @@ export type GTMCommand = 'gtm.js'
   | 'gtm.dom'
   | 'gtm.scrollDepth'
 
+export type AllEventCommand = (GA4EventCommand | GTMCommand) & (string & {})
+
 // TODO: Move to src/runtime/types/analytics/tags/parameters.ts
 export type ConsentNames = 'default'
   | 'update'

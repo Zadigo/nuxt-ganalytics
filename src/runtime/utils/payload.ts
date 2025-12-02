@@ -1,4 +1,4 @@
-import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GA4EventCommand } from '../types'
+import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GA4EventCommand, Undefinable } from '../types'
 
 /**
  * Function to structure the command parameters
@@ -9,7 +9,7 @@ import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, Ev
  * @param _command The command name
  * @param _args The command parameters
  */
-export function defineAnalyticsCommand<K extends GA4EventCommand, T extends (string | Date | CommandParameters)[]>(command: K, ...args: T): IArguments {
+export function defineAnalyticsCommand<K extends GA4EventCommand, T extends (string | Date | CommandParameters)[]>(_command: K, ..._args: T): IArguments {
   return arguments
 }
 
@@ -18,7 +18,7 @@ export function defineAnalyticsCommand<K extends GA4EventCommand, T extends (str
  * @param id The tag ID
  * @param params The command parameters
  */
-export function defineAnalyticsConfig(id: string | undefined, params?: CommandParameters): IArguments | undefined {
+export function defineAnalyticsConfig(id: string | undefined, params?: CommandParameters): Undefinable<IArguments> {
   if (id && params) {
     return defineAnalyticsCommand('config', id, params)
   }
@@ -29,7 +29,7 @@ export function defineAnalyticsConfig(id: string | undefined, params?: CommandPa
  * @param name Name of the event to send
  * @param params Parameters for the given event
  */
-export function defineAnalyticsEvent(name: EventNames, params: EventParameters): IArguments {
+export function defineAnalyticsEvent(name: EventNames, params: EventParameters): ReturnType<typeof defineAnalyticsCommand> {
   return defineAnalyticsCommand('event', name, params)
 }
 
@@ -39,6 +39,6 @@ export function defineAnalyticsEvent(name: EventNames, params: EventParameters):
  * @param command The consent command name, defaults to 'default'
  * @example gtag("consent", "default", {})
  */
-export function defineAnalyticsConsent(params: ConsentParameters, command: ConsentNames = 'default'): IArguments {
+export function defineAnalyticsConsent(params: ConsentParameters, command: ConsentNames = 'default'): ReturnType<typeof defineAnalyticsCommand> {
   return defineAnalyticsCommand('consent', command, params)
 }
