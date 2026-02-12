@@ -212,7 +212,8 @@ interface _ConsentParameters {
 }
 
 /**
- * Parameters for the "consent" command
+ * Parameters used for the "consent" command
+ * 
  * Reference:
  * @see {@link https://support.google.com/tagmanager/answer/10718549#consent-types consent-types}
  * @see {@link https://developers.google.com/tag-platform/security/guides/consent consent}
@@ -220,12 +221,12 @@ interface _ConsentParameters {
 export type ConsentParameters = Partial<_ConsentParameters>
 
 /**
- * List of all accepted parameters for gtag commands
+ * Accepted parameters for every gtag commands
  * @example gtag("...", "...", { method: "Google" })
  */
-export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters
+export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters | (string & {})
 
 /**
- * List of all parameters used for payment events
+ * Accepted parameters for payment specific events
  */
 export type PaymentEventParameters = Pick<EventParameters, 'currency' | 'value' | 'coupon' | 'payment_type' | 'items'>
