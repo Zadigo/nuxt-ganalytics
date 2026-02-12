@@ -6,6 +6,7 @@ import { dataLayerObject, defineAnalyticsConsent } from '../utils'
 
 export * from './events'
 export * from './tags'
+export * from './gtm'
 
 export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 

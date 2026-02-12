@@ -77,22 +77,24 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig.public.ganalytics = moduleOptions
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin({ src: resolver.resolve('./runtime/plugin'), mode: 'client' })
+    addPlugin({ src: resolver.resolve('./runtime/plugins/ganalytics'), mode: 'client' })
 
     // ENHANCE: Create a composable that will be a proxy to the useGtm composable
-    addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
+    // addImports({ name: 'useGtm', as: 'useGtm', from: '@gtm-support/vue-gtm' })
 
     const composablesPath = resolver.resolve('./runtime/composables')
     addImports([
       { name: 'useAnalyticsEvent', from: composablesPath },
       { name: 'useAnalyticsTag', from: composablesPath },
-      { name: 'useConsent', from: composablesPath }
+      { name: 'useConsent', from: composablesPath },
+      { name: 'useGoogletagManager', from: composablesPath },
     ])
 
     const utilsPath = resolver.resolve('./runtime/utils')
     addImports([
       { name: 'defineCommand', from: utilsPath },
       { name: 'defineAnalyticsConfig', from: utilsPath },
+      { name: 'defineAnalyticsConsent', from: utilsPath },
       { name: 'defineAnalyticsEvent', from: utilsPath },
       { name: 'dataLayerObject', from: utilsPath },
       { name: 'hasTag', from: utilsPath },
