@@ -18,13 +18,14 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     useHead({
-      link: [
-        {
-          rel: 'preload',
-          as: 'script',
-          href: fullUrl
-        }
-      ],
+      // link: [
+      //   {
+      //     rel: 'preload',
+      //     as: 'script',
+      //     href: fullUrl,
+      //     crossorigin: 'anonymous'
+      //   }
+      // ],
       script: [
         {
           'src': fullUrl,
@@ -32,6 +33,19 @@ export default defineNuxtPlugin((nuxtApp) => {
           'data-ganalytics': '',
           'crossorigin': 'anonymous'
         }
+
+        // Manually inject the GA4 initialization script to ensure it runs after the GA4 library is loaded. 
+        // This is necessary because the GA4 library does not automatically initialize itself when loaded 
+        // with `async` or `defer`.
+        // {
+        //   innerHTML: `
+        //     window.dataLayer = window.dataLayer || [];
+        //     function gtag(){dataLayer.push(arguments);}
+        //     gtag('js', new Date());
+        //     gtag('config', 'G-CVKFG2XPVG');
+        //   `,
+        //   type: 'text/javascript',
+        // }
       ]
     })
   }
