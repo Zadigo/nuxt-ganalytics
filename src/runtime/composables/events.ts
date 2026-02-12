@@ -27,8 +27,8 @@ const MAX_EVENTS = 100
 export function useAnalyticsEvent() {
   if (import.meta.server) {
     return {
-      sendEvent: async () => undefined,
-      set: async () => {},
+      sendEvent: () => undefined,
+      set: () => {},
       reset: () => {},
       enable: () => {},
       disable: () => {},
@@ -72,7 +72,7 @@ export function useAnalyticsEvent() {
     return false
   })
 
-  async function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): Promise<ReturnType<typeof dataLayerObject> | undefined> {
+  function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): ReturnType<typeof dataLayerObject> | undefined {
     try {
       const parsedResult = dataLayerObject(payload)
       
@@ -96,12 +96,12 @@ export function useAnalyticsEvent() {
     }
   }
 
-  async function enable(id: string) {
+  function enable(id: string) {
     if (typeof window === 'undefined') return
     delete (window as unknown as WindowWithGADisable)[`ga-disable-${id}`]
   }
 
-  async function disable(id: string) {
+  function disable(id: string) {
     if (typeof window === 'undefined') return
     (window as unknown as WindowWithGADisable)[`ga-disable-${id}`] = true
   }
@@ -109,7 +109,7 @@ export function useAnalyticsEvent() {
   // FIXME: Does this only for one single IDs but not
   // if the user provides multiple IDs
   // ENHANCE: Allow setting only one iD
-  async function set(name: SetNameArg, value: string) {
+  function set(name: SetNameArg, value: string) {
     if (config.public.ganalytics.ga4) {
       const id = config.public.ganalytics.ga4.id
 
@@ -127,7 +127,7 @@ export function useAnalyticsEvent() {
     // })
   }
 
-  async function reset() {
+  function reset() {
     if (typeof window === 'undefined') {
       throw new Error('G-Analytics: Window is not defined')
     }
