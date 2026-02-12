@@ -29,7 +29,7 @@ export function defineAnalyticsConfig(id: string | undefined, params?: CommandPa
  * @param name Name of the event to send
  * @param params Parameters for the given event
  */
-export function defineAnalyticsEvent(name: EventNames, params: EventParameters): ReturnType<typeof defineAnalyticsCommand> {
+export function defineAnalyticsEvent(name: EventNames | (string & {}), params: EventParameters): ReturnType<typeof defineAnalyticsCommand> {
   return defineAnalyticsCommand('event', name, params)
 }
 
