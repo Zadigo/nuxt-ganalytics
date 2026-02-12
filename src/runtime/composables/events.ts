@@ -1,5 +1,5 @@
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
-import { useArrayFilter } from '@vueuse/core'
+import { isDefined, useArrayFilter } from '@vueuse/core'
 import { computed, onBeforeMount, ref } from 'vue'
 import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
 import type { defineAnalyticsEvent } from '../utils'
@@ -19,6 +19,12 @@ export interface WindowWithGADisable extends Window {
 export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
 
 const MAX_EVENTS = 100
+
+const GA4_PREFIX = 'G-'
+
+// const GTM_PREFIX = 'GTM-'
+
+const GA_DISABLE_PREFIX = 'ga-disable-'
 
 /**
  * Composable to send events to the Google Analytics datalayer
@@ -67,7 +73,7 @@ export function useAnalyticsEvent() {
 
   const gaIds = useArrayFilter(tagIds, (id) => {
     if (typeof id === 'string') {
-      return id.startsWith('G-')
+      return id.startsWith(GA4_PREFIX)
     }
     return false
   })
@@ -98,12 +104,16 @@ export function useAnalyticsEvent() {
 
   function enable(id: string) {
     if (typeof window === 'undefined') return
-    delete (window as unknown as WindowWithGADisable)[`ga-disable-${id}`]
+    if (!isDefined(id) && typeof id !== 'string') {
+      console.error('G-Analytics: ID is required to enable analytics tags')
+      return
+    }
+    delete (window as unknown as WindowWithGADisable)[`${GA_DISABLE_PREFIX}${id}`]
   }
 
   function disable(id: string) {
     if (typeof window === 'undefined') return
-    (window as unknown as WindowWithGADisable)[`ga-disable-${id}`] = true
+    (window as unknown as WindowWithGADisable)[`${GA_DISABLE_PREFIX}${id}`] = true
   }
 
   // FIXME: Does this only for one single IDs but not
