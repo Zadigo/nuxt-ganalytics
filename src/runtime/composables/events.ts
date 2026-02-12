@@ -69,8 +69,12 @@ export function useAnalyticsEvent() {
   async function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): Promise<ReturnType<typeof dataLayerObject> | undefined> {
     try {
       const parsedResult = dataLayerObject(payload)
-  
-      // console.log('sendEvent', parsedResult)
+      
+      // Prevent the internal datalayer from growing indefinitely and 
+      // consuming too much memory
+      if (internalDatalayer.value.length >= MAX_EVENTS) {
+        internalDatalayer.value.shift()
+      }
   
       if (parsedResult) {
         internalDatalayer.value.push({
