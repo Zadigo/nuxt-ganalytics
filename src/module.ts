@@ -52,13 +52,16 @@ export default defineNuxtModule<ModuleOptions>({
     enabled: true,
     ga4: {
       // immediate: true,
+      id: undefined,
       enabled: true,
       loadingStrategy: 'defer',
-      url: 'https://www.googletagmanager.com/gtag/js'
+      url: 'https://www.googletagmanager.com/gtag/js',
+      enableDebug: false
     },
     gtm: {
       id: '',
-      enabled: true
+      enabled: true,
+      debug: false,
     }
   },
   async setup(options, nuxt) {
