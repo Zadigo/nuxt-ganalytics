@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { useAnalyticsEvent } from '../../src/runtime/composables/events'
 import { setupClientMocks, setupServerMocks, createMockRuntimeConfig } from './test-helpers'
 
-
 describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
   describe('Client-side API', () => {
     beforeEach(() => {
@@ -87,11 +86,11 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
       expect(Array.isArray(analytics.internalDatalayer.value)).toBe(true)
 
       // Check array item types
-      analytics.gaIds.value.forEach(id => {
+      analytics.gaIds.value.forEach((id) => {
         expect(typeof id).toBe('string')
       })
 
-      analytics.tagIds.value.forEach(id => {
+      analytics.tagIds.value.forEach((id) => {
         expect(typeof id).toBe('string')
       })
     })
@@ -169,8 +168,8 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
     it('should handle array ID format', async () => {
       setupClientMocks()
 
-      const { useRuntimeConfig } = await import('#app')
-      const mockConfig = createMockRuntimeConfig({
+      // const { useRuntimeConfig } = await import('#app')
+      const _mockConfig = createMockRuntimeConfig({
         public: {
           ganalytics: {
             ga4: {
@@ -179,7 +178,7 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
             }
           }
         }
-      } as any)
+      })
 
       // This would need to be called before useAnalyticsEvent
       // in a real scenario, showing the API supports arrays
@@ -189,13 +188,13 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
       const analytics = useAnalyticsEvent()
 
       // All GA4 IDs should start with 'G-'
-      analytics.gaIds.value.forEach(id => {
+      analytics.gaIds.value.forEach((id) => {
         expect(id).toMatch(/^G-/)
       })
 
       // All GTM IDs should NOT be in gaIds
-      const gtmIds = analytics.tagIds.value.filter(id => id.startsWith('GTM-'))
-      gtmIds.forEach(id => {
+      const gtmIds = analytics.tagIds.value.filter((id) => id.startsWith('GTM-'))
+      gtmIds.forEach((id) => {
         expect(analytics.gaIds.value).not.toContain(id)
       })
     })
@@ -257,7 +256,7 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
       expect(analytics.set).toBeDefined()
       expect(analytics.isEnabled).toBeDefined()
 
-      // Should not have removed any public methods
+      // Should not have removed unknown public methods
       const publicMethods = [
         'sendEvent',
         'set',
@@ -266,9 +265,9 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
         'disable'
       ]
 
-      publicMethods.forEach(method => {
+      publicMethods.forEach((method) => {
         expect(analytics).toHaveProperty(method)
-        expect(typeof (analytics as any)[method]).toBe('function')
+        expect(typeof (analytics)[method]).toBe('function')
       })
     })
 
@@ -288,7 +287,7 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
         'internalDatalayer'
       ])
 
-      Object.keys(analytics).forEach(key => {
+      Object.keys(analytics).forEach((key) => {
         expect(expectedKeys.has(key)).toBe(true)
       })
     })
@@ -312,7 +311,7 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
       // This is a compile-time check, but we can verify the structure
       const mockCategory: import('../../src/runtime/composables/events').EventClassificationCategory = {
         category: 'ga4',
-        value: [] as any
+        value: [] as unknown
       }
 
       expect(mockCategory).toHaveProperty('category')

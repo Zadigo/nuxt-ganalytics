@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ganalytics",
-  "version": "2.3.3",
+  "version": "2.2.3",
   "description": "Integration for Google Analytics 4 and Google Tag Manager in Nuxt",
   "repository": "https://github.com/Zadigo/nuxt-ganalytics",
   "author": {
@@ -44,7 +44,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
-    "test:release": "npm run lint & npm run test && npm run prepack && changelogen --release"
+    "test:release": "npm run lint & npm run test && npm run prepack"
   },
   "peerDependencies": {
     "@vueuse/core": "^13.0.0",
