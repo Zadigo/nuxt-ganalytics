@@ -22,14 +22,14 @@ export function useAnalyticsEvent() {
   if (import.meta.server) {
     return {
       sendEvent: () => undefined,
-      isEnabled: false,
-      gaIds: [],
-      tagIds: [],
-      internalDatalayer: [],
       set: () => {},
       reset: () => {},
       enable: () => {},
-      disable: () => {}
+      disable: () => {},
+      gaIds: [],
+      tagIds: [],
+      isEnabled: false,
+      internalDatalayer: [],
     }
   }
 
