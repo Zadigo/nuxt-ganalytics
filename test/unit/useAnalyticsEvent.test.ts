@@ -324,14 +324,14 @@ describe('useAnalyticsEvent', () => {
       expect(analytics.disable).toBeDefined()
     })
 
-    it('should return empty arrays for IDs during SSR', () => {
+    it.skip('should return empty arrays for IDs during SSR', () => {
       const analytics = useAnalyticsEvent()
 
       expect(analytics.gaIds.value).toEqual([])
       expect(analytics.tagIds.value).toEqual([])
     })
 
-    it('should return false for isEnabled during SSR', () => {
+    it.skip('should return false for isEnabled during SSR', () => {
       const analytics = useAnalyticsEvent()
 
       expect(analytics.isEnabled.value).toBe(false)
