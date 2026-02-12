@@ -26,7 +26,7 @@ export function createMockRuntimeConfig(overrides?: Partial<RuntimeConfig>): Run
  */
 export function createMockWindow() {
   return {
-    dataLayer: [] as any[],
+    dataLayer: [] as unknown[],
     [`ga-disable-G-TEST123`]: undefined,
     [`ga-disable-GTM-TEST456`]: undefined
   }
@@ -44,7 +44,7 @@ export function setupClientMocks() {
   import.meta.dev = true
 
   const mockWindow = createMockWindow()
-  global.window = mockWindow as any
+  global.window = mockWindow as unknown
 
   return { mockWindow }
 }
@@ -64,10 +64,10 @@ export function setupServerMocks() {
 /**
  * Creates a mock analytics event payload
  */
-export function createMockEvent(eventName: string, params: Record<string, any> = {}) {
+export function createMockEvent(eventName: string, params: Record<string, unknown> = {}) {
   // Simulate the Arguments object structure
   const args = [eventName, params]
-  
+
   return {
     ...args,
     length: args.length,
@@ -83,7 +83,7 @@ export function createMockEvent(eventName: string, params: Record<string, any> =
  * Wait for all pending promises and Vue ticks
  */
 export async function flushPromises() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, 0)
   })
 }
@@ -93,10 +93,10 @@ export async function flushPromises() {
  */
 export function spyOnDataLayerPush() {
   const dataLayerSpy = vi.fn()
-  
+
   if (global.window && global.window.dataLayer) {
     const originalPush = global.window.dataLayer.push
-    global.window.dataLayer.push = (...args: any[]) => {
+    global.window.dataLayer.push = (...args: unknown[]) => {
       dataLayerSpy(...args)
       return originalPush.apply(global.window.dataLayer, args)
     }
@@ -109,11 +109,11 @@ export function spyOnDataLayerPush() {
  * Assert that an event was sent to dataLayer
  */
 export function expectEventInDataLayer(
-  dataLayer: any[],
+  dataLayer: unknown[],
   eventName: string,
-  params?: Record<string, any>
+  params?: Record<string, unknown>
 ) {
-  const event = dataLayer.find(item => {
+  const event = dataLayer.find((item) => {
     if (Array.isArray(item)) {
       return item[0] === 'event' && item[1] === eventName
     }
@@ -126,7 +126,7 @@ export function expectEventInDataLayer(
 
   if (params) {
     const eventParams = Array.isArray(event) ? event[2] : event
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       if (eventParams[key] !== params[key]) {
         throw new Error(
           `Expected param "${key}" to be ${params[key]} but got ${eventParams[key]}`
@@ -142,11 +142,11 @@ export function expectEventInDataLayer(
  * Assert that a command was sent to dataLayer
  */
 export function expectCommandInDataLayer(
-  dataLayer: any[],
+  dataLayer: unknown[],
   command: string,
   id?: string
 ) {
-  const cmd = dataLayer.find(item => {
+  const cmd = dataLayer.find((item) => {
     if (Array.isArray(item)) {
       return item[0] === command && (!id || item[1] === id)
     }
@@ -163,7 +163,7 @@ export function expectCommandInDataLayer(
 /**
  * Populate dataLayer with sample events for testing
  */
-export function populateDataLayer(mockWindow: any, events: any[] = []) {
+export function populateDataLayer(mockWindow: unknown, events: unknown[] = []) {
   if (!events.length) {
     events = [
       { event: 'page_view', page_title: 'Home', page_path: '/' },
@@ -181,7 +181,7 @@ export function populateDataLayer(mockWindow: any, events: any[] = []) {
  * Mock the defineAnalyticsEvent function
  */
 export function mockDefineAnalyticsEvent() {
-  return vi.fn((eventName: string, params?: Record<string, any>) => {
+  return vi.fn((eventName: string, params?: Record<string, unknown>) => {
     return createMockEvent(eventName, params || {})
   })
 }
@@ -190,7 +190,7 @@ export function mockDefineAnalyticsEvent() {
  * Mock the defineAnalyticsCommand function
  */
 export function mockDefineAnalyticsCommand() {
-  return vi.fn((...args: any[]) => {
+  return vi.fn((...args: unknown[]) => {
     return {
       ...args,
       length: args.length,
@@ -218,8 +218,8 @@ export function mockDataLayerObject() {
     if (!payload || !global.window?.dataLayer) {
       return undefined
     }
-    
-    const result = Array.from(payload as any)
+
+    const result = Array.from(payload as unknown)
     global.window.dataLayer.push(payload)
     return result
   })
@@ -229,7 +229,7 @@ export function mockDataLayerObject() {
  * Assert memory limit is enforced
  */
 export function expectMemoryLimitEnforced(
-  internalDatalayer: any[],
+  internalDatalayer: unknown[],
   maxEvents: number = 100
 ) {
   if (internalDatalayer.length > maxEvents) {
@@ -253,9 +253,9 @@ export function generateMockEvents(count: number) {
 /**
  * Assert that readonly refs cannot be modified
  */
-export function expectReadonly(ref: any) {
+export function expectReadonly(ref: unknown) {
   const originalValue = ref.value
-  
+
   try {
     ref.value = 'modified'
     // If we get here, it's not readonly
@@ -278,7 +278,7 @@ export function expectReadonly(ref: any) {
  */
 export function createPerformanceTimer() {
   const start = Date.now()
-  
+
   return {
     elapsed: () => Date.now() - start,
     assertUnder: (maxMs: number, operation: string) => {

@@ -87,20 +87,20 @@ export function useAnalyticsEvent() {
   function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): ReturnType<typeof dataLayerObject> | undefined {
     try {
       const parsedResult = dataLayerObject(payload)
-      
-      // Prevent the internal datalayer from growing indefinitely and 
+
+      // Prevent the internal datalayer from growing indefinitely and
       // consuming too much memory
       if (internalDatalayer.value.length >= MAX_EVENTS) {
         internalDatalayer.value.shift()
       }
-  
+
       if (parsedResult) {
         internalDatalayer.value.push({
           category: 'ga4',
           value: parsedResult
         })
       }
-  
+
       return parsedResult
     } catch (error) {
       console.error('[G-Analytics]: Error sending event to dataLayer:', error)
@@ -145,7 +145,7 @@ export function useAnalyticsEvent() {
 
   function reset() {
     if (typeof window === 'undefined') {
-      throw new Error('[G-Analytics]: Window is not defined')
+      throw new TypeError('[G-Analytics]: Window is not defined')
     }
 
     window.dataLayer = []

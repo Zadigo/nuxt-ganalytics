@@ -1,5 +1,5 @@
 import { useCookie } from '#app'
-import { isDefined } from '#imports'
+import { isDefined } from '@vueuse/core'
 import { ref } from 'vue'
 import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
 import { dataLayerObject, defineAnalyticsConsent } from '../utils'

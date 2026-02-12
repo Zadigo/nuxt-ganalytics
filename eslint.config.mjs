@@ -20,6 +20,7 @@ export default createConfigForNuxt({
       rules: {
         '@stylistic/comma-dangle': ['off', 'always-multiline'],
         '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+        'nuxt/nuxt-config-keys-order': 'warn'
         // '@typescript-eslint/unified-signatures': 'error',
         // '@typescript-eslint/related-getter-setter-pairs': 'warn',
         // '@typescript-eslint/no-unnecessary-type-arguments': 'warn',

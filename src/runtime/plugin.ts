@@ -30,7 +30,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           'src': fullUrl,
           [loadingStrategy]: true,
           'data-ganalytics': '',
-          crossorigin: 'anonymous'
+          'crossorigin': 'anonymous'
         }
       ]
     })

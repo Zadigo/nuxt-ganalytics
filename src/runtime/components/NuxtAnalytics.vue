@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { useCounter, useDebounceFn } from '@vueuse/core'
-import { computed, useTemplateRef } from 'vue'
+import { computed } from 'vue'
 import { useAnalyticsEvent } from '../composables'
 import type { dataLayerObject } from '../utils'
 import { defineAnalyticsEvent } from '../utils'

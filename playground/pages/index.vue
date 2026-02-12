@@ -74,10 +74,6 @@ const gtm = useGtm()
 const { sendEvent, internalDatalayer, set, reset, tagIds, gaIds } = useAnalyticsEvent()
 const { acceptAll } = useConsent()
 
-sendEvent(
-  defineAnalyticsEvent('page_view', { payment_type: 'Credit card' })
-)
-
 set('language', 'fr-fr')
 set('currency', 'EUR')
 

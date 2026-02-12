@@ -215,7 +215,7 @@ interface _ConsentParameters {
 
 /**
  * Parameters used for the "consent" command
- * 
+ *
  * Reference:
  * @see {@link https://support.google.com/tagmanager/answer/10718549#consent-types consent-types}
  * @see {@link https://developers.google.com/tag-platform/security/guides/consent consent}
