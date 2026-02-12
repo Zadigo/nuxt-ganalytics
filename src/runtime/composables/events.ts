@@ -1,6 +1,6 @@
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
 import { isDefined, useArrayFilter } from '@vueuse/core'
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, readonly, ref } from 'vue'
 import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
 import type { defineAnalyticsEvent } from '../utils'
 import { dataLayerObject, defineAnalyticsCommand, initializeAnalytics } from '../utils'
@@ -56,19 +56,25 @@ export function useAnalyticsEvent() {
   const isEnabled = computed(() => state.value)
 
   const tagIds = computed(() => {
-    const objs = [ganalyticsConfig.ga4?.id, ganalyticsConfig.gtm?.id]
-    const cleanObjs = objs.map((obj) => {
-      if (typeof obj === 'string') {
-        return [obj]
-      } else if (typeof obj === 'object' && 'id' in obj) {
-        return obj.id as string
-      } else if (Array.isArray(obj)) {
-        return obj as string[]
-      } else {
-        return obj || []
+    const ids: string[] = []
+
+    const processId = (obj: unknown): string[] => {
+      if (typeof obj === 'string') return [obj]
+      if (Array.isArray(obj)) return obj.filter(id => typeof id === 'string')
+      if (obj && typeof obj === 'object' && 'id' in obj) {
+        return processId(obj.id)
       }
-    })
-    return cleanObjs.flat()
+      return []
+    }
+
+    if (ganalyticsConfig.ga4?.id) {
+      ids.push(...processId(ganalyticsConfig.ga4.id))
+    }
+    if (ganalyticsConfig.gtm?.id) {
+      ids.push(...processId(ganalyticsConfig.gtm.id))
+    }
+
+    return ids
   })
 
   const gaIds = useArrayFilter(tagIds, (id) => {
@@ -97,7 +103,7 @@ export function useAnalyticsEvent() {
   
       return parsedResult
     } catch (error) {
-      console.error('Error sending event to dataLayer:', error)
+      console.error('[G-Analytics]: Error sending event to dataLayer:', error)
       return undefined
     }
   }
@@ -105,7 +111,7 @@ export function useAnalyticsEvent() {
   function enable(id: string) {
     if (typeof window === 'undefined') return
     if (!isDefined(id) && typeof id !== 'string') {
-      console.error('G-Analytics: ID is required to enable analytics tags')
+      console.error('[G-Analytics]: ID is required to enable analytics tags')
       return
     }
     delete (window as unknown as WindowWithGADisable)[`${GA_DISABLE_PREFIX}${id}`]
@@ -139,7 +145,7 @@ export function useAnalyticsEvent() {
 
   function reset() {
     if (typeof window === 'undefined') {
-      throw new Error('G-Analytics: Window is not defined')
+      throw new Error('[G-Analytics]: Window is not defined')
     }
 
     window.dataLayer = []
@@ -166,6 +172,10 @@ export function useAnalyticsEvent() {
       }
     })
   })
+
+  if (import.meta.dev && !config.public.ganalytics) {
+    console.warn('[G-Analytics]: No analytics configuration found')
+  }
 
   return {
     /**
@@ -202,20 +212,20 @@ export function useAnalyticsEvent() {
      * List of GA4 iDs currently used in the project
      * @example ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
      */
-    gaIds,
+    gaIds: readonly(gaIds),
     /**
      * List of GTM IDs currently used in the project
      * @example ['GTM-XXXXXXXXXX', 'GTM-YYYYYYYYYY']
      */
-    tagIds,
+    tagIds: readonly(tagIds),
     /**
      * Whether the analytics tags are enabled
      */
-    isEnabled,
+    isEnabled: readonly(isEnabled),
     /**
      * The internal datalayer used to store events
      * and commands for debugging purposes
      */
-    internalDatalayer
+    internalDatalayer: readonly(internalDatalayer),
   }
 }
