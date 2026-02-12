@@ -29,7 +29,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         {
           'src': fullUrl,
           [loadingStrategy]: true,
-          'data-ganalytics': ''
+          'data-ganalytics': '',
+          crossorigin: 'anonymous'
         }
       ]
     })
