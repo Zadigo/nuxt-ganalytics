@@ -34,8 +34,8 @@ export default defineNuxtPlugin((nuxtApp) => {
           'crossorigin': 'anonymous'
         }
 
-        // Manually inject the GA4 initialization script to ensure it runs after the GA4 library is loaded. 
-        // This is necessary because the GA4 library does not automatically initialize itself when loaded 
+        // Manually inject the GA4 initialization script to ensure it runs after the GA4 library is loaded.
+        // This is necessary because the GA4 library does not automatically initialize itself when loaded
         // with `async` or `defer`.
         // {
         //   innerHTML: `

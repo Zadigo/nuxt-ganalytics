@@ -193,7 +193,7 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
       })
 
       // All GTM IDs should NOT be in gaIds
-      const gtmIds = analytics.tagIds.value.filter((id) => id.startsWith('GTM-'))
+      const gtmIds = analytics.tagIds.value.filter(id => id.startsWith('GTM-'))
       gtmIds.forEach((id) => {
         expect(analytics.gaIds.value).not.toContain(id)
       })
@@ -328,7 +328,7 @@ describe.skip('useAnalyticsEvent - API Snapshot Tests', () => {
       ]
 
       // These should all be valid SetNameArg values
-      validArgs.forEach(arg => {
+      validArgs.forEach((arg) => {
         expect(arg).toBeDefined()
       })
     })
