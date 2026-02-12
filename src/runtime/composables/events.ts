@@ -66,19 +66,24 @@ export function useAnalyticsEvent() {
     return false
   })
 
-  async function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): Promise<ReturnType<typeof dataLayerObject>> {
-    const parsedResult = dataLayerObject(payload)
-
-    // console.log('sendEvent', parsedResult)
-
-    if (parsedResult) {
-      internalDatalayer.value.push({
-        category: 'ga4',
-        value: parsedResult
-      })
+  async function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): Promise<ReturnType<typeof dataLayerObject> | undefined> {
+    try {
+      const parsedResult = dataLayerObject(payload)
+  
+      // console.log('sendEvent', parsedResult)
+  
+      if (parsedResult) {
+        internalDatalayer.value.push({
+          category: 'ga4',
+          value: parsedResult
+        })
+      }
+  
+      return parsedResult
+    } catch (error) {
+      console.error('Error sending event to dataLayer:', error)
+      return undefined
     }
-
-    return parsedResult
   }
 
   async function enable(id: string) {
