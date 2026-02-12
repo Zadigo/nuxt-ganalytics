@@ -2,6 +2,10 @@ import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
 import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
 
 export default defineNuxtPlugin((nuxtApp) => {
+  if (!import.meta.client) {
+    return
+  }
+
   const router = useRouter()
   const moduleOptions = useRuntimeConfig().public.ganalytics
 
