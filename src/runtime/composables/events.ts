@@ -21,15 +21,15 @@ export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> |
 export function useAnalyticsEvent() {
   if (import.meta.server) {
     return {
-      sendEvent: () => undefined,
-      set: () => {},
+      sendEvent: async () => undefined,
+      set: async () => {},
       reset: () => {},
       enable: () => {},
       disable: () => {},
-      gaIds: [],
-      tagIds: [],
-      isEnabled: false,
-      internalDatalayer: [],
+      gaIds: ref([]),
+      tagIds: ref([]),
+      isEnabled: ref(false),
+      internalDatalayer: ref([]),
     }
   }
 
@@ -41,7 +41,7 @@ export function useAnalyticsEvent() {
   // will store and centralize events that were sent to the window.dataLayer
   const internalDatalayer = ref<EventClassificationCategory[]>([])
 
-  const isEnabled = computed(() => state)
+  const isEnabled = computed(() => state.value)
 
   const tagIds = computed(() => {
     const objs = [ganalyticsConfig.ga4?.id, ganalyticsConfig.gtm?.id]

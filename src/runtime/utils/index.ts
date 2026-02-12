@@ -26,7 +26,7 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
  * Checks if the dataLayer already has a tag with the given name
  * @param name The name of the tag to check
  */
-export function hasTag(name: AllEventCommand): boolean {
+export function hasTag(name: AllEventCommand | string): boolean {
   if (import.meta.client && window.dataLayer) {
     // FIXME: Fix the type of window.dataLayer which is "DataLayerObject[]"
     const results = window.dataLayer.filter((item) => {

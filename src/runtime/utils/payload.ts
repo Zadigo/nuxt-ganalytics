@@ -1,8 +1,8 @@
 import type { CommandParameters, ConsentNames, ConsentParameters, EventNames, EventParameters, GA4EventCommand, Undefinable } from '../types'
 
 /**
- * Function to structure the command parameters
- *
+ * Function to structure the command parameters for the Google Analytics datalayer
+ * 
  * Reference:
  * @see {@link https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag List of events}
  *
@@ -14,7 +14,7 @@ export function defineAnalyticsCommand<K extends GA4EventCommand, T extends (str
 }
 
 /**
- * Function used to structure configuration parameters for tag
+ * Function used to structure configuration parameters for the Google Analytics tag
  * @param id The tag ID
  * @param params The command parameters
  */
@@ -34,7 +34,7 @@ export function defineAnalyticsEvent(name: EventNames, params: EventParameters):
 }
 
 /**
- * Function used to structure conset parameters
+ * Function used to structure consent parameters for the Google Analytics tag
  * @param params The consent parameters
  * @param command The consent command name, defaults to 'default'
  * @example gtag("consent", "default", {})

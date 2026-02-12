@@ -6,7 +6,7 @@ export type Nullable<T> = T | null
 
 export type Undefinable<T> = T | undefined
 
-export type MaybeType<T> = T | null | undefined
+export type MaybeEmpty<T> = Nullable<T> | Undefinable<T>
 
 export interface CustomGAnalyticsCookie {
   consent: ConsentParameters
