@@ -97,7 +97,10 @@ function handleGtmEventClick() {
     gtm.trackEvent({
       event: 'login',
       method: 'Google',
-      customParam: 'Custom Value'
+      customParam: 'Custom Value',
+      action: 'Click',
+      category: 'Button', 
+      label: 'Login Button'
     })
   }
 }
