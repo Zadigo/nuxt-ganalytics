@@ -8,6 +8,8 @@ export type Undefinable<T> = T | undefined
 
 export type MaybeEmpty<T> = Nullable<T> | Undefinable<T>
 
+export type Arrayble<T> = T[]
+
 export interface CustomGAnalyticsCookie {
   consent: ConsentParameters
 }
