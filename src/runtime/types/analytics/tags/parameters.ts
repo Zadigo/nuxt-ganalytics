@@ -1,7 +1,7 @@
 import type { Currency, Item, Promotion } from '.'
 import type { Undefinable } from '../..'
 
-export type CustomParameters = Record<string, unknown>
+export type CustomParameters = Record<string, string | number | boolean | string[] | number[] | boolean[]>
 
 /**
  * Parameters for the "config" command
@@ -51,116 +51,118 @@ export interface ControlParameters {
   event_timeout?: number
 }
 
-/**
- * Parameters for the "event" command
- */
-export interface EventParameters {
-  checkout_option?: string
+interface _EventParameters {
+  checkout_option: string
   /**
    * The step in the checkout process where the event occurred
    */
-  checkout_step?: number
+  checkout_step: number
   /**
    * An identifier for the content that was selected
    */
-  content_id?: string
+  content_id: string
   /**
    * The type of selected content
    */
-  content_type?: string
+  content_type: string
   /**
    * The coupon name/code associated with the event
    */
-  coupon?: string
+  coupon: string
   /**
    * Currency of the value of the event, in 3-letter ISO 4217 format
    * @see {@link https://en.wikipedia.org/wiki/ISO_4217#Active_codes Three letter currency codes}
    * @example
    * "EUR"
    */
-  currency?: Currency
+  currency: Currency
   /**
    * The description of the event
    */
-  description?: string
+  description: string
   /**
    * Indicates whether the event excetion was fatal or not
    */
-  fatal?: boolean
+  fatal: boolean
   /**
    * The items for the event
    */
-  items?: Item[]
+  items: Item[]
   /**
    * The method used to login
    * @example
    * "Google"
    */
-  method?: string
-  number?: string
-  promotions?: Promotion[]
+  method: string
+  number: string
+  promotions: Promotion[]
   /**
    * The name of the scenario where the event occurred
    */
-  screen_name?: string
+  screen_name: string
   /**
    * The term that was searched for
    */
-  search_term?: string
+  search_term: string
   /**
    * Shipping cost associated with a transaction
    */
-  shipping?: number
+  shipping: number
   /**
    * Tax cost associated with a transaction
    */
-  tax?: Currency
+  tax: Currency
   /**
    * The unique identifier of a transaction. The `transaction_id` parameter
    * helps you avoid getting duplicate events for a purchase
    */
-  transaction_id?: string
+  transaction_id: string
   /**
    * The monetary value of the event
    */
-  value?: number
+  value: number
   /**
    * The name of the event
    */
-  event_label?: string
+  event_label: string
   /**
    * The category of the event, used to group events together
    */
-  event_category?: string
+  event_category: string
   /**
    * The shipping tier selected for delivery of the purchased item
    * @example
    * "Ground"
    */
-  shipping_tier?: 'Ground' | 'Air' | 'Next-day' | (string & {})
+  shipping_tier: 'Ground' | 'Air' | 'Next-day' | (string & {})
   /**
    * The chosen method of payment
    */
-  payment_type?: 'Credit card' | 'Paypal' | (string & {})
+  payment_type: 'Credit card' | 'Paypal' | (string & {})
   /**
    * The reason a lead was marked as disqualified
    */
-  disqualified_lead_reason?: string
+  disqualified_lead_reason: string
   /**
    * The source of the lead
    * @example
    * "Trade show"
    */
-  lead_source?: string
+  lead_source: string
   /**
    * The status of the lead
    */
-  lead_status?: string
+  lead_status: string
   /**
    * The reason the lead was unconverted
    */
-  unconvert_lead_reason?: string
+  unconvert_lead_reason: string
 }
+
+/**
+ * Parameters for the "event" command
+ */
+export type EventParameters = Partial<_EventParameters | CustomParameters>
 
 /**
  * Consent states
@@ -218,13 +220,13 @@ interface _ConsentParameters {
  * @see {@link https://support.google.com/tagmanager/answer/10718549#consent-types consent-types}
  * @see {@link https://developers.google.com/tag-platform/security/guides/consent consent}
  */
-export type ConsentParameters = Partial<_ConsentParameters>
+export type ConsentParameters = Partial<_ConsentParameters | CustomParameters>
 
 /**
  * Accepted parameters for every gtag commands
  * @example gtag("...", "...", { method: "Google" })
  */
-export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters | (string & {})
+export type CommandParameters = ConfigurationParameters | ControlParameters | EventParameters | ConsentParameters | CustomParameters
 
 /**
  * Accepted parameters for payment specific events

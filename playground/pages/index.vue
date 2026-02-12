@@ -74,8 +74,12 @@ const gtm = useGtm()
 const { sendEvent, internalDatalayer, set, reset, tagIds, gaIds } = useAnalyticsEvent()
 const { acceptAll } = useConsent()
 
-await set('language', 'fr-fr')
-await set('currency', 'EUR')
+sendEvent(
+  defineAnalyticsEvent('page_view', { payment_type: 'Credit card' })
+)
+
+set('language', 'fr-fr')
+set('currency', 'EUR')
 
 const searchParams = ref<SearchParams>({
   search: '',
