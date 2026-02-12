@@ -117,6 +117,10 @@ export function useAnalyticsEvent() {
   }
 
   async function reset() {
+    if (typeof window === 'undefined') {
+      throw new Error('G-Analytics: Window is not defined')
+    }
+
     window.dataLayer = []
     internalDatalayer.value = []
     initializeAnalytics(config)
