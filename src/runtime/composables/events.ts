@@ -12,7 +12,13 @@ export interface EventClassificationCategory {
   value: DataLayerObject | GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]
 }
 
+export interface WindowWithGADisable extends Window {
+  [key: `ga-disable-${string}`]: boolean | undefined
+}
+
 export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
+
+const MAX_EVENTS = 100
 
 /**
  * Composable to send events to the Google Analytics datalayer
@@ -91,17 +97,13 @@ export function useAnalyticsEvent() {
   }
 
   async function enable(id: string) {
-    if (window) {
-      // @ts-expect-error "Id is returned as any from the Window"
-      delete (window as Window)[`ga-disable-${id}`]
-    }
+    if (typeof window === 'undefined') return
+    delete (window as unknown as WindowWithGADisable)[`ga-disable-${id}`]
   }
 
   async function disable(id: string) {
-    if (window) {
-      // @ts-expect-error "Id is returned as any from the Window"
-      (window as Window)[`ga-disable-${id}`] = true
-    }
+    if (typeof window === 'undefined') return
+    (window as unknown as WindowWithGADisable)[`ga-disable-${id}`] = true
   }
 
   // FIXME: Does this only for one single IDs but not
@@ -136,23 +138,23 @@ export function useAnalyticsEvent() {
   }
 
   onBeforeMount(() => {
-    if (window.dataLayer) {
-      window.dataLayer.forEach((item) => {
-        const keys = Object.keys(item)
+    if (typeof window === 'undefined' || !window.dataLayer) return
 
-        if (keys.includes('event')) {
-          internalDatalayer.value.push({
-            category: 'gtm',
-            value: item
-          })
-        } else {
-          internalDatalayer.value.push({
-            category: 'ga4',
-            value: Array.from(item as GAnalyticsDatalayerObjects[])
-          })
-        }
-      })
-    }
+    window.dataLayer.forEach((item) => {
+      const keys = Object.keys(item)
+
+      if (keys.includes('event')) {
+        internalDatalayer.value.push({
+          category: 'gtm',
+          value: item
+        })
+      } else {
+        internalDatalayer.value.push({
+          category: 'ga4',
+          value: Array.from(item as GAnalyticsDatalayerObjects[])
+        })
+      }
+    })
   })
 
   return {
