@@ -40,11 +40,14 @@
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint & npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release:major": "npm run lint & npm run test && npm run prepack && changelogen --major && npm publish && git push --follow-tags",
+    "release:minor": "npm run lint & npm run test && npm run prepack && changelogen --minor && npm publish && git push --follow-tags",
+    "release:patch": "npm run lint & npm run test && npm run prepack && changelogen --patch && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
-    "test:release": "npm run lint & npm run test && npm run prepack"
+    "test:release": "npm run lint & npm run test && npm run prepack && changelogen --major --no-commit --no-tag"
   },
   "peerDependencies": {
     "@vueuse/core": "^13.0.0",
