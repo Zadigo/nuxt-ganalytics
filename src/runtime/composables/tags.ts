@@ -1,6 +1,5 @@
-import { dataLayerObject, defineAnalyticsConfig } from '../utils'
-
 import type { ConfigurationParameters } from '../types'
+import { dataLayerObject, defineAnalyticsConfig } from '../utils'
 
 /**
  * Create and send events to GA4 using a specific tag for a specific given page

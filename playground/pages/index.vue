@@ -74,8 +74,8 @@ const gtm = useGtm()
 const { sendEvent, internalDatalayer, set, reset, tagIds, gaIds } = useAnalyticsEvent()
 const { acceptAll } = useConsent()
 
-await set('language', 'fr-fr')
-await set('currency', 'EUR')
+set('language', 'fr-fr')
+set('currency', 'EUR')
 
 const searchParams = ref<SearchParams>({
   search: '',
@@ -86,22 +86,21 @@ const searchParams = ref<SearchParams>({
 
 const customizeEvent = ref<boolean>(false)
 
-/**
- * Sends an event on button click
- */
+// Sends an event on button click
 function handleEventOnClick() {
   sendEvent(defineAnalyticsEvent('login', { method: 'Google' }))
 }
 
-/**
- * Sends an event using the GTM composable
- */
+// Sends an event using the GTM composable
 function handleGtmEventClick() {
   if (gtm) {
     gtm.trackEvent({
       event: 'login',
       method: 'Google',
-      customParam: 'Custom Value'
+      customParam: 'Custom Value',
+      action: 'Click',
+      category: 'Button',
+      label: 'Login Button'
     })
   }
 }

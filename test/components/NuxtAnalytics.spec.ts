@@ -1,8 +1,6 @@
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import { describe, expect, it, vi } from 'vitest'
-
 import NuxtAnalytics from '../../src/runtime/components/NuxtAnalytics.vue'
-
 import type { EventNames, EventParameters } from '../../src/module'
 
 describe.skip('NuxtAnalytics', () => {

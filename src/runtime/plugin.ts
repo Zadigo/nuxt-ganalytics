@@ -1,13 +1,13 @@
-import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
-import type { NuxtApp } from 'nuxt/app'
 import { defineNuxtPlugin, useHead, useRouter, useRuntimeConfig } from '#app'
+import { createGtm, type VueGtmUseOptions } from '@gtm-support/vue-gtm'
 
-export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
+export default defineNuxtPlugin((nuxtApp) => {
+  if (!import.meta.client) {
+    return
+  }
+
   const router = useRouter()
-  // const moduleOptions = nuxtApp.$config.public.ganalytics
   const moduleOptions = useRuntimeConfig().public.ganalytics
-
-  // console.log('defineNuxtPlugin - moduleOptions', moduleOptions)
 
   if (moduleOptions.ga4 && moduleOptions.enabled && moduleOptions.ga4.enabled) {
     const loadingStrategy = moduleOptions.ga4.loadingStrategy === 'async' ? 'async' : 'defer'
@@ -18,19 +18,34 @@ export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
     }
 
     useHead({
-      link: [
-        {
-          rel: 'preload',
-          as: 'script',
-          href: fullUrl
-        }
-      ],
+      // link: [
+      //   {
+      //     rel: 'preload',
+      //     as: 'script',
+      //     href: fullUrl,
+      //     crossorigin: 'anonymous'
+      //   }
+      // ],
       script: [
         {
           'src': fullUrl,
           [loadingStrategy]: true,
-          'data-ganalytics': ''
+          'data-ganalytics': '',
+          'crossorigin': 'anonymous'
         }
+
+        // Manually inject the GA4 initialization script to ensure it runs after the GA4 library is loaded.
+        // This is necessary because the GA4 library does not automatically initialize itself when loaded
+        // with `async` or `defer`.
+        // {
+        //   innerHTML: `
+        //     window.dataLayer = window.dataLayer || [];
+        //     function gtag(){dataLayer.push(arguments);}
+        //     gtag('js', new Date());
+        //     gtag('config', 'G-CVKFG2XPVG');
+        //   `,
+        //   type: 'text/javascript',
+        // }
       ]
     })
   }
@@ -43,8 +58,12 @@ export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
         ...moduleOptions.gtm,
         vueRouter: moduleOptions.gtm.enableRouterSync && router ? router as VueGtmUseOptions['vueRouter'] : undefined
       }
-      // console.log('moduleOptions.gtm', moduleOptions.gtm, options)
+
       nuxtApp.vueApp.use(createGtm(gtmOptions))
     }
+  }
+
+  return {
+    provide: {}
   }
 })

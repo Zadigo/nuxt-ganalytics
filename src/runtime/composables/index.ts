@@ -1,9 +1,8 @@
-import { ref } from 'vue'
-import { dataLayerObject, defineAnalyticsConsent } from '../utils'
-
-import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
-
 import { useCookie } from '#app'
+import { isDefined } from '@vueuse/core'
+import { ref } from 'vue'
+import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
+import { dataLayerObject, defineAnalyticsConsent } from '../utils'
 
 export * from './events'
 export * from './tags'
@@ -11,14 +10,15 @@ export * from './tags'
 export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 /**
- * This composable provides methods to update consent parameters and manage user consent preferences
+ * A composable that provides methods to update consent
+ * parameters and manage user consent preferences
  */
 export function useConsent() {
-  if (!import.meta.client) {
+  if (import.meta.server) {
     return {
       cookie: ref(null),
-      updateConsent: () => {},
       acceptAll: () => {},
+      updateConsent: () => {},
       denyAll: () => {}
     }
   }
@@ -35,11 +35,11 @@ export function useConsent() {
     if (params) {
       dataLayerObject(defineAnalyticsConsent(params, 'update'))
 
-      if (!cookie.value) {
+      if (!isDefined(cookie)) {
         cookie.value = defaultCookie.value
+      } else {
+        cookie.value.consent = params
       }
-
-      cookie.value.consent = params
     }
   }
 

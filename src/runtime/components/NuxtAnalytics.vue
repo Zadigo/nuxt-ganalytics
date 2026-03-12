@@ -1,14 +1,14 @@
 <template>
-  <ClientOnly>
-    <div ref="ganalyticsEl" data-id="ganalytics-container">
+  <client-only>
+    <div data-id="ganalytics-container">
       <slot :attrs="defaultAttrs" />
     </div>
-  </ClientOnly>
+  </client-only>
 </template>
 
 <script setup lang="ts">
 import { useCounter, useDebounceFn } from '@vueuse/core'
-import { computed, useTemplateRef } from 'vue'
+import { computed } from 'vue'
 import { useAnalyticsEvent } from '../composables'
 import type { dataLayerObject } from '../utils'
 import { defineAnalyticsEvent } from '../utils'
@@ -21,7 +21,6 @@ interface Props {
   debounce?: number
 }
 
-const ganalyticsEl = useTemplateRef<HTMLElement>('ganalyticsEl')
 const props = withDefaults (defineProps<Props>(), { debounce: 0 })
 const emit = defineEmits<{ 'ga-event': [ data: ReturnType<typeof dataLayerObject> | undefined ] }>()
 

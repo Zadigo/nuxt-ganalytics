@@ -1,10 +1,9 @@
 import type { DataLayerObject } from '@gtm-support/vue-gtm'
-import { useArrayFilter } from '@vueuse/core'
-import { computed, onBeforeMount, ref } from 'vue'
+import { isDefined, useArrayFilter } from '@vueuse/core'
+import { computed, onBeforeMount, readonly, ref } from 'vue'
+import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
 import type { defineAnalyticsEvent } from '../utils'
 import { dataLayerObject, defineAnalyticsCommand, initializeAnalytics } from '../utils'
-
-import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../types'
 
 import { useRuntimeConfig } from '#app'
 
@@ -13,92 +12,120 @@ export interface EventClassificationCategory {
   value: DataLayerObject | GAnalyticsDatalayerObjects[keyof GAnalyticsDatalayerObjects]
 }
 
+export interface WindowWithGADisable extends Window {
+  [key: `ga-disable-${string}`]: boolean | undefined
+}
+
 export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
+
+const MAX_EVENTS = 100
+
+const GA4_PREFIX = 'G-'
+
+// const GTM_PREFIX = 'GTM-'
+
+const GA_DISABLE_PREFIX = 'ga-disable-'
 
 /**
  * Composable to send events to the Google Analytics datalayer
- * and manage the datalayer state
+ * and manage its state
  */
 export function useAnalyticsEvent() {
   if (import.meta.server) {
     return {
       sendEvent: () => undefined,
-      isEnabled: false,
-      gaIds: [],
-      tagIds: [],
-      internalDatalayer: [],
       set: () => {},
       reset: () => {},
       enable: () => {},
-      disable: () => {}
+      disable: () => {},
+      gaIds: ref([]),
+      tagIds: ref([]),
+      isEnabled: ref(false),
+      internalDatalayer: ref([]),
     }
   }
 
   const config = useRuntimeConfig()
+  const ganalyticsConfig = config.public.ganalytics
   const state = initializeAnalytics(config)
 
   // TODO: Instead of relying on Window datalayer, create a class that
   // will store and centralize events that were sent to the window.dataLayer
   const internalDatalayer = ref<EventClassificationCategory[]>([])
 
-  const isEnabled = computed(() => state)
+  const isEnabled = computed(() => state.value)
 
   const tagIds = computed(() => {
-    const objs = [config.public.ganalytics.ga4?.id, config.public.ganalytics.gtm?.id]
-    const cleanObjs = objs.map((obj) => {
-      if (typeof obj === 'string') {
-        return [obj]
-      } else if (typeof obj === 'object' && 'id' in obj) {
-        return obj.id as string
-      } else if (Array.isArray(obj)) {
-        return obj as string[]
-      } else {
-        return obj || []
+    const ids: string[] = []
+
+    const processId = (obj: unknown): string[] => {
+      if (typeof obj === 'string') return [obj]
+      if (Array.isArray(obj)) return obj.filter(id => typeof id === 'string')
+      if (obj && typeof obj === 'object' && 'id' in obj) {
+        return processId(obj.id)
       }
-    })
-    return cleanObjs.flat()
+      return []
+    }
+
+    if (ganalyticsConfig.ga4?.id) {
+      ids.push(...processId(ganalyticsConfig.ga4.id))
+    }
+    if (ganalyticsConfig.gtm?.id) {
+      ids.push(...processId(ganalyticsConfig.gtm.id))
+    }
+
+    return ids
   })
 
   const gaIds = useArrayFilter(tagIds, (id) => {
     if (typeof id === 'string') {
-      return id.startsWith('G-')
+      return id.startsWith(GA4_PREFIX)
     }
     return false
   })
 
-  async function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): Promise<ReturnType<typeof dataLayerObject>> {
-    const parsedResult = dataLayerObject(payload)
+  function sendEvent(payload: ReturnType<typeof defineAnalyticsEvent>): ReturnType<typeof dataLayerObject> | undefined {
+    try {
+      const parsedResult = dataLayerObject(payload)
 
-    // console.log('sendEvent', parsedResult)
+      // Prevent the internal datalayer from growing indefinitely and
+      // consuming too much memory
+      if (internalDatalayer.value.length >= MAX_EVENTS) {
+        internalDatalayer.value.shift()
+      }
 
-    if (parsedResult) {
-      internalDatalayer.value.push({
-        category: 'ga4',
-        value: parsedResult
-      })
+      if (parsedResult) {
+        internalDatalayer.value.push({
+          category: 'ga4',
+          value: parsedResult
+        })
+      }
+
+      return parsedResult
+    } catch (error) {
+      console.error('[G-Analytics]: Error sending event to dataLayer:', error)
+      return undefined
     }
-
-    return parsedResult
   }
 
-  async function enable(id: string) {
-    if (window) {
-      // @ts-expect-error "Id is returned as any from the Window"
-      delete (window as Window)[`ga-disable-${id}`]
+  function enable(id: string) {
+    if (typeof window === 'undefined') return
+    if (!isDefined(id) && typeof id !== 'string') {
+      console.error('[G-Analytics]: ID is required to enable analytics tags')
+      return
     }
+    delete (window as unknown as WindowWithGADisable)[`${GA_DISABLE_PREFIX}${id}`]
   }
 
-  async function disable(id: string) {
-    if (window) {
-      // @ts-expect-error "Id is returned as any from the Window"
-      (window as Window)[`ga-disable-${id}`] = true
-    }
+  function disable(id: string) {
+    if (typeof window === 'undefined') return
+    (window as unknown as WindowWithGADisable)[`${GA_DISABLE_PREFIX}${id}`] = true
   }
 
   // FIXME: Does this only for one single IDs but not
   // if the user provides multiple IDs
   // ENHANCE: Allow setting only one iD
-  async function set(name: SetNameArg, value: string) {
+  function set(name: SetNameArg, value: string) {
     if (config.public.ganalytics.ga4) {
       const id = config.public.ganalytics.ga4.id
 
@@ -116,31 +143,39 @@ export function useAnalyticsEvent() {
     // })
   }
 
-  async function reset() {
+  function reset() {
+    if (typeof window === 'undefined') {
+      throw new TypeError('[G-Analytics]: Window is not defined')
+    }
+
     window.dataLayer = []
     internalDatalayer.value = []
     initializeAnalytics(config)
   }
 
   onBeforeMount(() => {
-    if (window.dataLayer) {
-      window.dataLayer.forEach((item) => {
-        const keys = Object.keys(item)
+    if (typeof window === 'undefined' || !window.dataLayer) return
 
-        if (keys.includes('event')) {
-          internalDatalayer.value.push({
-            category: 'gtm',
-            value: item
-          })
-        } else {
-          internalDatalayer.value.push({
-            category: 'ga4',
-            value: Array.from(item as GAnalyticsDatalayerObjects[])
-          })
-        }
-      })
-    }
+    window.dataLayer.forEach((item) => {
+      const keys = Object.keys(item)
+
+      if (keys.includes('event')) {
+        internalDatalayer.value.push({
+          category: 'gtm',
+          value: item
+        })
+      } else {
+        internalDatalayer.value.push({
+          category: 'ga4',
+          value: Array.from(item as GAnalyticsDatalayerObjects[])
+        })
+      }
+    })
   })
+
+  if (import.meta.dev && !config.public.ganalytics) {
+    console.warn('[G-Analytics]: No analytics configuration found')
+  }
 
   return {
     /**
@@ -177,20 +212,20 @@ export function useAnalyticsEvent() {
      * List of GA4 iDs currently used in the project
      * @example ['G-XXXXXXXXXX', 'G-YYYYYYYYYY']
      */
-    gaIds,
+    gaIds: readonly(gaIds),
     /**
      * List of GTM IDs currently used in the project
      * @example ['GTM-XXXXXXXXXX', 'GTM-YYYYYYYYYY']
      */
-    tagIds,
+    tagIds: readonly(tagIds),
     /**
      * Whether the analytics tags are enabled
      */
-    isEnabled,
+    isEnabled: readonly(isEnabled),
     /**
      * The internal datalayer used to store events
      * and commands for debugging purposes
      */
-    internalDatalayer
+    internalDatalayer: readonly(internalDatalayer),
   }
 }

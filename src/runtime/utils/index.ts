@@ -1,9 +1,8 @@
-import { ref } from 'vue'
-import { defineAnalyticsCommand, defineAnalyticsConfig } from './payload'
-
 import type { RuntimeConfig } from 'nuxt/schema'
 import type { Ref } from 'vue'
-import type { CommandParameters, GA4EventCommand, GAnalyticsDatalayerObjects, GTMCommand } from '~/src/runtime/types'
+import { ref } from 'vue'
+import type { AllEventCommand, CommandParameters, GAnalyticsDatalayerObjects } from '~/src/runtime/types'
+import { defineAnalyticsCommand, defineAnalyticsConfig } from './payload'
 
 export { defineAnalyticsCommand, defineAnalyticsConfig, defineAnalyticsConsent, defineAnalyticsEvent } from './payload'
 
@@ -27,12 +26,11 @@ export function dataLayerObject<T extends IArguments, R extends GAnalyticsDatala
  * Checks if the dataLayer already has a tag with the given name
  * @param name The name of the tag to check
  */
-export function hasTag(name: GA4EventCommand | GTMCommand | string): boolean {
+export function hasTag(name: AllEventCommand | string): boolean {
   if (import.meta.client && window.dataLayer) {
     // FIXME: Fix the type of window.dataLayer which is "DataLayerObject[]"
     const results = window.dataLayer.filter((item) => {
       const items = Array.from(item)
-
       return items.includes(name)
     })
 
