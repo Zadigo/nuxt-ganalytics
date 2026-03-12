@@ -99,7 +99,7 @@ function handleGtmEventClick() {
       method: 'Google',
       customParam: 'Custom Value',
       action: 'Click',
-      category: 'Button', 
+      category: 'Button',
       label: 'Login Button'
     })
   }
