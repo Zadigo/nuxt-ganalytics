@@ -11,7 +11,9 @@ export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 
 /**
  * A composable that provides methods to update consent
- * parameters and manage user consent preferences
+ * parameters and manage user consent preferences for
+ * Google Analytics. It also provides a cookie reference to store 
+ * consent parameters for the user.
  */
 export function useConsent() {
   if (import.meta.server) {
@@ -76,7 +78,7 @@ export function useConsent() {
      */
     cookie,
     /**
-     * Acceps all consent for the user
+     * Accepts all consent for the user
      * @param region The region for which consent is accepted
      */
     acceptAll,
