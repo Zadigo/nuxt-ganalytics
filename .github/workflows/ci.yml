@@ -20,8 +20,6 @@ jobs:
       - run: npm i -g --force corepack@latest && corepack enable
       - name: Install dependencies
         run: npx nypm@latest i
-      - name: Install pnpm
-        run: npm i -g pnpm@latest
       - name: Lint
         run: pnpm run lint
       - name: Lint with oxc
@@ -38,8 +36,6 @@ jobs:
       - run: npm i -g --force corepack@latest && corepack enable
       - name: Install dependencies
         run: npx nypm@latest i
-      - name: Install pnpm
-        run: npm i -g pnpm@latest
       - name: Playground prepare
         run: pnpm run dev:prepare
       - name: Test
