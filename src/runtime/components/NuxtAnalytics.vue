@@ -31,8 +31,8 @@ const { inc: increment, count } = useCounter()
  * Funtion that wraps `sendEvent` in order to send events
  * directly from the template.
  */
-async function sendTemplateEvent() {
-  const parsedResult = await sendEvent(defineAnalyticsEvent(props.event, props.params))
+function sendTemplateEvent() {
+  const parsedResult = sendEvent(defineAnalyticsEvent(props.event, props.params))
   increment(1)
   emit('ga-event', parsedResult)
 }
