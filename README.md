@@ -140,6 +140,15 @@ Clears the window datalayer and rests the global properties.
 Events are built using the `defineAnalyticsEvent` function, which allows you correctly structure the [name and parameters](https://event) required in certain events.
 As the example shows above, combined with the `sendEvent` function, you can then trigger an event to the layer.
 
+For example, sending a `login` event with the parameter `method: 'Google'` can be done like this:
+
+```html
+<script setup lang="ts">
+import { defineAnalyticsEvent } from 'nuxt-ganalytics'
+
+defineAnalyticsEvent('login', { method: 'Google' })
+</script>
+```
 
 #### NuxtAnalytics
 
