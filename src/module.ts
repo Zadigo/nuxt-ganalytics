@@ -41,11 +41,6 @@ declare module '@nuxt/schema' {
 }
 
 export default defineNuxtModule<ModuleOptions>({
-  meta: {
-    name: 'nuxt-ganalytics',
-    configKey: 'ganalytics',
-    compatibility: { nuxt: '^3.0.0 || ^4.0.0' }
-  },
   // Default configuration options of the Nuxt module
   defaults: {
     // devtools: true,
@@ -63,6 +58,11 @@ export default defineNuxtModule<ModuleOptions>({
       enabled: true,
       debug: false,
     }
+  },
+  meta: {
+    name: 'nuxt-ganalytics',
+    configKey: 'ganalytics',
+    compatibility: { nuxt: '^3.0.0 || ^4.0.0' }
   },
   async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
