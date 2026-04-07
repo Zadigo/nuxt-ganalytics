@@ -67,7 +67,7 @@ describe('useAnalyticsEvent - Integration Tests', () => {
       const initialLength = wrapper.vm.analytics.internalDatalayer.value.length
 
       const mockEvent = defineAnalyticsEvent('test_event', {})
-      await wrapper.vm.analytics.sendEvent(mockEvent)
+      wrapper.vm.analytics.sendEvent(mockEvent)
       await nextTick()
 
       expect(wrapper.vm.analytics.internalDatalayer.value.length).toBe(initialLength + 1)

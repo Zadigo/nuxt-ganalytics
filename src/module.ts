@@ -36,7 +36,7 @@ declare module '@nuxt/schema' {
   }
 
   interface NuxtOptions {
-    ganalytics?: ModuleOptions
+    ganalytics: ModuleOptions
   }
 }
 
