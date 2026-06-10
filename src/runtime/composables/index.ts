@@ -1,4 +1,4 @@
-import { useCookie } from '#app'
+import { useCookie } from '#imports'
 import { isDefined } from '@vueuse/core'
 import { ref } from 'vue'
 import type { ConsentParameters, CustomGAnalyticsCookie } from '../types'
@@ -12,7 +12,7 @@ export type ConsentArgs = keyof Omit<ConsentParameters, 'wait_for_update'>
 /**
  * A composable that provides methods to update consent
  * parameters and manage user consent preferences for
- * Google Analytics. It also provides a cookie reference to store 
+ * Google Analytics. It also provides a cookie reference to store
  * consent parameters for the user.
  */
 export function useConsent() {

@@ -66,7 +66,7 @@ describe('useAnalyticsEvent', () => {
     global.window = mockWindow as unknown
 
     // Mock useRuntimeConfig to return our mock config
-    const { useRuntimeConfig } = await import('#app')
+    const { useRuntimeConfig } = await import('#imports')
     vi.mocked(useRuntimeConfig).mockReturnValue(mockRuntimeConfig)
   })
 

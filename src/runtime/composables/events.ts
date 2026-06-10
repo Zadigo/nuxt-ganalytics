@@ -5,7 +5,7 @@ import type { ConfigurationParameters, GAnalyticsDatalayerObjects } from '../typ
 import type { defineAnalyticsEvent } from '../utils'
 import { dataLayerObject, defineAnalyticsCommand, initializeAnalytics } from '../utils'
 
-import { useRuntimeConfig } from '#app'
+import { useRuntimeConfig } from '#imports'
 
 export interface EventClassificationCategory {
   category: 'ga4' | 'gtm' | 'other'
@@ -16,7 +16,7 @@ export interface WindowWithGADisable extends Window {
   [key: `ga-disable-${string}`]: boolean | undefined
 }
 
-export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | string
+export type SetNameArg = Pick<ConfigurationParameters, 'language' | 'user_id'> | 'currency' | (string & {})
 
 const MAX_EVENTS = 100
 
