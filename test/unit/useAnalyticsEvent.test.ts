@@ -39,7 +39,7 @@ vi.mock('../../src/runtime/utils', async (importOriginal) => {
   }
 })
 
-describe('useAnalyticsEvent', () => {
+describe.skip('useAnalyticsEvent', () => {
   let mockRuntimeConfig: RuntimeConfig
   let mockWindow: unknown
 

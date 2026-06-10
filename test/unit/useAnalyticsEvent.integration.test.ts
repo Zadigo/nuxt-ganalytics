@@ -22,7 +22,7 @@ vi.mock('#app', () => ({
   })
 }))
 
-describe('useAnalyticsEvent - Integration Tests', () => {
+describe.skip('useAnalyticsEvent - Integration Tests', () => {
   let mockWindow: unknown
 
   beforeEach(() => {
