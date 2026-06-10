@@ -1,6 +1,7 @@
 import type { CommandParameters, ConfigurationParameters, ConsentNames, ConsentParameters, EventNames, EventParameters } from './analytics'
 
 export type * from './analytics'
+export * from './data'
 
 export type Nullable<T> = T | null
 
