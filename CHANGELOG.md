@@ -6,6 +6,18 @@
 
 [compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v2.4.1...v2.4.2)
 
+### 🏡 Chore
+
+- **release:** V2.4.2 ([f73ef09](https://github.com/Zadigo/nuxt-ganalytics/commit/f73ef09))
+
+### ❤️ Contributors
+
+- Zadigo ([@Zadigo](https://github.com/Zadigo))
+
+## v2.4.2
+
+[compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v2.4.1...v2.4.2)
+
 ## v2.4.1
 
 [compare changes](https://github.com/Zadigo/nuxt-ganalytics/compare/v2.4.0...v2.4.1)
